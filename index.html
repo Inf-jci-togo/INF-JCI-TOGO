@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#130F2D"/>
+  <title>INF JCI Togo</title>
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="apple-touch-icon" href="assets/icon-192.png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Poppins',sans-serif;background:#f0f4f8;color:#1a1a2e;min-height:100vh;padding-bottom:70px}
+    /* NAV */
+    nav{position:fixed;bottom:0;left:0;right:0;background:#130F2D;display:flex;justify-content:space-around;align-items:center;height:65px;z-index:999;box-shadow:0 -2px 12px rgba(0,0,0,.3)}
+    .nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;padding:6px 4px;flex:1;transition:.2s;font-family:'Poppins',sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.3px}
+    .nav-btn .icon{font-size:20px;line-height:1}
+    .nav-btn.active{color:#FFD700}
+    .nav-btn.active .icon{transform:scale(1.15)}
+    /* SECTIONS */
+    .section{display:none;min-height:calc(100vh - 65px);animation:fadeIn .3s ease}
+    .section.active{display:block}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    /* HEADER */
+    .page-header{background:linear-gradient(135deg,#130F2D 0%,#231d4f 100%);color:#fff;padding:24px 20px 20px;text-align:center;position:relative;overflow:hidden}
+    .page-header::after{content:'';position:absolute;bottom:-20px;left:0;right:0;height:40px;background:#f0f4f8;border-radius:50% 50% 0 0}
+    .page-header img{height:80px;max-width:200px;object-fit:contain;margin-bottom:10px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.35))}
+    .page-header h1{font-size:1.25rem;font-weight:700;letter-spacing:.5px}
+    .page-header p{font-size:.8rem;opacity:.85;margin-top:2px}
+    /* CARDS */
+    .card{background:#fff;border-radius:16px;padding:20px;margin:16px;box-shadow:0 2px 12px rgba(19,15,45,.08);transition:.2s}
+    .card:hover{box-shadow:0 4px 20px rgba(19,15,45,.15);transform:translateY(-2px)}
+    .card-link{text-decoration:none;color:inherit;display:block}
+    /* BADGES */
+    .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+    .badge-alpha{background:#e8e8f0;color:#444}
+    .badge-local{background:#d4edda;color:#155724}
+    .badge-national{background:#fff3cd;color:#856404}
+    .badge-int-jr{background:#cce5ff;color:#130F2D}
+    .badge-int-sr{background:#ffd700;color:#130F2D}
+    .badge-actif{background:#d4edda;color:#155724}
+    .badge-inactif{background:#f8d7da;color:#721c24}
+    /* ACCUEIL */
+    #accueil .directeur-card{position:relative;overflow:hidden}
+    #accueil .directeur-card::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:85%;height:85%;background:url('assets/logo-filigrane.png') center/contain no-repeat;opacity:.10;pointer-events:none;z-index:0}
+    #accueil .directeur-card>*{position:relative;z-index:1}
+    #accueil .hero{padding:36px 20px 20px;text-align:center}
+    #accueil .directeur-card{background:#fff;border-radius:20px;margin:0 16px 20px;padding:24px 20px;box-shadow:0 4px 20px rgba(19,15,45,.1);display:flex;flex-direction:column;align-items:center;gap:16px}
+    #accueil .dir-photo{width:110px;height:110px;border-radius:50%;object-fit:cover;object-position:center top;border:4px solid #FFD700;box-shadow:0 4px 16px rgba(19,15,45,.2)}
+    #accueil .dir-photo-placeholder{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#130F2D,#231d4f);display:flex;align-items:center;justify-content:center;font-size:2.5rem;border:4px solid #FFD700}
+    #accueil .dir-name{font-weight:700;color:#130F2D;font-size:1rem;margin-top:4px}
+    #accueil .dir-title{font-size:.8rem;color:#666;margin-top:2px}
+    #accueil .mot-directeur{font-size:.9rem;line-height:1.75;color:#2c2c2c;text-align:left;font-style:italic}
+    #accueil .mot-directeur strong{color:#130F2D;font-style:normal}
+    #accueil .signature{text-align:right;margin-top:12px;font-weight:600;color:#130F2D;font-size:.9rem}
+    /* RAPPORTS */
+    #rapports .content{padding:20px 0 8px}
+    .rapport-card{background:#fff;border-radius:18px;margin:0 16px 16px;padding:22px;box-shadow:0 2px 12px rgba(19,15,45,.08);display:flex;gap:16px;align-items:flex-start;cursor:pointer;text-decoration:none;color:inherit;transition:.2s;border-left:5px solid #130F2D}
+    .rapport-card:hover{transform:translateX(4px);box-shadow:0 4px 20px rgba(19,15,45,.15)}
+    .rapport-card .r-icon{font-size:2.2rem;flex-shrink:0;width:50px;text-align:center}
+    .rapport-card h3{font-size:1rem;font-weight:600;color:#130F2D;margin-bottom:6px}
+    .rapport-card p{font-size:.82rem;color:#555;line-height:1.5}
+    .rapport-card .r-arrow{margin-left:auto;color:#FFD700;font-size:1.4rem;align-self:center;flex-shrink:0}
+    /* FORMATEURS */
+    #formateurs .search-box{background:#fff;margin:16px;border-radius:16px;padding:18px;box-shadow:0 2px 12px rgba(19,15,45,.08)}
+    #formateurs .search-box h3{font-size:1rem;color:#130F2D;font-weight:600;margin-bottom:12px}
+    .search-row{display:flex;gap:10px;flex-wrap:wrap}
+    .search-row input{flex:1;min-width:160px;border:2px solid #e0e8f0;border-radius:10px;padding:10px 14px;font-family:'Poppins',sans-serif;font-size:.9rem;outline:none;transition:.2s}
+    .search-row input:focus{border-color:#130F2D}
+    .search-row select{border:2px solid #e0e8f0;border-radius:10px;padding:10px 12px;font-family:'Poppins',sans-serif;font-size:.88rem;outline:none;color:#333;background:#fff;transition:.2s}
+    .search-row select:focus{border-color:#130F2D}
+    .search-row button{background:#130F2D;color:#FFD700;border:none;border-radius:10px;padding:10px 20px;font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;transition:.2s}
+    .search-row button:hover{background:#1e1845}
+    #search-results{padding:0 16px 16px}
+    .formateur-card{background:#fff;border-radius:16px;padding:20px;margin-bottom:14px;box-shadow:0 2px 12px rgba(19,15,45,.08)}
+    .formateur-card .f-name{font-size:1.05rem;font-weight:700;color:#130F2D;margin-bottom:8px}
+    .formateur-card .f-row{display:flex;align-items:center;gap:8px;font-size:.85rem;color:#444;margin:5px 0}
+    .formateur-card .f-row a{color:#130F2D;text-decoration:none;font-weight:500}
+    .formateur-card .f-row a:hover{text-decoration:underline}
+    .f-label{font-weight:600;color:#666;min-width:130px;font-size:.8rem}
+    .list-item{background:#fff;border-radius:12px;padding:14px 18px;margin-bottom:10px;box-shadow:0 2px 8px rgba(19,15,45,.07);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:.2s}
+    .list-item:hover{background:#f0f4f8;transform:translateX(3px)}
+    .list-item span{font-size:.9rem;font-weight:500;color:#130F2D}
+    .list-item .l-badge{font-size:.75rem}
+    .no-result{text-align:center;color:#888;padding:30px;font-size:.9rem}
+    .back-btn{background:#f0f4f8;border:none;color:#130F2D;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;padding:8px 16px;border-radius:10px;margin-bottom:14px;display:flex;align-items:center;gap:6px;transition:.2s}
+    .back-btn:hover{background:#e0e8f0}
+    /* BIBLIOTHEQUE */
+    #bibliotheque .content{padding:20px}
+    .big-card{background:#fff;border-radius:20px;padding:32px 24px;text-align:center;box-shadow:0 4px 20px rgba(19,15,45,.1);cursor:pointer;transition:.2s;text-decoration:none;display:block;color:inherit}
+    .big-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(19,15,45,.18)}
+    .big-card .bc-icon{font-size:3.5rem;margin-bottom:12px}
+    .big-card h3{font-size:1.1rem;font-weight:700;color:#130F2D;margin-bottom:8px}
+    .big-card p{font-size:.85rem;color:#666;line-height:1.6}
+    .big-card .bc-btn{display:inline-block;margin-top:18px;background:#130F2D;color:#FFD700;padding:12px 28px;border-radius:12px;font-weight:600;font-size:.9rem}
+    /* SUGGESTION */
+    #suggestion .content{padding:20px}
+    /* BUREAU */
+    #bureau .content{padding:16px}
+    .bureau-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px}
+    .bureau-card{background:#fff;border-radius:16px;padding:18px 12px;text-align:center;box-shadow:0 2px 12px rgba(19,15,45,.08)}
+    .bureau-card img{width:90px;height:90px;border-radius:50%;object-fit:cover;object-position:center top;border:3px solid #FFD700;margin-bottom:10px}
+    .bureau-card .b-avatar{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#130F2D,#231d4f);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 10px;border:3px solid #FFD700}
+    .bureau-card .b-name{font-weight:700;font-size:.82rem;color:#130F2D;line-height:1.3;margin-bottom:4px}
+    .bureau-card .b-poste{font-size:.72rem;color:#666;line-height:1.4;margin-bottom:8px}
+    .bureau-card a{display:inline-block;background:#130F2D;color:#FFD700;border-radius:8px;padding:6px 14px;font-size:.78rem;font-weight:600;text-decoration:none;transition:.2s}
+    .bureau-card a:hover{background:#1e1845}
+    /* COTISATION */
+    #cotisation .content{padding:20px}
+    .cotis-card{background:#fff;border-radius:20px;padding:30px 20px;text-align:center;box-shadow:0 4px 20px rgba(19,15,45,.1)}
+    .cotis-card img{width:100px;height:100px;border-radius:50%;object-fit:cover;object-position:center top;border:4px solid #FFD700;margin-bottom:14px}
+    .cotis-card .c-avatar{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#130F2D,#231d4f);display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 14px;border:4px solid #FFD700}
+    .cotis-card h3{font-weight:700;color:#130F2D;font-size:1.05rem;margin-bottom:4px}
+    .cotis-card .c-poste{color:#666;font-size:.85rem;margin-bottom:18px}
+    .cotis-card .c-intro{color:#444;font-size:.88rem;line-height:1.6;margin-bottom:20px}
+    .cotis-card a{display:inline-flex;align-items:center;gap:8px;background:#130F2D;color:#FFD700;padding:14px 28px;border-radius:14px;font-weight:700;font-size:.95rem;text-decoration:none;transition:.2s}
+    .cotis-card a:hover{background:#1e1845;transform:scale(1.03)}
+    /* SECTION TITLES */
+    .section-intro{text-align:center;padding:30px 20px 10px;color:#888;font-size:.88rem}
+    .section-intro h2{color:#130F2D;font-size:1.3rem;font-weight:700;margin-bottom:6px}
+  </style>
+</head>
+<body>
+
+<!-- ===== ACCUEIL ===== -->
+<section id="accueil" class="section active">
+  <div class="page-header">
+    <img src="assets/logo-blanc.png" alt="Logo INF" onerror="this.style.display='none'"/>
+    <h1>Institut National de Formation</h1>
+    <p>JCI Togo</p>
+  </div>
+  <div style="height:28px"></div>
+  <div class="directeur-card" style="margin:0 16px 20px;background:#fff;border-radius:20px;padding:24px 20px;box-shadow:0 4px 20px rgba(19,15,45,.1)">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:16px">
+      <img src="assets/kokouvi-djiwonou.jpeg" alt="Directeur" class="dir-photo"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="dir-photo-placeholder" style="display:none">👤</div>
+      <div class="dir-name">Kokouvi DJIWONOU</div>
+      <div class="dir-title">Directeur de l'INF · JCI Togo</div>
+    </div>
+    <div class="mot-directeur">
+      <p>Chers Formateurs,</p><br/>
+      <p>Notre vision est claire : <strong>être l'organe de la JCI Togo qui garantit la qualité et l'excellence.</strong></p><br/>
+      <p>Pour y parvenir, notre mission est de <strong>garantir, à travers la formation, la qualité et l'excellence des membres pour la performance de nos organisations.</strong></p><br/>
+      <p>Vous êtes les artisans de cette excellence. Chaque formation que vous dispensez est un acte de transformation — pour nos membres, pour nos organisations, pour la JCI Togo tout entière.</p><br/>
+      <p>Restez engagés, restez excellents. L'INF compte sur vous.</p>
+      <div class="signature">— Kokouvi DJIWONOU<br/><span style="font-size:.78rem;color:#888;font-weight:400">Directeur de l'INF</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RAPPORTS ===== -->
+<section id="rapports" class="section">
+  <div class="page-header">
+    <h1>📋 Envoyer un Rapport</h1>
+    <p>Choisissez le type de rapport à soumettre</p>
+  </div>
+  <div style="height:28px"></div>
+  <div class="content" style="padding:0 0 16px">
+    <a class="rapport-card" href="https://forms.gle/eRFYptc6VPk8m3WMA" target="_blank" rel="noopener">
+      <div class="r-icon">📊</div>
+      <div>
+        <h3>Rapport de l'Organisation</h3>
+        <p>Important d'avoir sous la main une photo de la liste de présence et des participants.</p>
+      </div>
+      <div class="r-arrow">›</div>
+    </a>
+    <a class="rapport-card" href="https://forms.gle/Q3JfgMSiDuqifdT66" target="_blank" rel="noopener" style="border-left-color:#FFD700">
+      <div class="r-icon">📝</div>
+      <div>
+        <h3>Rapport du Formateur</h3>
+        <p>Important d'avoir sous la main une photo de la liste de présence.</p>
+      </div>
+      <div class="r-arrow">›</div>
+    </a>
+  </div>
+</section>
+
+<!-- ===== FORMATEURS ===== -->
+<section id="formateurs" class="section">
+  <div class="page-header">
+    <h1>👥 Formateurs</h1>
+    <p>Base des formateurs INF · JCI Togo</p>
+  </div>
+  <div style="height:28px"></div>
+  <div class="search-box">
+    <h3>🔍 Rechercher un formateur</h3>
+    <div class="search-row">
+      <input type="text" id="search-input" placeholder="Saisir votre recherche…"/>
+      <select id="search-type">
+        <option value="nom">Par Nom</option>
+        <option value="nif">Par NIF</option>
+        <option value="locale">Par Organisation</option>
+        <option value="grade">Par Grade</option>
+      </select>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:10px">
+      <button onclick="doSearch()" style="flex:1;background:#130F2D;color:#FFD700;border:none;border-radius:10px;padding:11px;font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer">Rechercher</button>
+      <button onclick="clearSearch()" style="background:#e0e8f0;color:#130F2D;border:none;border-radius:10px;padding:11px 16px;font-family:'Poppins',sans-serif;font-size:.88rem;cursor:pointer">Effacer</button>
+    </div>
+  </div>
+  <div id="search-results"></div>
+</section>
+
+<!-- ===== BIBLIOTHEQUE ===== -->
+<section id="bibliotheque" class="section">
+  <div class="page-header">
+    <h1>📚 Bibliothèque</h1>
+    <p>Ressources de formation INF</p>
+  </div>
+  <div style="height:28px"></div>
+  <div class="content">
+    <a class="big-card" href="https://drive.google.com/drive/folders/1PdXR-lmTbv_wzRGHvUlIJpYpvtJ9RwZ1?usp=sharing" target="_blank" rel="noopener">
+      <div class="bc-icon">📂</div>
+      <h3>Ressources de Formation</h3>
+      <p>Accédez à tous les modules, guides et outils pédagogiques mis à disposition par l'INF.</p>
+      <div class="bc-btn">Consulter les ressources →</div>
+    </a>
+  </div>
+</section>
+
+<!-- ===== SUGGESTION ===== -->
+<section id="suggestion" class="section">
+  <div class="page-header">
+    <h1>💡 Boîte à Suggestion</h1>
+    <p>Votre avis compte !</p>
+  </div>
+  <div style="height:28px"></div>
+  <div class="content">
+    <a class="big-card" href="https://forms.gle/AjZEvCgHHQ7iYRbw7" target="_blank" rel="noopener">
+      <div class="bc-icon">💬</div>
+      <h3>Partagez vos idées</h3>
+      <p>Vos suggestions nous aident à améliorer l'INF et à mieux servir les formateurs. N'hésitez pas à partager vos idées, remarques et propositions.</p>
+      <div class="bc-btn">Ouvrir la Boîte à Suggestions →</div>
+    </a>
+  </div>
+</section>
+
+<!-- ===== BUREAU ===== -->
+<section id="bureau" class="section">
+  <div class="page-header">
+    <h1>🏛️ Bureau INF</h1>
+    <p>Membres du Bureau · Mandat 2026</p>
+  </div>
+  <div style="height:28px"></div>
+  <div class="content">
+    <div class="bureau-grid" id="bureau-grid"></div>
+  </div>
+</section>
+
+<!-- ===== COTISATION ===== -->
+<section id="cotisation" class="section">
+  <div class="page-header">
+    <h1>💳 Cotisation</h1>
+    <p>Payer ma cotisation INF</p>
+  </div>
+  <div style="height:28px"></div>
+  <div class="content">
+    <div class="cotis-card">
+      <img src="assets/anne-solange-ameganvi.jpeg" alt="Trésorière"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="c-avatar" style="display:none">👤</div>
+      <h3>Anne-Solange AMEGANVI</h3>
+      <div class="c-poste">Trésorière Générale · INF JCI Togo</div>
+      <p class="c-intro">Pour payer votre cotisation, veuillez contacter directement la Trésorerie Générale. Elle vous guidera pour le paiement et vous fournira votre reçu.</p>
+      <a href="tel:91593504">📞 Appeler : 91 59 35 04</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NAVIGATION ===== -->
+<nav>
+  <button class="nav-btn active" onclick="showSection('accueil',this)">
+    <span class="icon">🏠</span><span>Accueil</span>
+  </button>
+  <button class="nav-btn" onclick="showSection('rapports',this)">
+    <span class="icon">📋</span><span>Rapports</span>
+  </button>
+  <button class="nav-btn" onclick="showSection('formateurs',this)">
+    <span class="icon">👥</span><span>Formateurs</span>
+  </button>
+  <button class="nav-btn" onclick="showSection('bibliotheque',this)">
+    <span class="icon">📚</span><span>Biblio.</span>
+  </button>
+  <button class="nav-btn" onclick="showSection('suggestion',this)">
+    <span class="icon">💡</span><span>Suggestion</span>
+  </button>
+  <button class="nav-btn" onclick="showSection('bureau',this)">
+    <span class="icon">🏛️</span><span>Bureau</span>
+  </button>
+  <button class="nav-btn" onclick="showSection('cotisation',this)">
+    <span class="icon">💳</span><span>Cotis.</span>
+  </button>
+</nav>
+
+<script>
+// ─── NAVIGATION ───────────────────────────────────────────
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ─── BUREAU ───────────────────────────────────────────────
+const bureau = [
+  { nom: 'Kokouvi DJIWONOU', poste: 'Directeur', contact: '98678932', photo: 'kokouvi-djiwonou.jpeg' },
+  { nom: 'Jean-Pierre AGONGLOVI', poste: 'Secrétaire Général', contact: '90522375', photo: 'jean-pierre-agonglovi.jpeg' },
+  { nom: 'Anne-Solange AMEGANVI', poste: 'Trésorière Générale', contact: '91593504', photo: 'anne-solange-ameganvi.jpeg' },
+  { nom: 'Biova Y. MENSAH', poste: 'Immediat Past Directeur', contact: '91431979', photo: 'biova-mensah.jpg' },
+  { nom: 'Ekoue Cousin AYI-GBOVEY', poste: 'Responsable Marketing & Communication', contact: '97781977', photo: 'ekoue-ayi-gbovey.jpg' },
+  { nom: 'MENSAH Kossitsè Séena', poste: 'Responsable Cours et Formation', contact: '98853570', photo: 'kossitse-mensah.jpg' },
+  { nom: 'KASSANG Pikliwé Olivier', poste: 'Responsable Programme des Potentiels', contact: '90084400', photo: 'pikliwe-kassang.jpeg' },
+  { nom: 'Défi Sika MONDEDJI', poste: 'Responsable Épanouissement des Formateurs', contact: '79570547', photo: 'defi-mondedji.jpeg' },
+  { nom: 'Hyppolite Komi DJOKA', poste: 'Responsable Juridique', contact: '92195981', photo: 'hyppolite-djoka.jpeg' },
+];
+
+function buildBureau() {
+  const grid = document.getElementById('bureau-grid');
+  grid.innerHTML = bureau.map(m => `
+    <div class="bureau-card">
+      <img src="assets/${m.photo}" alt="${m.nom}" class="bureau-photo"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div class="b-avatar" style="display:none">👤</div>
+      <div class="b-name">${m.nom}</div>
+      <div class="b-poste">${m.poste}</div>
+      <a href="tel:${m.contact}">📞 ${m.contact}</a>
+    </div>
+  `).join('');
+}
+buildBureau();
+
+// ─── FORMATEURS ───────────────────────────────────────────
+const formateurs = [
+  {"nif":"2026001","nom":"ABBE WOMBE Assiadissa","grade":"ALPHA","locale":"Lomé Prestige","contact":"92284158","mail":"awag0708@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026002","nom":"ABOTCHI Daniel Mola","grade":"INTERNATIONAL JUNIOR","locale":"Lomé Flamboyant","contact":"90878099","mail":"abotchi@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026003","nom":"ADE Yawo Jeremi","grade":"ALPHA","locale":"Lomé Prestige","contact":"90546937","mail":"jeridevincy@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026004","nom":"ADEWUHO Yawo Ewoè","grade":"ALPHA","locale":"Universitaire Lomé","contact":"91369351","mail":"adewuhoyawoe@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026005","nom":"ADIKA Mathias","grade":"INTERNATIONAL JUNIOR","locale":"Lomé Azur","contact":"90258119","mail":"","statut":"Actif","anniversaire":""},
+  {"nif":"2026006","nom":"ADZODI Kodzo","grade":"ALPHA","locale":"Sanguéra Excellence","contact":"90194162","mail":"butern.tg@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026007","nom":"AFANGBEDJI Abelle","grade":"ALPHA","locale":"Lomé Azur","contact":"79963988","mail":"abelleafangbedji@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026008","nom":"AFATCHAO Ayao","grade":"ALPHA","locale":"Lomé Flamboyant","contact":"92474387","mail":"isaacnkf@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026009","nom":"AGBEGNON Arnaud","grade":"ALPHA","locale":"Baguida Impact","contact":"92105274","mail":"agbegnondossou@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026010","nom":"AGBESSELE Kokou Dénis","grade":"LOCAL","locale":"Lomé Flamboyant","contact":"92591594","mail":"","statut":"Actif","anniversaire":""},
+  {"nif":"2026011","nom":"AGLAMEY K. Emmanuel","grade":"ALPHA","locale":"Aného Solidarité","contact":"99684722","mail":"emmanuelaglamey@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026012","nom":"AGBLAMI Kodzo","grade":"ALPHA","locale":"Lomé Prestige","contact":"90810136","mail":"damyco4@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026013","nom":"AGONGLOVI Kokou Jean-Pierre","grade":"LOCAL","locale":"Aného Solidarité","contact":"90522375","mail":"jpkagong@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026014","nom":"AGOSSOU Gbègbè Egniwa Emmanuel K.","grade":"ALPHA","locale":"Lomé Prestige","contact":"90759738","mail":"agekef@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026015","nom":"AGOSSOU Wilfried","grade":"ALPHA","locale":"Agoè-Nyivé Pioneer","contact":"92555677","mail":"agosswill19@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026016","nom":"AKAKPO Assiba Claudine","grade":"NATIONAL","locale":"Lomé Cocotier","contact":"90047912","mail":"claudineakakpo@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026017","nom":"AKAKPO Yaovi Mathias","grade":"ALPHA","locale":"Lomé Cocotier","contact":"91006783","mail":"ymathiasakakpo04@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026018","nom":"AKARAWATI Salissou","grade":"ALPHA","locale":"Lomé Azur","contact":"91488598","mail":"","statut":"Actif","anniversaire":""},
+  {"nif":"2026019","nom":"AKATITO Hodabalo","grade":"LOCAL","locale":"Lomé Prestige","contact":"98684314","mail":"hodabalo.akatito@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026020","nom":"AKUETE Koffi Messan Jean Yves","grade":"INTERNATIONAL SENIOR","locale":"Lomé Cocotier","contact":"90052173","mail":"jyakuete@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026021","nom":"AMEGAN Henry","grade":"INTERNATIONAL SENIOR","locale":"Lomé Flamboyant","contact":"90052656","mail":"ahenri2013@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026022","nom":"AMEGANVI A. M. Anne - Solange","grade":"ALPHA","locale":"Lomé Cocotier","contact":"91593504","mail":"annesolangea@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026023","nom":"AMEVOR Ekué Edem","grade":"INTERNATIONAL SENIOR","locale":"Lomé Flamboyant","contact":"90875958","mail":"jekemconsult@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026024","nom":"AMEWOGBEGNON Azanlédji Michinou","grade":"ALPHA","locale":"Lomé Cocotier","contact":"93631514","mail":"michiazan@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026025","nom":"AMEWONOU Kouamivi Félix","grade":"ALPHA","locale":"Lomé Flamboyant","contact":"92278815","mail":"felixamewonou@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026026","nom":"AMEWOU Koffivi Sylvain","grade":"LOCAL","locale":"Lomé Flamboyant","contact":"91483777","mail":"sylamkof.amewou@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026027","nom":"AMOUZOUVI Kokouvi Thierry","grade":"NATIONAL","locale":"Lomé Flamboyant","contact":"90154136","mail":"koamouzouvi@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026028","nom":"ANADE Grace","grade":"ALPHA","locale":"Lomé Prestige","contact":"90886505","mail":"grace.anade@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026029","nom":"ANANI Kossi Elom","grade":"ALPHA","locale":"Lomé Prestige","contact":"92126282","mail":"kossianani4@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026030","nom":"AOKOU Afi","grade":"LOCAL","locale":"Lomé Prestige","contact":"91746879","mail":"aokoub@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026031","nom":"APEDJINOU Yao Mawoussé","grade":"NATIONAL","locale":"Baguida Impact","contact":"91560112","mail":"koussanta@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026032","nom":"ASSOGBA Kokou Eloi","grade":"INTERNATIONAL JUNIOR","locale":"Lomé Prestige","contact":"90047615","mail":"eloiassogba@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026033","nom":"ATAKPA-BASSABI Fousséni","grade":"LOCAL","locale":"Lomé Prestige","contact":"91073984","mail":"abassabif@gmai.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026034","nom":"ATAYABA Bouda Adjaon","grade":"LOCAL","locale":"Lomé Flamboyant","contact":"90358625","mail":"atayabac@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026035","nom":"ATCHRIMI Thomas","grade":"NATIONAL","locale":"Lomé Flamboyant","contact":"90224098","mail":"atchrimik@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026036","nom":"ATIKPATI Akomola","grade":"LOCAL","locale":"Lomé Flamboyant","contact":"90717027","mail":"atikpatiromain@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026037","nom":"ATSOO Kokou Totékpo-Mawu Darius","grade":"NATIONAL","locale":"Lomé Prestige","contact":"90136466","mail":"me_darius@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026038","nom":"ATTI K. Apollinaire","grade":"ALPHA","locale":"Universitaire Lomé","contact":"92100310","mail":"","statut":"Actif","anniversaire":""},
+  {"nif":"2026039","nom":"ATTIOGBE Yaovi Hova","grade":"ALPHA","locale":"Lomé Azur","contact":"93465216","mail":"hattiogbe10@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026040","nom":"AWUKU Komla Victorien","grade":"LOCAL","locale":"Aného Solidarité","contact":"92212898","mail":"awuvic_aneho@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026041","nom":"AYEH Kokou Delako","grade":"INTERNATIONAL JUNIOR","locale":"Lomé Prestige","contact":"90345457","mail":"kokouaye@mail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026042","nom":"AYI-AGBOVEY Ekoué Cousin","grade":"ALPHA","locale":"Universitaire Lomé","contact":"97781977","mail":"ayiagboveyekouecousin@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026043","nom":"AYIKOE Ayi Kossi","grade":"NATIONAL","locale":"Kpalimé Tsitsatsè","contact":"99486021","mail":"le99486021@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026044","nom":"BADJENE Komlan Michel","grade":"INTERNATIONAL JUNIOR","locale":"Lomé Flamboyant","contact":"90632212","mail":"","statut":"Actif","anniversaire":""},
+  {"nif":"2026045","nom":"BAITA DODZI","grade":"ALPHA","locale":"Agoè-Nyivé Pioneer","contact":"99549077","mail":"samuelbaita@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026046","nom":"BATAKA Katseth Raoul","grade":"ALPHA","locale":"Lomé Cocotier","contact":"90036322","mail":"raoulbataka@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026047","nom":"BENISSAN-GBIKPI Désiré","grade":"ALPHA","locale":"Lomé Azur","contact":"91665500","mail":"dbenissan@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026048","nom":"BIASSA Palaquième","grade":"ALPHA","locale":"Lomé Prestige","contact":"93318359","mail":"marcelblak81@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026049","nom":"BIGTOGO Wendpouloumdé","grade":"ALPHA","locale":"Kpalimé Tsitsatsè","contact":"90152776","mail":"bigtogof@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026050","nom":"BLINANI Tchablitiene","grade":"ALPHA","locale":"Universitaire Lomé","contact":"90452149","mail":"tchablitieneblinani@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026051","nom":"BODA-DJAFO Kéyna","grade":"LOCAL","locale":"Lomé Flamboyant","contact":"90989519","mail":"keynadjafo@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026052","nom":"BOSSOU K. G. C. Materne","grade":"INTERNATIONAL JUNIOR","locale":"Lomé Cocotier","contact":"90063340","mail":"maternebossou@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026053","nom":"CAPITAINE Kassogbon","grade":"ALPHA","locale":"Lomé Flamboyant","contact":"90120315","mail":"capkass1@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026054","nom":"D'ALMEIDA Yema","grade":"INTERNATIONAL SENIOR","locale":"Lomé Azur","contact":"90224721","mail":"","statut":"Actif","anniversaire":""},
+  {"nif":"2026055","nom":"DAMASSOH Baudouin","grade":"ALPHA","locale":"Lomé Azur","contact":"91387406","mail":"","statut":"Actif","anniversaire":""},
+  {"nif":"2026056","nom":"DJANATO Moryl","grade":"ALPHA","locale":"Aného Solidarité","contact":"91326361","mail":"ddjanato@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026057","nom":"DJAONA Badjem'na","grade":"ALPHA","locale":"Lomé Flamboyant","contact":"91083041","mail":"a.afuane91@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026058","nom":"DJINSO Jean-Pierre","grade":"LOCAL","locale":"Lomé Flamboyant","contact":"90797090","mail":"djinsopro@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026059","nom":"DJIWONOU Kokouvi","grade":"NATIONAL","locale":"Lomé Flamboyant","contact":"98678932","mail":"tdjiwonou@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026060","nom":"DJOKA Komi Hyppolite","grade":"ALPHA","locale":"Lomé Cocotier","contact":"92195981","mail":"djokahyppolite@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026061","nom":"DOFONNOU Mawouéna Kévin","grade":"LOCAL","locale":"Agoè-Nyivé Pionner","contact":"91200660","mail":"pablosdof@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026062","nom":"DOSSOU Biova Komi","grade":"ALPHA","locale":"Lomé Prestige","contact":"90228054","mail":"mbiovadossou@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026063","nom":"DOSSOU Yawa Kékéli Carmen","grade":"NATIONAL","locale":"Lomé Cocotier","contact":"90290925","mail":"kekelidossou@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026064","nom":"DZIMEDO Hervé","grade":"ALPHA","locale":"Lomé Prestige","contact":"90250205","mail":"kdzimedo@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026065","nom":"EDOH Michel Kossi","grade":"LOCAL","locale":"Lomé Prestige","contact":"90235363","mail":"michel@edoh.cc","statut":"Actif","anniversaire":""},
+  {"nif":"2026066","nom":"FAMBO Ougoufounu","grade":"ALPHA","locale":"Lomé Azur","contact":"91515675","mail":"fambo.antoine@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026067","nom":"FOLI Francis","grade":"NATIONAL","locale":"Lomé Azur","contact":"91724700","mail":"","statut":"Actif","anniversaire":""},
+  {"nif":"2026068","nom":"GAME Désiré","grade":"ALPHA","locale":"Baguida Impact","contact":"92532494","mail":"dondesire@ymail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026069","nom":"GANGAN Komi Xolalom","grade":"ALPHA","locale":"Lomé Flamboyant","contact":"90351167","mail":"komixolalom005@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026070","nom":"GNAMSIM M. Chrétien","grade":"LOCAL","locale":"Lomé Prestige","contact":"91797607","mail":"","statut":"Actif","anniversaire":""},
+  {"nif":"2026071","nom":"GUEDE Florenc Agbémon Kodzo","grade":"NATIONAL","locale":"Lomé Flamboyant","contact":"90978975","mail":"florencdegueka@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026072","nom":"HIHEGLO Mawuena Minakpo","grade":"LOCAL","locale":"Lomé Prestige","contact":"90068914","mail":"minakpo@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026073","nom":"HOMAWOO Komla Pédro","grade":"ALPHA","locale":"Baguida Impact","contact":"92713632","mail":"homawoopedronil@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026074","nom":"HOUGBEKE A. Christelle","grade":"ALPHA","locale":"Lomé Flamboyant","contact":"98236734","mail":"brandyjustb@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026075","nom":"HUEDO Amah Elie Jean Luc","grade":"ALPHA","locale":"Lomé Azur","contact":"92565013","mail":"jeanluchuedo@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026076","nom":"HUNLEDE Ayele Madje","grade":"ALPHA","locale":"Aného Solidarité","contact":"90379109","mail":"hunledeaurianne@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026077","nom":"JOHNSON-KANGNI Princess A.","grade":"LOCAL","locale":"Lomé Flamboyant","contact":"90292926","mail":"princessjohns2@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026078","nom":"KANGNI Assiongbon Ange-Marcelo","grade":"ALPHA","locale":"Lomé Cocotier","contact":"91598844","mail":"kangniange@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026079","nom":"KANGNI Vitalis Amatékoé","grade":"NATIONAL","locale":"Lomé Flamboyant","contact":"90033604","mail":"vkangni@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026080","nom":"KASSANG Pikliwé","grade":"ALPHA","locale":"Lomé Prestige","contact":"90084400","mail":"olivierkassang@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026081","nom":"KAVEGE Vincent","grade":"INTERNATIONAL SENIOR","locale":"Lomé Prestige","contact":"90048383","mail":"","statut":"Actif","anniversaire":""},
+  {"nif":"2026082","nom":"KETEKRE Landry","grade":"NATIONAL","locale":"Lomé Flamboyant","contact":"96000557","mail":"landryketekre@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026083","nom":"KLOMEGAH Roger Kodzo","grade":"ALPHA","locale":"Universitaire Lomé","contact":"99315163","mail":"klomegahroger6@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026084","nom":"KOEVI Akoko","grade":"ALPHA","locale":"Lomé Cocotier","contact":"90690392","mail":"","statut":"Actif","anniversaire":""},
+  {"nif":"2026085","nom":"KOFFI Koffi Edem","grade":"ALPHA","locale":"Tsévié Palme d'Or","contact":"91647796","mail":"Koffiedem919@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026086","nom":"KOKOU Kodjo Patrice","grade":"LOCAL","locale":"Lomé Prestige","contact":"","mail":"","statut":"Actif","anniversaire":""},
+  {"nif":"2026087","nom":"KOMLAN Ekué Mawuto","grade":"INTERNATIONAL JUNIOR","locale":"Lomé Prestige","contact":"90142828","mail":"ekue28@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026088","nom":"KONDOLI Fayçal","grade":"NATIONAL","locale":"Baguida Impact","contact":"90696913","mail":"kondolifay@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026089","nom":"KONDOW Moustafa","grade":"ALPHA","locale":"Kpalimé Tsitsatsè","contact":"92702442","mail":"mkgroupeinter@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026090","nom":"KOTAFIA-GADESSEH Kofiga Semanu","grade":"ALPHA","locale":"Tsévié Palme d'Or","contact":"91866016","mail":"kotafialiberte@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026091","nom":"KOUBALOU-LAOUDEMA Modjosso","grade":"ALPHA","locale":"Tsévié Palme d'Or","contact":"90894547","mail":"klmimmobilier2014@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026092","nom":"KOUDITEY Edem Djifa","grade":"LOCAL","locale":"Aného Solidarité","contact":"90172514","mail":"kededem@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026093","nom":"KPODO Ama Afefa Marie","grade":"ALPHA","locale":"Lomé Flamboyant","contact":"70012262","mail":"kpodoma@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026094","nom":"KUDADJE Joyce","grade":"INTERNATIONAL SENIOR","locale":"Lomé Prestige","contact":"90109803","mail":"jakudadje@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026095","nom":"KUEVIAKOE Diane","grade":"LOCAL","locale":"Lomé Prestige","contact":"90133382","mail":"daniakotg@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026096","nom":"LABARBORE Manou-Pouguin Grace","grade":"ALPHA","locale":"Universitaire Lomé","contact":"93715729","mail":"labarborewinner@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026097","nom":"LATE Eric Gordon Alowadan","grade":"INTERNATIONAL JUNIOR","locale":"Lomé Cocotier","contact":"90118575","mail":"alowadane@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026098","nom":"LAWANY Rehanat","grade":"NATIONAL","locale":"Tsévié Palme d'Or","contact":"90713869","mail":"Lawanyfel1@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026099","nom":"LAWSON Kafu-Ata","grade":"INTERNATIONAL JUNIOR","locale":"Lomé Flamboyant","contact":"90029750","mail":"","statut":"Actif","anniversaire":""},
+  {"nif":"2026100","nom":"LAWSON Latré Délali Jocelyne","grade":"ALPHA","locale":"Aného Solidarité","contact":"91897882","mail":"jocelynelawson05@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026101","nom":"LAWSON-AVOSSE N. Igor","grade":"LOCAL","locale":"Lomé Prestige","contact":"91944487","mail":"nadoulawson005@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026102","nom":"LAWSON-BODY Laté Julien","grade":"ALPHA","locale":"Agoè-Nyivé Pioneer","contact":"70243231","mail":"julienlawson11@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026103","nom":"LOLLI Koffi","grade":"LOCAL","locale":"Lomé Flamboyant","contact":"90876448","mail":"oliverado2000@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026104","nom":"LOMBENA Kpabéba","grade":"ALPHA","locale":"Tsévié Palme d'Or","contact":"91970763","mail":"lombenaf@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026105","nom":"MAHINOU Madatina","grade":"ALPHA","locale":"Lomé Flamboyant","contact":"90378684","mail":"rrgis228@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026106","nom":"MAMOUDOU Rabi","grade":"ALPHA","locale":"Lomé Flamboyant","contact":"92033563","mail":"Mrrab086@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026107","nom":"M'BELOU Tchilabalo Baloukimondom","grade":"ALPHA","locale":"Lomé Prestige","contact":"91666071","mail":"victormbelou@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026108","nom":"MEGBAYOWO Elom Julie","grade":"ALPHA","locale":"Lomé Azur","contact":"91770199","mail":"cycymegba@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026109","nom":"MENSAH Komi Philippe","grade":"LOCAL","locale":"Lomé Flamboyant","contact":"90141426","mail":"philkomohin@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026110","nom":"MENSAH Kossitsè Séena","grade":"ALPHA","locale":"Tsévié Palme d'Or","contact":"98853870","mail":"menskojack@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026111","nom":"MENSAH Yao Biova","grade":"NATIONAL","locale":"Lomé Azur","contact":"91431979","mail":"florentmens@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026112","nom":"MIDEKO Kafui","grade":"ALPHA","locale":"Lomé Cocotier","contact":"91997472","mail":"idacel1331@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026113","nom":"MINEKPO Kossi W. Simon","grade":"LOCAL","locale":"Tsévié Palme d'Or","contact":"90131877","mail":"minekposimon@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026114","nom":"MMAJU Emeka Kalu","grade":"ALPHA","locale":"Lomé Cocotier","contact":"91099687","mail":"mightpuissance@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026115","nom":"MOKOU Gnimdou","grade":"ALPHA","locale":"Universitaire Lomé","contact":"91958963","mail":"gnimmokou@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026116","nom":"MONDEDJI Franck","grade":"INTERNATIONAL SENIOR","locale":"Lomé Flamboyant","contact":"90275858","mail":"energiapromotiontogo@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026117","nom":"MOROU Kifayath","grade":"ALPHA","locale":"Lomé Prestige","contact":"90883498","mail":"kifayathmorou@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026118","nom":"NEMY Awuno Esime","grade":"ALPHA","locale":"Lomé Cocotier","contact":"90915687","mail":"eugflora@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026119","nom":"NYAVEDZI Yvette Gloria Akouvi","grade":"ALPHA","locale":"Universitaire Lomé","contact":"96398794","mail":"nyavedzieuler@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026120","nom":"OURO-SAMA Djibril","grade":"LOCAL","locale":"Lomé Azur","contact":"91772958","mail":"ossadji2@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026121","nom":"PAKA Mazamèsso","grade":"ALPHA","locale":"Lomé Flamboyant","contact":"90755101","mail":"pmazama@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026122","nom":"PAKA Solim Viviane","grade":"NATIONAL","locale":"Sanguéra Excellence","contact":"91083434","mail":"Vivipaka94@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026123","nom":"PERE-AKAKPO Mauriada Aïcha","grade":"LOCAL","locale":"Lomé Cocotier","contact":"90075154","mail":"Maisha.pere@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026124","nom":"SAAD Pindra","grade":"LOCAL","locale":"Lomé Cocotier","contact":"99475726","mail":"pin_sa@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026125","nom":"SAMA BABOÏMA Yaofé","grade":"LOCAL","locale":"Lomé Flamboyant","contact":"90036386","mail":"boby25b@yahoo.fr","statut":"Actif","anniversaire":""},
+  {"nif":"2026126","nom":"SAMA Moussa Sesso","grade":"NATIONAL","locale":"Lomé Azur","contact":"90144178","mail":"sama052002@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026127","nom":"SANUSI Aboubacar Alao","grade":"ALPHA","locale":"Lomé Prestige","contact":"98251326","mail":"","statut":"Actif","anniversaire":""},
+  {"nif":"2026128","nom":"SEBABE Assiminou","grade":"ALPHA","locale":"Lomé Azur","contact":"91198166","mail":"sebabeassimiou@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026129","nom":"SOUSSOU Y. Stéphane","grade":"NATIONAL","locale":"Lomé Flamboyant","contact":"92451701","mail":"yanickstephane@live.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026130","nom":"SROUKPE K. Sémanu","grade":"LOCAL","locale":"Lomé Azur","contact":"91390352","mail":"sylvain.sroukpe@entrepreneursdumonde.org","statut":"Actif","anniversaire":""},
+  {"nif":"2026131","nom":"TABO Yélébodoma Abiré","grade":"LOCAL","locale":"Lomé Cocotier","contact":"90254833","mail":"reinetabo06@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026132","nom":"TCHAPO KPANTE","grade":"ALPHA","locale":"Lomé Azur","contact":"91111787","mail":"etchapo26@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026133","nom":"TCHEZOUM Jean Baptiste","grade":"LOCAL","locale":"Lomé Cocotier","contact":"93275293","mail":"tchezoumjeanbaptiste@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026134","nom":"TOKPO Gloria","grade":"ALPHA","locale":"Lomé Prestige","contact":"","mail":"","statut":"Actif","anniversaire":""},
+  {"nif":"2026135","nom":"TOKPO Yannick","grade":"ALPHA","locale":"Sanguéra Excellence","contact":"91599178","mail":"yannicktokpo@gmai.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026136","nom":"TOSSA Ayéna Yawo","grade":"ALPHA","locale":"Lomé Prestige","contact":"90016917","mail":"ayenalex@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026137","nom":"TOYI Essohanam Joana","grade":"ALPHA","locale":"Sanguéra Excellence","contact":"96112557","mail":"joanatoyi40@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026138","nom":"TRAORE - TCHA – KPIDE Bilal","grade":"ALPHA","locale":"Lomé Flamboyant","contact":"91451607","mail":"traoret.bilal@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026139","nom":"WUSSU Leopold","grade":"INTERNATIONAL JUNIOR","locale":"Lomé Flamboyant","contact":"90117744","mail":"","statut":"Actif","anniversaire":""},
+  {"nif":"2026140","nom":"YACOUBOU Zoubéïratou","grade":"ALPHA","locale":"Universitaire Lomé","contact":"70106714","mail":"zoubeirayacoubou333@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026141","nom":"AFATCHAO KOSSIVI JONHI AMEN","grade":"ALPHA","locale":"Baguida Impact","contact":"98902758","mail":"amenamenax@gmail.com","statut":"Actif","anniversaire":"18 Août"},
+  {"nif":"2026142","nom":"AMEFIANOU Mawulikplimi Joyce","grade":"ALPHA","locale":"Lomé Azur","contact":"93710559","mail":"joyamefianou@gmail.com","statut":"Actif","anniversaire":"5 Mai"},
+  {"nif":"2026143","nom":"AMENOVI KOMI EMMANUEL","grade":"ALPHA","locale":"Universitaire Lomé","contact":"97536119","mail":"komiemmanuelamenovi@gmail.com","statut":"Actif","anniversaire":"28 Sept."},
+  {"nif":"2026144","nom":"GANKEY Yao Prosper","grade":"ALPHA","locale":"Baguida Impact","contact":"98784735","mail":"smithgankey@gmail.com","statut":"Actif","anniversaire":"25 Juin"},
+  {"nif":"2026145","nom":"KOULABA Adjare","grade":"ALPHA","locale":"Agoè-Nyivé Pioneer","contact":"92808222","mail":"desirekoulaba@gmail.com","statut":"Actif","anniversaire":"27 Avr."},
+  {"nif":"2026146","nom":"LOVI Kwami Ezekiel","grade":"ALPHA","locale":"Lomé Cocotier","contact":"90788234","mail":"Kwamilovi@gmail.com","statut":"Actif","anniversaire":"11 Avr."},
+  {"nif":"2026147","nom":"MONDEDJI Défi Sika","grade":"ALPHA","locale":"Lomé Flamboyant","contact":"79570547","mail":"mondedjidefi@gmail.com","statut":"Actif","anniversaire":"1 Mai"},
+  {"nif":"2026148","nom":"OURO-AGOUDA AÏDA","grade":"ALPHA","locale":"Lomé Flamboyant","contact":"91930201","mail":"aidaourag@gmail.com","statut":"Actif","anniversaire":"17 Oct."},
+  {"nif":"2026149","nom":"SAMARI Ridwane","grade":"ALPHA","locale":"Kpalimé Tsitsatsè","contact":"93709308","mail":"samariridwane6@gmail.com","statut":"Actif","anniversaire":"2 Août"},
+  {"nif":"2026150","nom":"SOSSOU KOMLANVI","grade":"ALPHA","locale":"Agoè-Nyivé Pioneer","contact":"92000468","mail":"sokodem@gmail.com","statut":"Actif","anniversaire":"30 Juin"}
+];
+
+function gradeBadge(g) {
+  const map = {
+    'ALPHA': 'badge-alpha',
+    'LOCAL': 'badge-local',
+    'NATIONAL': 'badge-national',
+    'INTERNATIONAL JUNIOR': 'badge-int-jr',
+    'INTERNATIONAL SENIOR': 'badge-int-sr',
+  };
+  return `<span class="badge ${map[g]||'badge-alpha'}">${g}</span>`;
+}
+
+function ficheHTML(f) {
+  const tel = f.contact ? `<a href="tel:${f.contact.replace(/\s/g,'')}">${f.contact}</a>` : '<em style="color:#aaa">Non renseigné</em>';
+  const mail = f.mail ? `<a href="mailto:${f.mail}">${f.mail}</a>` : '<em style="color:#aaa">Non renseigné</em>';
+  const anniv = f.anniversaire ? `<div class="f-row"><span class="f-label">🎂 Anniversaire</span>${f.anniversaire}</div>` : '';
+  return `
+    <div class="formateur-card">
+      <button class="back-btn" onclick="clearSearch()">← Retour</button>
+      <div class="f-name">${f.nom}</div>
+      ${gradeBadge(f.grade)}
+      <div style="height:12px"></div>
+      <div class="f-row"><span class="f-label">🪪 NIF</span>${f.nif}</div>
+      <div class="f-row"><span class="f-label">🏛️ Organisation</span>${f.locale}</div>
+      <div class="f-row"><span class="f-label">📞 Contact</span>${tel}</div>
+      <div class="f-row"><span class="f-label">✉️ Mail</span>${mail}</div>
+      ${anniv}
+      <div class="f-row"><span class="f-label">✅ Statut</span><span class="badge ${f.statut==='Actif'?'badge-actif':'badge-inactif'}">${f.statut}</span></div>
+    </div>`;
+}
+
+function doSearch() {
+  const q = document.getElementById('search-input').value.trim().toLowerCase();
+  const type = document.getElementById('search-type').value;
+  const results = document.getElementById('search-results');
+  if (!q) { results.innerHTML = '<p class="no-result">Veuillez saisir un terme de recherche.</p>'; return; }
+
+  if (type === 'nif') {
+    const f = formateurs.find(x => x.nif === q || x.nif.includes(q));
+    results.innerHTML = f ? ficheHTML(f) : '<p class="no-result">Aucun formateur trouvé pour ce NIF.</p>';
+  } else if (type === 'nom') {
+    const found = formateurs.filter(x => x.nom.toLowerCase().includes(q));
+    if (found.length === 1) { results.innerHTML = ficheHTML(found[0]); return; }
+    if (found.length === 0) { results.innerHTML = '<p class="no-result">Aucun formateur trouvé pour ce nom.</p>'; return; }
+    results.innerHTML = found.map(f => `
+      <div class="list-item" onclick="showFiche('${f.nif}')">
+        <div><span style="font-weight:600;color:#130F2D">${f.nom}</span><br/><small style="color:#888">${f.locale}</small></div>
+        <span class="l-badge">${gradeBadge(f.grade)}</span>
+      </div>`).join('');
+  } else if (type === 'locale') {
+    const found = formateurs.filter(x => x.locale.toLowerCase().includes(q));
+    if (found.length === 0) { results.innerHTML = '<p class="no-result">Aucune organisation trouvée.</p>'; return; }
+    results.innerHTML = `<div style="padding:8px 0 4px;color:#130F2D;font-weight:600;font-size:.9rem">${found.length} formateur(s) — ${found[0].locale}</div>` +
+      found.map(f => `
+        <div class="list-item" onclick="showFiche('${f.nif}')">
+          <div><span style="font-weight:600;color:#130F2D">${f.nom}</span></div>
+          <span class="l-badge">${gradeBadge(f.grade)}</span>
+        </div>`).join('');
+  } else if (type === 'grade') {
+    const found = formateurs.filter(x => x.grade.toLowerCase().includes(q));
+    if (found.length === 0) { results.innerHTML = '<p class="no-result">Aucun formateur trouvé pour ce grade.</p>'; return; }
+    results.innerHTML = `<div style="padding:8px 0 4px;color:#130F2D;font-weight:600;font-size:.9rem">${found.length} formateur(s) · Grade ${q.toUpperCase()}</div>` +
+      found.map(f => `
+        <div class="list-item" onclick="showFiche('${f.nif}')">
+          <div><span style="font-weight:600;color:#130F2D">${f.nom}</span><br/><small style="color:#888">${f.locale}</small></div>
+        </div>`).join('');
+  }
+}
+
+function showFiche(nif) {
+  const f = formateurs.find(x => x.nif === nif);
+  if (f) document.getElementById('search-results').innerHTML = ficheHTML(f);
+  window.scrollTo(0,0);
+}
+
+function clearSearch() {
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-results').innerHTML = '';
+}
+
+// Recherche on Enter
+document.getElementById('search-input').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+
+// ─── PWA ──────────────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+</script>
+</body>
+</html>         
