@@ -93,6 +93,16 @@
     .big-card h3{font-size:1.1rem;font-weight:700;color:#130F2D;margin-bottom:8px}
     .big-card p{font-size:.85rem;color:#666;line-height:1.6}
     .big-card .bc-btn{display:inline-block;margin-top:18px;background:#130F2D;color:#FFD700;padding:12px 28px;border-radius:12px;font-weight:600;font-size:.9rem}
+    /* BANDEAU INSTALLATION */
+    #install-banner{display:none;margin:0 16px 20px;background:linear-gradient(135deg,#FFD700 0%,#f5c200 100%);border-radius:20px;padding:18px 20px;box-shadow:0 4px 20px rgba(255,215,0,.35);animation:pulse-install 2s ease-in-out infinite}
+    @keyframes pulse-install{0%,100%{box-shadow:0 4px 20px rgba(255,215,0,.35)}50%{box-shadow:0 6px 30px rgba(255,215,0,.65)}}
+    #install-banner .ib-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+    #install-banner .ib-icon{font-size:2.4rem;line-height:1}
+    #install-banner .ib-title{font-weight:700;font-size:1rem;color:#130F2D;line-height:1.3}
+    #install-banner .ib-sub{font-size:.78rem;color:#2a2050;margin-top:2px}
+    #install-btn{width:100%;background:#130F2D;color:#FFD700;border:none;border-radius:14px;padding:15px;font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;letter-spacing:.3px;transition:.2s}
+    #install-btn:active{transform:scale(.97)}
+    #install-dismiss{width:100%;background:none;border:none;color:#2a2050;font-family:'Poppins',sans-serif;font-size:.78rem;cursor:pointer;margin-top:8px;padding:4px;opacity:.7}
     /* SUGGESTION */
     #suggestion .content{padding:20px}
     /* BUREAU */
@@ -130,6 +140,20 @@
     <p>JCI Togo</p>
   </div>
   <div style="height:28px"></div>
+
+  <!-- Bandeau d'installation PWA -->
+  <div id="install-banner">
+    <div class="ib-top">
+      <div class="ib-icon">📲</div>
+      <div>
+        <div class="ib-title">Installer l'application INF</div>
+        <div class="ib-sub">Accès rapide · Fonctionne hors ligne</div>
+      </div>
+    </div>
+    <button id="install-btn">⬇️ Installer sur mon téléphone</button>
+    <button id="install-dismiss">Plus tard</button>
+  </div>
+
   <div class="directeur-card" style="margin:0 16px 20px;background:#fff;border-radius:20px;padding:24px 20px;box-shadow:0 4px 20px rgba(19,15,45,.1)">
     <div style="display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:16px">
       <img src="assets/kokouvi-djiwonou.jpeg" alt="Directeur" class="dir-photo"
@@ -571,6 +595,39 @@ document.getElementById('search-input').addEventListener('keydown', e => { if (e
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }
+
+// ─── BOUTON INSTALLATION PWA ──────────────────────────────
+let deferredPrompt = null;
+const banner      = document.getElementById('install-banner');
+const installBtn  = document.getElementById('install-btn');
+const dismissBtn  = document.getElementById('install-dismiss');
+
+// Capter l'événement avant que le navigateur l'affiche
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  banner.style.display = 'block';
+});
+
+// Clic sur "Installer"
+installBtn.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  banner.style.display = 'none';
+});
+
+// Clic sur "Plus tard"
+dismissBtn.addEventListener('click', () => {
+  banner.style.display = 'none';
+});
+
+// Masquer si déjà installé
+window.addEventListener('appinstalled', () => {
+  banner.style.display = 'none';
+  deferredPrompt = null;
+});
 </script>
 </body>
 </html>         
