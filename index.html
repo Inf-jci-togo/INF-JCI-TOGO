@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8"/>
@@ -128,6 +128,89 @@
     /* SECTION TITLES */
     .section-intro{text-align:center;padding:30px 20px 10px;color:#888;font-size:.88rem}
     .section-intro h2{color:#130F2D;font-size:1.3rem;font-weight:700;margin-bottom:6px}
+    /* QUIZ */
+    #quiz-home{padding:20px}
+    .level-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+    .level-card{background:#fff;border-radius:18px;padding:18px 14px;text-align:center;box-shadow:0 2px 14px rgba(19,15,45,.09);cursor:pointer;transition:.2s;border:2px solid transparent;position:relative}
+    .level-card:hover{transform:translateY(-3px);box-shadow:0 6px 22px rgba(19,15,45,.14)}
+    .level-card.locked{opacity:.5;cursor:not-allowed}
+    .level-card.locked:hover{transform:none}
+    .level-card.done{border-color:#22c55e}
+    .level-card.current{border-color:#FFD700;background:linear-gradient(135deg,#fffbe6,#fff)}
+    .level-icon{font-size:2rem;margin-bottom:6px}
+    .level-name{font-weight:700;font-size:.88rem;color:#130F2D;margin-bottom:2px}
+    .level-sub{font-size:.72rem;color:#888}
+    .level-badge{position:absolute;top:8px;right:8px;font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:20px}
+    .badge-done{background:#d4edda;color:#155724}
+    .badge-current{background:#FFD700;color:#130F2D}
+    .badge-locked{background:#e0e8f0;color:#777}
+    .quiz-intro{background:#fff;border-radius:20px;padding:22px;box-shadow:0 2px 14px rgba(19,15,45,.09);margin-bottom:16px;text-align:center}
+    .quiz-intro .trophy{font-size:3rem;margin-bottom:8px}
+    .quiz-intro h2{color:#130F2D;font-size:1.1rem;font-weight:700;margin-bottom:6px}
+    .quiz-intro p{color:#555;font-size:.85rem;line-height:1.6}
+    .quiz-rules{background:#f8f9ff;border-radius:14px;padding:14px;margin-top:14px;text-align:left}
+    .quiz-rules li{font-size:.8rem;color:#444;margin:5px 0;display:flex;align-items:center;gap:8px}
+    #quiz-game{display:none;padding:16px}
+    .quiz-topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+    .quiz-level-tag{background:#130F2D;color:#FFD700;font-size:.75rem;font-weight:700;padding:5px 14px;border-radius:20px}
+    .quiz-progress-wrap{flex:1;margin:0 12px;height:8px;background:#e0e8f0;border-radius:10px;overflow:hidden}
+    .quiz-progress-bar{height:100%;background:linear-gradient(90deg,#130F2D,#FFD700);border-radius:10px;transition:width .4s ease}
+    .quiz-counter{font-size:.75rem;color:#888;font-weight:600;white-space:nowrap}
+    .question-card{background:#fff;border-radius:20px;padding:24px 20px;box-shadow:0 4px 20px rgba(19,15,45,.1);margin-bottom:16px}
+    .q-type-tag{display:inline-block;font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px}
+    .q-type-qcm{background:#cce5ff;color:#003d80}
+    .q-type-vf{background:#fff3cd;color:#856404}
+    .q-text{font-size:.95rem;font-weight:600;color:#130F2D;line-height:1.5;margin-bottom:18px}
+    .answers{display:flex;flex-direction:column;gap:10px}
+    .answer-btn{background:#f0f4f8;border:2px solid transparent;border-radius:14px;padding:13px 16px;font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:500;color:#1a1a2e;cursor:pointer;text-align:left;transition:.2s;display:flex;align-items:center;gap:10px}
+    .answer-btn:hover:not(:disabled){background:#e0e8f0;border-color:#130F2D}
+    .answer-btn .a-letter{min-width:26px;height:26px;border-radius:50%;background:#130F2D;color:#FFD700;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0}
+    .answer-btn.correct{background:#d4edda;border-color:#22c55e;color:#155724}
+    .answer-btn.correct .a-letter{background:#22c55e;color:#fff}
+    .answer-btn.wrong{background:#fde8e8;border-color:#ef4444;color:#7f1d1d}
+    .answer-btn.wrong .a-letter{background:#ef4444;color:#fff}
+    .answer-btn:disabled{cursor:not-allowed}
+    .vf-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .vf-btn{border:2px solid transparent;border-radius:14px;padding:18px;font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:.2s;display:flex;flex-direction:column;align-items:center;gap:6px}
+    .vf-btn.vrai{background:#f0fff4;border-color:#22c55e;color:#166534}
+    .vf-btn.faux{background:#fff1f0;border-color:#ef4444;color:#991b1b}
+    .vf-btn:hover:not(:disabled){transform:scale(1.03)}
+    .vf-btn:disabled{cursor:not-allowed;opacity:.7}
+    .vf-btn.correct{background:#d4edda;border-color:#22c55e}
+    .vf-btn.wrong{background:#fde8e8;border-color:#ef4444}
+    .feedback-box{border-radius:14px;padding:14px 16px;margin-top:14px;display:none}
+    .feedback-box.show{display:block}
+    .feedback-correct{background:#d4edda;border-left:4px solid #22c55e}
+    .feedback-wrong{background:#fde8e8;border-left:4px solid #ef4444}
+    .feedback-box .fb-title{font-weight:700;font-size:.9rem;margin-bottom:4px}
+    .feedback-box p{font-size:.8rem;color:#444;line-height:1.5}
+    .next-btn{width:100%;background:#130F2D;color:#FFD700;border:none;border-radius:14px;padding:14px;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;margin-top:4px;display:none;transition:.2s}
+    .next-btn.show{display:block}
+    .next-btn:hover{background:#1e1845}
+    #quiz-result{display:none;padding:20px}
+    .result-card{background:#fff;border-radius:24px;padding:32px 24px;text-align:center;box-shadow:0 4px 24px rgba(19,15,45,.12)}
+    .result-emoji{font-size:4rem;margin-bottom:8px}
+    .result-title{font-size:1.3rem;font-weight:800;color:#130F2D;margin-bottom:6px}
+    .result-score{font-size:3rem;font-weight:800;margin:12px 0}
+    .score-good{color:#22c55e}
+    .score-bad{color:#ef4444}
+    .result-msg{font-size:.88rem;color:#555;line-height:1.6;margin-bottom:20px}
+    .result-stars{font-size:2rem;margin:10px 0;letter-spacing:4px}
+    .result-btn{width:100%;border:none;border-radius:14px;padding:14px;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;margin-bottom:10px;transition:.2s}
+    .btn-next-level{background:#130F2D;color:#FFD700}
+    .btn-retry{background:#f0f4f8;color:#130F2D}
+    .btn-next-level:hover{background:#1e1845}
+    .btn-retry:hover{background:#e0e8f0}
+    #quiz-expert{display:none;padding:20px}
+    .expert-card{background:linear-gradient(135deg,#130F2D 0%,#231d4f 100%);border-radius:28px;padding:36px 24px;text-align:center;box-shadow:0 8px 40px rgba(19,15,45,.3)}
+    .expert-badge{width:140px;height:140px;border-radius:50%;background:linear-gradient(135deg,#FFD700,#f59e0b);margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:4rem;box-shadow:0 0 0 6px rgba(255,215,0,.3),0 0 0 12px rgba(255,215,0,.15)}
+    .expert-title{color:#FFD700;font-size:1.6rem;font-weight:800;margin-bottom:6px;letter-spacing:1px}
+    .expert-name{color:#fff;font-size:.85rem;opacity:.85;margin-bottom:20px}
+    .expert-stars{font-size:1.8rem;letter-spacing:6px;margin-bottom:20px}
+    .expert-desc{color:rgba(255,255,255,.8);font-size:.85rem;line-height:1.7;margin-bottom:24px}
+    .expert-share{background:#FFD700;color:#130F2D;border:none;border-radius:14px;padding:14px 28px;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;width:100%;margin-bottom:10px}
+    .expert-home{background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:14px;padding:12px 28px;font-family:'Poppins',sans-serif;font-size:.88rem;cursor:pointer;width:100%}
+    .score-mini{display:inline-block;background:#f0f4f8;border-radius:10px;padding:4px 12px;font-size:.75rem;font-weight:600;color:#130F2D;margin-top:4px}
   </style>
 </head>
 <body>
@@ -292,6 +375,113 @@
   </div>
 </section>
 
+<!-- ===== QUIZ ===== -->
+<section id="quiz" class="section">
+  <div class="page-header">
+    <h1>🎓 Quiz INF JCI Togo</h1>
+    <p>Teste tes connaissances · Deviens Expert</p>
+  </div>
+  <div style="height:28px"></div>
+
+  <div id="quiz-home">
+    <div class="quiz-intro">
+      <div class="trophy">🏆</div>
+      <h2>Défi Formateur INF</h2>
+      <p>Réponds aux questions sur le Programme de Formation et le Règlement Intérieur de l'INF JCI Togo.</p>
+      <div class="quiz-rules">
+        <ul style="list-style:none">
+          <li>🎯 <span><strong>5 niveaux</strong> de difficulté croissante</span></li>
+          <li>❓ <span><strong>40 questions</strong> mélangées (QCM + Vrai/Faux) par niveau</span></li>
+          <li>✅ <span>Score minimum <strong>28/40</strong> (70%) pour débloquer le niveau suivant</span></li>
+          <li>🌟 <span>Complète les 5 niveaux pour devenir <strong>EXPERT INF</strong></span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="level-grid">
+      <div class="level-card current" id="card-0" onclick="startLevel(0)">
+        <span class="level-badge badge-current">Disponible</span>
+        <div class="level-icon">🌱</div>
+        <div class="level-name">Niveau 1</div>
+        <div class="level-sub">Débutant</div>
+        <div class="score-mini" id="score-mini-0"></div>
+      </div>
+      <div class="level-card locked" id="card-1">
+        <span class="level-badge badge-locked">Verrouillé</span>
+        <div class="level-icon">📘</div>
+        <div class="level-name">Niveau 2</div>
+        <div class="level-sub">Apprenti</div>
+        <div class="score-mini" id="score-mini-1"></div>
+      </div>
+      <div class="level-card locked" id="card-2">
+        <span class="level-badge badge-locked">Verrouillé</span>
+        <div class="level-icon">⚡</div>
+        <div class="level-name">Niveau 3</div>
+        <div class="level-sub">Confirmé</div>
+        <div class="score-mini" id="score-mini-2"></div>
+      </div>
+      <div class="level-card locked" id="card-3">
+        <span class="level-badge badge-locked">Verrouillé</span>
+        <div class="level-icon">🔥</div>
+        <div class="level-name">Niveau 4</div>
+        <div class="level-sub">Avancé</div>
+        <div class="score-mini" id="score-mini-3"></div>
+      </div>
+    </div>
+    <div class="level-card locked" id="card-4" style="margin:0 0 20px">
+      <span class="level-badge badge-locked">Verrouillé</span>
+      <div class="level-icon">👑</div>
+      <div class="level-name">Niveau 5 — Expert</div>
+      <div class="level-sub">Le défi ultime · Maîtrise totale de l'INF</div>
+      <div class="score-mini" id="score-mini-4"></div>
+    </div>
+  </div>
+
+  <div id="quiz-game">
+    <div class="quiz-topbar">
+      <span class="quiz-level-tag" id="game-level-tag">Niveau 1</span>
+      <div class="quiz-progress-wrap">
+        <div class="quiz-progress-bar" id="progress-bar" style="width:0%"></div>
+      </div>
+      <span class="quiz-counter" id="q-counter">1 / 40</span>
+    </div>
+    <div class="question-card">
+      <span class="q-type-tag" id="q-type-tag">QCM</span>
+      <p class="q-text" id="q-text"></p>
+      <div class="answers" id="q-answers"></div>
+      <div class="feedback-box" id="feedback-box">
+        <div class="fb-title" id="fb-title"></div>
+        <p id="fb-text"></p>
+      </div>
+    </div>
+    <button class="next-btn" id="next-btn" onclick="nextQuestion()">Question suivante →</button>
+  </div>
+
+  <div id="quiz-result">
+    <div class="result-card">
+      <div class="result-emoji" id="res-emoji">🎉</div>
+      <div class="result-title" id="res-title">Niveau réussi !</div>
+      <div class="result-stars" id="res-stars">⭐⭐⭐</div>
+      <div class="result-score" id="res-score"><span id="res-pts" class="score-good">30</span><span style="font-size:1.2rem;color:#888"> / 40</span></div>
+      <p class="result-msg" id="res-msg"></p>
+      <button class="result-btn btn-next-level" id="btn-next" onclick="nextLevel()">Niveau suivant →</button>
+      <button class="result-btn btn-retry" onclick="retryLevel()">🔄 Réessayer ce niveau</button>
+      <button class="result-btn btn-retry" onclick="goHome()" style="margin-top:0">🏠 Accueil Quiz</button>
+    </div>
+  </div>
+
+  <div id="quiz-expert">
+    <div class="expert-card">
+      <div class="expert-badge">🏆</div>
+      <div class="expert-title">EXPERT INF</div>
+      <div class="expert-name">Tu maîtrises le Programme &amp; le Règlement de l'INF JCI Togo</div>
+      <div class="expert-stars">⭐⭐⭐⭐⭐</div>
+      <p class="expert-desc">Félicitations ! Tu as démontré une maîtrise complète des textes fondamentaux de l'Institut National de Formation de la JCI Togo. Tu es désormais un <strong style="color:#FFD700">Formateur Expert</strong> !</p>
+      <button class="expert-share" onclick="shareResult()">📤 Partager mon résultat</button>
+      <button class="expert-home" onclick="resetAll()">🔄 Rejouer depuis le début</button>
+    </div>
+  </div>
+</section>
+
 <!-- ===== NAVIGATION ===== -->
 <nav>
   <button class="nav-btn active" onclick="showSection('accueil',this)">
@@ -314,6 +504,9 @@
   </button>
   <button class="nav-btn" onclick="showSection('cotisation',this)">
     <span class="icon">💳</span><span>Cotis.</span>
+  </button>
+  <button class="nav-btn" onclick="showSection('quiz',this)">
+    <span class="icon">🎓</span><span>Quiz</span>
   </button>
 </nav>
 
@@ -628,6 +821,411 @@ window.addEventListener('appinstalled', () => {
   banner.style.display = 'none';
   deferredPrompt = null;
 });
+
+// ─── QUIZ ─────────────────────────────────────────────────
+const PASS_SCORE = 28; // 70% de 40
+
+const LEVELS = [
+// ══════════════ NIVEAU 1 — DÉBUTANT (40 questions) ══════════════
+{name:'Niveau 1',label:'Débutant',icon:'🌱',questions:[
+{type:'qcm',q:"Combien de grades de formateurs existent dans le système de la JCI Togo ?",choices:["3 grades","4 grades","5 grades","6 grades"],correct:2,expl:"Il existe 5 grades : Alpha, Local Alpha, National Alpha, International Junior et International Sénior."},
+{type:'vf',q:"Le premier grade de formateur s'appelle « Formateur Alpha ».",correct:true,expl:"Exact ! Le Formateur Alpha (F) est bien le 1er niveau de certification de l'INF JCI Togo."},
+{type:'qcm',q:"Quel est le siège de l'Institut National de Formation (INF) JCI Togo ?",choices:["Kara","Lomé","Sokodé","Atakpamé"],correct:1,expl:"Le siège de l'INF est fixé à Lomé, au siège de la JCI TOGO."},
+{type:'vf',q:"La durée de vie de l'INF est limitée à 10 ans.",correct:false,expl:"Faux ! La durée de vie de l'Institut National de Formation de la JCI TOGO est illimitée."},
+{type:'qcm',q:"Quelle est la cotisation annuelle obligatoire d'un membre de l'INF ?",choices:["2 000 FCFA","3 000 FCFA","5 000 FCFA","10 000 FCFA"],correct:2,expl:"La cotisation statutaire annuelle est de cinq mille (5 000) francs CFA par membre."},
+{type:'vf',q:"L'Assemblée Générale des Formateurs (AGF) est l'autorité suprême de l'INF.",correct:true,expl:"Correct ! L'AGF est l'autorité suprême disposant de tous les droits non attribués spécifiquement au Bureau."},
+{type:'qcm',q:"De combien de membres est composé le bureau de l'INF ?",choices:["2 membres","3 membres","4 membres","5 membres"],correct:1,expl:"Le bureau comprend 3 membres : un Directeur, un Secrétaire Général et un Trésorier Général."},
+{type:'vf',q:"Les votes par procuration sont autorisés lors des AGF.",correct:false,expl:"Faux ! Les votes par procuration ne sont PAS autorisés à l'AGF."},
+{type:'qcm',q:"Quel cours faut-il réussir pour devenir Formateur Alpha ?",choices:["CCM","CFF","CLT","CNT"],correct:1,expl:"Le CFF (Cours de Formation des Formateurs) est obligatoire pour obtenir le grade de Formateur Alpha."},
+{type:'vf',q:"Le Directeur de l'INF dispose d'une voix prépondérante en cas d'égalité des voix à l'AGF.",correct:true,expl:"Exact ! En cas de ballotage, le Directeur dispose d'une voix prépondérante."},
+{type:'qcm',q:"Que signifie l'acronyme INF ?",choices:["Institution Nationale des Formateurs","Institut National de Formation","Initiative Nationale de Formation","Instruction Nationale des Formateurs"],correct:1,expl:"INF = Institut National de Formation de la JCI Togo."},
+{type:'vf',q:"L'INF est placé sous l'autorité de la JCI TOGO.",correct:true,expl:"Correct ! L'INF est placé sous l'autorité de la JCI TOGO et ses rapports sont transmis au Comité Directeur National."},
+{type:'qcm',q:"Que signifie l'acronyme AGF ?",choices:["Assemblée Générale des Formateurs","Association Générale des Formateurs","Assemblée Globale des Formateurs","Autorité Générale des Formateurs"],correct:0,expl:"AGF = Assemblée Générale des Formateurs, l'autorité suprême de l'INF."},
+{type:'vf',q:"Un membre peut voter à l'AGF même s'il n'est pas en situation honorable.",correct:false,expl:"Faux ! Nul ne peut voter s'il n'est en situation honorable au sein de l'Institut."},
+{type:'qcm',q:"Quel est le grade le plus élevé dans le système de certification de l'INF ?",choices:["Formateur Local Alpha","Formateur National Alpha","Formateur International Junior","Formateur International Sénior"],correct:3,expl:"Le Formateur International Sénior (FIS) est le grade le plus élevé."},
+{type:'vf',q:"Le programme de formation de la JCI Togo a été développé à l'initiative de la JCI Lomé Azur et de la JCI Lomé Cocotier.",correct:true,expl:"Exact ! Le programme est issu d'une étude expérimentale à l'initiative de la JCI Lomé Azur et de la JCI Lomé Cocotier."},
+{type:'qcm',q:"Que signifie CFF ?",choices:["Cours de Formation des Formateurs","Certificat de Formation des Formateurs","Centre de Formation des Formateurs","Cours Fondamental des Formateurs"],correct:0,expl:"CFF = Cours de Formation des Formateurs, obligatoire pour le grade Formateur Alpha."},
+{type:'vf',q:"Le Directeur de l'INF préside toutes les réunions de l'Institut.",correct:true,expl:"Correct ! Le Directeur de l'INF préside toutes les réunions de l'Institut."},
+{type:'qcm',q:"Que signifie CCM ?",choices:["Cours de Certification des Modules","Cours de Conception de Module","Centre de Coordination des Modules","Cours de Créativité et Management"],correct:1,expl:"CCM = Cours de Conception de Module, requis pour le grade de Formateur National Alpha."},
+{type:'vf',q:"Le siège de l'INF peut être transféré par décision de l'Assemblée Générale Nationale de la JCI TOGO.",correct:true,expl:"Exact ! Le siège peut être transféré à tout autre endroit du territoire national sur décision de l'AGN."},
+{type:'qcm',q:"Combien de membres composent la Commission Nationale de Certification (CNC) ?",choices:["3 membres","4 membres","5 membres","7 membres"],correct:2,expl:"La CNC est composée de cinq (5) membres : le Directeur et quatre membres."},
+{type:'vf',q:"Le siège de l'INF est à Kara.",correct:false,expl:"Faux ! Le siège de l'INF est fixé à Lomé, au siège de la JCI TOGO."},
+{type:'qcm',q:"Que signifie CDN ?",choices:["Comité Directeur National","Conseil Délibérant National","Commission Directrice Nationale","Comité de Direction Nationale"],correct:0,expl:"CDN = Comité Directeur National, l'organe directeur de la JCI TOGO."},
+{type:'vf',q:"La JCI signifie Jeune Chambre Internationale.",correct:true,expl:"Correct ! JCI = Jeune Chambre Internationale."},
+{type:'qcm',q:"Combien de présentations efficaces faut-il avoir animées pour être éligible au CFF ?",choices:["3 présentations","5 présentations","7 présentations","10 présentations"],correct:1,expl:"Il faut avoir animé 5 présentations efficaces après avoir reçu un diplôme du cours Présenter."},
+{type:'vf',q:"Tout membre de la JCI peut directement devenir Formateur Alpha sans conditions préalables.",correct:false,expl:"Faux ! Il faut avoir reçu un diplôme du cours Présenter, animé 5 présentations efficaces, et réussi le CFF."},
+{type:'qcm',q:"Quel organe reçoit les rapports de l'INF ?",choices:["L'AGF","Le CPS","Le Comité Directeur National","La CNC"],correct:2,expl:"Les rapports de l'INF sont transmis au Comité Directeur National (CDN)."},
+{type:'vf',q:"L'INF organise l'Académie des présidents locaux chaque année.",correct:true,expl:"Exact ! L'Article 61 prévoit que l'INF organisera chaque année l'Académie des présidents locaux."},
+{type:'qcm',q:"Combien d'organes principaux l'INF possède-t-il ?",choices:["2 organes","3 organes","4 organes","5 organes"],correct:2,expl:"4 organes : l'AGF, la Commission Nationale de Certification (CNC), le Comité de Planification Stratégique (CPS) et les Comités ad hoc."},
+{type:'vf',q:"Le règlement intérieur de l'INF a été rédigé à Lomé le 02 février 2022.",correct:true,expl:"Exact ! Le règlement intérieur a été fait à Lomé le 02 février 2022."},
+{type:'qcm',q:"Quelle est la tranche d'âge JCI pour les membres actifs ?",choices:["15 à 35 ans","18 à 40 ans","18 à 45 ans","20 à 40 ans"],correct:1,expl:"La limite d'âge des membres est de dix-huit (18) ans au minimum et quarante (40) ans au maximum."},
+{type:'vf',q:"L'INF est politiquement neutre et s'abstient de toutes activités partisanes.",correct:true,expl:"Exact ! L'Article 10 stipule que l'INF doit s'abstenir de toutes activités partisanes ou politiques."},
+{type:'qcm',q:"Que signifie FIS ?",choices:["Formateur Indépendant Senior","Formateur International Sénior","Formation Intensive Spécialisée","Formateur Interne Sénior"],correct:1,expl:"FIS = Formateur International Sénior, le plus haut grade de l'INF."},
+{type:'vf',q:"L'INF peut transférer son siège dans un autre pays.",correct:false,expl:"Faux ! Le siège ne peut être transféré qu'à tout autre endroit du territoire NATIONAL."},
+{type:'qcm',q:"Quel cours officiel JCI doit maîtriser un candidat au poste de Directeur de l'INF ?",choices:["Discover et Leader","Presenter et Leader","Discover et Presenter","Manager et Presenter"],correct:2,expl:"Le candidat doit être certifié et avoir animé au moins une fois les cours JCI Discover et Presenter."},
+{type:'vf',q:"L'INF s'abstient de toutes activités sectaires ou religieuses.",correct:true,expl:"Correct ! L'Article 10 précise que l'INF s'abstient de toute activité sectaire ou religieuse."},
+{type:'qcm',q:"Quel est le rôle du Trésorier Général de l'INF ?",choices:["Animer les formations","Gérer les finances et préparer le budget","Représenter l'INF à l'international","Recruter les nouveaux formateurs"],correct:1,expl:"Le Trésorier Général prépare et exécute le budget, est responsable des comptes et présente le rapport financier à l'AGF."},
+{type:'vf',q:"Le Secrétaire Général de l'INF remplace le Directeur en cas d'indisponibilité.",correct:true,expl:"Exact ! Le Secrétaire Général remplace le Directeur en cas d'indisponibilité."},
+{type:'qcm',q:"À quelle occasion se tient la première partie de l'AGF ?",choices:["À la réunion mensuelle","À la Convention Nationale","Au Congrès mondial JCI","À la Conférence de zone"],correct:1,expl:"À chaque Convention Nationale, il est organisé la première partie de l'AGF."},
+{type:'vf',q:"Le fondateur de la JCI s'appelle Henry Giessembier Jr.",correct:true,expl:"Correct ! L'Article 12 mentionne Henry Giessembier Jr. comme fondateur de la JCI."},
+]},
+
+// ══════════════ NIVEAU 2 — APPRENTI (40 questions) ══════════════
+{name:'Niveau 2',label:'Apprenti',icon:'📘',questions:[
+{type:'qcm',q:"Combien d'heures de formation faut-il animer pour passer de Formateur Alpha à Formateur Local Alpha ?",choices:["10 heures","15 heures","20 heures","25 heures"],correct:1,expl:"Il faut animer 15 heures au total : 10h en tant qu'assistant + 5h en tant que formateur principal."},
+{type:'vf',q:"Un Formateur Alpha doit avoir été certifié depuis au moins 6 mois avant de pouvoir soumettre son dossier pour le grade FL.",correct:true,expl:"Correct ! Un délai minimum de 6 mois en tant que Formateur Alpha est exigé avant de soumettre son dossier FL."},
+{type:'qcm',q:"Quel cours est obligatoire pour accéder au grade de Formateur National Alpha (FN) ?",choices:["CFF","CFF puis CLT","CCM","CNT"],correct:2,expl:"Le CCM (Cours de Conception de Module) est requis pour obtenir le grade de Formateur National Alpha."},
+{type:'vf',q:"La vision de l'INF est d'être la plus dynamique et la plus grande école de formation au développement personnel.",correct:true,expl:"Exact ! C'est la vision définie à l'Article 4 du Règlement Intérieur de l'INF."},
+{type:'qcm',q:"Combien d'heures de formation un Formateur Alpha peut-il valider au maximum par jour ?",choices:["3 heures","4 heures","6 heures","8 heures"],correct:1,expl:"Les Formateurs Alpha ne peuvent pas valider plus de 4 heures de formations par jour."},
+{type:'vf',q:"Le Directeur de l'INF a une voix délibérative au sein du Comité Directeur National.",correct:false,expl:"Faux ! Le Directeur est membre du CDN mais SANS voix délibérative."},
+{type:'qcm',q:"Quelle est la durée d'un mandat au bureau de l'INF ?",choices:["6 mois","1 an","2 ans","3 ans"],correct:1,expl:"Le mandat est d'une (1) année civile, du 1er janvier au 31 décembre."},
+{type:'vf',q:"Les valeurs de l'INF incluent : pertinence, excellence, confiance, transparence, créativité et discipline.",correct:true,expl:"Exact ! Ce sont bien les 6 valeurs fondamentales de l'INF citées à l'Article 9 du Règlement Intérieur."},
+{type:'qcm',q:"Comment se répartissent les 15 heures requises pour le grade de Formateur Local Alpha ?",choices:["5h assistant + 10h principal","10h assistant + 5h principal","15h en tant que principal uniquement","7h assistant + 8h principal"],correct:1,expl:"10 heures en tant qu'assistant d'un formateur principal + 5 heures en tant que formateur principal."},
+{type:'vf',q:"Un Formateur Alpha peut valider jusqu'à 6 heures de formation par jour.",correct:false,expl:"Faux ! Un Formateur Alpha ne peut valider que 4 heures maximum par jour. La limite de 6h s'applique aux grades suivants."},
+{type:'qcm',q:"Pour le grade de Formateur National Alpha, combien d'heures faut-il animer au total ?",choices:["15 heures","20 heures","25 heures","30 heures"],correct:2,expl:"Le Formateur National Alpha doit animer 25 heures de formations dans des organisations locales membres de la JCI Togo."},
+{type:'vf',q:"L'AGF se réunit en session ordinaire chaque trimestre.",correct:false,expl:"Faux ! L'AGF se réunit en session ordinaire chaque SEMESTRE (deux fois par an)."},
+{type:'qcm',q:"Quel est le quorum requis pour l'Assemblée Générale des Formateurs ?",choices:["1/3 des membres","Majorité absolue (50%+1)","2/3 des membres","3/4 des membres"],correct:1,expl:"Le quorum est la majorité absolue : 50% + une unité de voix des membres à jour."},
+{type:'vf',q:"L'INF fait la promotion du Credo de la JCI comme proclamé dans la Constitution JCI.",correct:true,expl:"Exact ! L'Article 7 stipule que l'INF fait la promotion du Credo de la JCI."},
+{type:'qcm',q:"Quelle est la mission de la JCI selon le Règlement de l'INF ?",choices:["Former les jeunes au leadership","Offrir aux jeunes des opportunités de développement","Promouvoir l'entrepreneuriat","Organiser des conférences internationales"],correct:1,expl:"La mission de la JCI est d'offrir aux jeunes gens des opportunités de développement en leur donnant la capacité de créer des changements positifs."},
+{type:'vf',q:"Un formateur inactif pendant 18 mois (moins de 3 formations) peut être rétrogradé.",correct:true,expl:"Exact ! Tout formateur inactif pendant 18 mois sera rétrogradé et devra suivre un cours de recyclage."},
+{type:'qcm',q:"Combien d'heures minimum un Formateur National Alpha doit-il animer hors de son Organisation Locale ?",choices:["5 heures","8 heures","10 heures","15 heures"],correct:2,expl:"Sur les 25h requises, au moins 10 heures doivent être animées hors de son Organisation Locale d'appartenance."},
+{type:'vf',q:"Le Secrétaire Général de l'INF est le porte-parole de l'Institut.",correct:true,expl:"Correct ! Le Secrétaire Général est le porte-parole de l'INF et centralise les informations."},
+{type:'qcm',q:"Combien de voix chaque membre de l'INF possède-t-il lors des votes à l'AGF ?",choices:["2 voix","1 voix","3 voix selon le grade","Autant de voix que ses années de certification"],correct:1,expl:"Les membres de l'INF ont chacun une (1) voix. Les votes par procuration ne sont pas autorisés."},
+{type:'vf',q:"Le Directeur sortant dispose d'un droit de vote lors des réunions de l'INF.",correct:false,expl:"Faux ! Lorsqu'il participe aux réunions, le directeur sortant n'a PAS droit de vote."},
+{type:'qcm',q:"Avant quel jour du mois le Trésorier Général doit-il envoyer son rapport mensuel ?",choices:["Le 01 du mois suivant","Le 05 du mois suivant","Le 10 du mois suivant","Le 15 du mois suivant"],correct:1,expl:"Un point mensuel doit être envoyé au TG National au plus tard le 05 du mois suivant."},
+{type:'vf',q:"Un Formateur Local Alpha peut valider plus de 6 heures de formation par jour.",correct:false,expl:"Faux ! Le Formateur Local Alpha ne peut valider plus de 6 heures de formation par jour (et pas plus)."},
+{type:'qcm',q:"Que signifie OL dans le contexte de la JCI ?",choices:["Organisation Locale","Ordre du Leadership","Organisation de Leadership","Officier Local"],correct:0,expl:"OL = Organisation Locale, l'unité de base de la JCI au niveau local."},
+{type:'vf',q:"Le Formateur Local Alpha qui n'a pas ses heures ne peut soumettre son dossier avant 6 mois comme Formateur Alpha.",correct:true,expl:"Exact ! La demande d'éligibilité FL n'est recevable qu'après au moins 6 mois en tant que Formateur Alpha."},
+{type:'qcm',q:"Qui assure l'intérim en cas de vacance du poste de Directeur de l'INF ?",choices:["Le Trésorier Général","Le Secrétaire Général","Le Directeur sortant","Le membre le plus ancien"],correct:1,expl:"En cas de vacance de poste du Directeur, le Secrétaire Général assure l'intérim."},
+{type:'vf',q:"L'INF peut s'engager dans des activités politiques pour défendre les intérêts des formateurs.",correct:false,expl:"Faux ! L'INF doit s'abstenir de toutes activités partisanes ou politiques."},
+{type:'qcm',q:"Comment sont élus les membres du bureau de l'INF ?",choices:["Par le Comité Directeur National","En Assemblée Générale des Formateurs à la Convention Nationale","Par vote électronique","Par le Directeur sortant"],correct:1,expl:"Les membres du bureau sont élus en AGF à la Convention Nationale pour une période d'un an."},
+{type:'vf',q:"L'exercice budgétaire de l'INF correspond à l'année civile (1er janvier au 31 décembre).",correct:true,expl:"Exact ! L'Article 46 précise que l'exercice budgétaire correspond à l'année civile."},
+{type:'qcm',q:"Que signifie CPS ?",choices:["Conseil de Planification Stratégique","Comité de Planification Stratégique","Commission de Pilotage Stratégique","Comité de Préparation Stratégique"],correct:1,expl:"CPS = Comité de Planification Stratégique, nommé tous les 3 à 5 ans."},
+{type:'vf',q:"Pour être éligible au CFF, il faut d'abord avoir obtenu un diplôme du cours Présenter JCI.",correct:true,expl:"Exact ! Tout membre qui a reçu un diplôme du cours Présenter et animé 5 présentations efficaces est éligible au CFF."},
+{type:'qcm',q:"À quelle fréquence chaque formateur doit-il informer le Directeur de Formation de ses heures ?",choices:["Chaque mois","Chaque trimestre","Chaque semestre","Chaque année"],correct:1,expl:"Tous les formateurs doivent tenir à jour leur compte des heures et tenir informé le DIF à chaque trimestre."},
+{type:'vf',q:"La mission de l'INF inclut la formation à l'entrepreneuriat.",correct:true,expl:"Exact ! La mission de l'INF est de garantir une formation au leadership, au management, à l'entrepreneuriat et une formation des formateurs."},
+{type:'qcm',q:"Quel document décrit les étapes de développement du Plan d'Action de l'INF ?",choices:["Le Règlement Intérieur","Le Plan de Développement Stratégique","Le Manuel des Récompenses","La Constitution JCI"],correct:1,expl:"Le Plan d'Action de l'INF doit s'inspirer du Plan de Développement Stratégique dont il est la tranche annuelle."},
+{type:'vf',q:"Le budget annuel de l'INF est intégré au Budget Général annuel de la JCI TOGO.",correct:true,expl:"Exact ! L'Article 45 précise que ce budget doit être intégré au Budget Général annuel de la JCI TOGO."},
+{type:'qcm',q:"Combien de superviseurs faut-il avoir animé de cours officiels en tant que formateur principal pour être superviseur ?",choices:["1 cours","2 cours","3 cours","5 cours"],correct:2,expl:"Les formateurs expérimentés ayant animé au moins trois (03) cours officiels en tant que formateur principal sont dénommés superviseurs."},
+{type:'vf',q:"Les cours JCI officiels peuvent être comptabilisés comme heures de formation dans le processus de certification.",correct:true,expl:"Exact ! Les cours JCI (officiels, de leadership, libres et recommandés) seront comptabilisés comme heure locale ou internationale selon l'ONM."},
+{type:'qcm',q:"Combien d'anciens directeurs font partie du Comité des Candidatures ?",choices:["1 ancien directeur","2 anciens directeurs","3 anciens directeurs","4 anciens directeurs"],correct:1,expl:"Le Comité des Candidatures comprend le Directeur sorti (qui le préside) et les deux (02) derniers Directeurs."},
+{type:'vf',q:"L'INF peut avoir des comités ad hoc pour des tâches urgentes.",correct:true,expl:"Exact ! L'Article 33 prévoit que le Directeur peut mettre sur pied des comités ad hoc pour des tâches urgentes."},
+{type:'qcm',q:"Quel est l'objectif de l'Académie des présidents locaux ?",choices:["Certifier de nouveaux formateurs","Renforcer les capacités des futurs dirigeants locaux et responsables nationaux","Élire le nouveau Directeur","Réviser le règlement intérieur"],correct:1,expl:"L'Académie des présidents locaux vise à renforcer les capacités des futurs dirigeants de la JCI TOGO au niveau local et responsables nationaux."},
+{type:'vf',q:"L'INF s'engage pour l'instauration d'une paix mondiale véritable et éternelle.",correct:true,expl:"Exact ! L'Article 12 stipule que l'INF s'engage à lutter à travers ses activités de formation pour l'instauration d'une paix mondiale."},
+]},
+
+// ══════════════ NIVEAU 3 — CONFIRMÉ (40 questions) ══════════════
+{name:'Niveau 3',label:'Confirmé',icon:'⚡',questions:[
+{type:'qcm',q:"Pour le Formateur International Junior, combien d'heures de formation à l'international faut-il avec quel minimum de modules ?",choices:["5h et 2 modules","10h et 3 modules","15h et 3 modules","10h et 4 modules"],correct:1,expl:"10 heures de formation à l'international avec un minimum de trois (3) modules différents."},
+{type:'vf',q:"Le module conçu pour le grade FIJ doit avoir une durée de 3 à 4 heures.",correct:false,expl:"Faux ! Pour le FIJ, le module doit durer 1 à 2 heures. La durée de 3-4h est requise pour le grade FIS."},
+{type:'qcm',q:"Combien d'heures de formation maximum un Formateur Local Alpha peut-il valider par jour ?",choices:["4 heures","5 heures","6 heures","8 heures"],correct:2,expl:"Le Formateur Local Alpha ne peut valider plus de 6 heures de formation par jour."},
+{type:'vf',q:"Pour le grade FN, il faut animer 25 heures dont au moins 10h hors de son Organisation Locale.",correct:true,expl:"Exact ! 25 heures dans les organisations locales de la JCI Togo dont au moins 10 heures hors de son OL d'appartenance."},
+{type:'qcm',q:"Combien d'heures totales faut-il animer pour le grade de Formateur International Sénior (FIS) ?",choices:["15 heures","20 heures","25 heures","30 heures"],correct:2,expl:"Il faut animer 25 heures au total : 10h dans les OL de la JCI Togo (hors OL) + 15h à l'international."},
+{type:'vf',q:"Le module de formation conçu par un formateur doit être validé par la Commission Nationale de Certification.",correct:true,expl:"Exact ! Le module de formation conçu par le formateur doit être validé par la commission nationale de certification de la JCI Togo."},
+{type:'qcm',q:"Combien de modules différents minimum le FIS doit-il avoir animés à l'international ?",choices:["2 modules","3 modules","4 modules","5 modules"],correct:2,expl:"Le Formateur International Sénior doit avoir animé ses heures internationales avec un minimum de quatre (4) modules différents."},
+{type:'vf',q:"Pour le FIS, les 15 heures internationales doivent être réalisées avec au moins 4 modules différents.",correct:true,expl:"Exact ! Le FIS doit animer 15h à l'international avec un minimum de quatre (4) modules différents."},
+{type:'qcm',q:"Que doit contenir un module de formation complet selon les exigences de certification ?",choices:["Guide formateur + Manuel participant","Guide formateur + Diapositive PowerPoint","Guide formateur + Manuel participant + Diapositives PowerPoint","Manuel participant + Diapositive PowerPoint"],correct:2,expl:"Un module complet comprend : Guide de formateur + Manuel du participant + Diapositive Power Point."},
+{type:'vf',q:"Le module du FIS doit durer de 1 à 2 heures.",correct:false,expl:"Faux ! Le module du FIS doit durer de demi-journée, soit 3 à 4 heures. C'est celui du FIJ qui dure 1 à 2 heures."},
+{type:'qcm',q:"Quel est le format du numéro d'identification (NIF) d'un Formateur International Sénior ?",choices:["NIF/FIS/2022","001/FIS/22","FIS-001-22","22/FIS/001"],correct:1,expl:"Le format est : ordre/FIS/deux derniers chiffres de l'année. Exemple : 001/FIS/22 pour 2022."},
+{type:'vf',q:"Pour le grade FIJ, les 15 heures nationales doivent être animées dans des OL autres que son OL d'appartenance.",correct:true,expl:"Exact ! Les 15 heures nationales pour le FIJ sont animées dans les organisations locales de la JCI Togo autres que son organisation locale."},
+{type:'qcm',q:"Un formateur inactif depuis combien de mois peut-il être rétrogradé ?",choices:["6 mois","12 mois","18 mois","24 mois"],correct:2,expl:"Tout formateur (tout grade) inactif pendant une durée de dix-huit (18) mois sera rétrogradé."},
+{type:'vf',q:"Après rétrogradation pour inactivité, un formateur peut immédiatement animer des formations.",correct:false,expl:"Faux ! Un formateur rétrogradé doit suivre le cours de recyclage AVANT toute formation."},
+{type:'qcm',q:"Combien d'heures nationales (hors OL) doit animer un FIJ sur les 25h requises ?",choices:["5 heures","10 heures","15 heures","20 heures"],correct:2,expl:"Le FIJ doit animer 15 heures dans les organisations locales de la JCI Togo (autre que son organisation locale)."},
+{type:'vf',q:"La Commission Nationale de Certification accompagne les formateurs dans le processus de certification.",correct:true,expl:"Exact ! L'attribution de la CNC inclut d'accompagner les formateurs dans le processus de certification."},
+{type:'qcm',q:"De combien de membres est composé le Comité de Planification Stratégique (CPS) ?",choices:["4 membres","5 membres","6 membres","7 membres"],correct:3,expl:"7 membres : 2 anciens Directeurs + le VP Exécutif National + le SG National + 2 formateurs expérimentés + le Directeur en exercice."},
+{type:'vf',q:"Le Comité de Planification Stratégique est nommé tous les 3 à 5 ans.",correct:true,expl:"Exact ! L'Article 27 prévoit un CPS nommé tous les 3 ans au moins et tous les 5 ans au plus."},
+{type:'qcm',q:"Qui préside le Comité de Planification Stratégique ?",choices:["Le Directeur en exercice","Le Vice-Président Exécutif National","Un des anciens Directeurs","Le Secrétaire Général National"],correct:2,expl:"Le président sera désigné parmi les anciens directeurs."},
+{type:'vf',q:"Les cours JCI officiels comptent comme heures locales ou internationales selon l'Organisation Nationale Membre.",correct:true,expl:"Exact ! Les cours JCI (officiels, de leadership, libres et recommandés) seront comptabilisés selon l'organisation Nationale Membre."},
+{type:'qcm',q:"Que doit faire le Comité de Planification Stratégique durant la dernière année de mise en œuvre de son plan ?",choices:["Rédiger un nouveau plan immédiatement","Évaluer le plan en cours","Dissoudre le comité","Élire un nouveau directeur"],correct:1,expl:"Un Plan de Développement Stratégique doit faire l'objet d'une évaluation au cours de la dernière année de sa mise en œuvre."},
+{type:'vf',q:"Pour le FN, il faut également être certifié sur le cours CCM.",correct:true,expl:"Exact ! Le formateur Local sera certifié Formateur National Alpha après avoir suivi avec succès le cours CCM."},
+{type:'qcm',q:"Combien de temps avant l'AGF élective le Comité des Candidatures doit-il être investi ?",choices:["15 jours","20 jours","30 jours","45 jours"],correct:2,expl:"Ce Comité est investi au moins trente (30) jours avant l'Assemblée Générale Élective."},
+{type:'vf',q:"Le Secrétaire de l'INF prépare les ordres du jour des réunions avec le Directeur.",correct:true,expl:"Exact ! Le Secrétaire Général prépare avec le Directeur de l'Institut les ordres du jour des réunions."},
+{type:'qcm',q:"Quelle est la durée du module de formation requis pour le grade FIJ ?",choices:["30 minutes à 1 heure","1 à 2 heures","2 à 3 heures","3 à 4 heures"],correct:1,expl:"Le module pour le FIJ doit être d'une durée d'une à deux heures (1 à 2 heures)."},
+{type:'vf',q:"La CNC peut sanctionner les formateurs malveillants.",correct:true,expl:"Exact ! La CNC peut sanctionner les formateurs malveillants (fausses informations, non-respect des critères...)."},
+{type:'qcm',q:"Combien d'heures nationales (dans d'autres OL) le FIS doit-il animer sur les 25h ?",choices:["5 heures","10 heures","15 heures","20 heures"],correct:1,expl:"Le FIS doit animer 10 heures dans les organisations locales de la JCI Togo (autre que son organisation locale)."},
+{type:'vf',q:"Un Formateur Alpha en reclassement qui n'a pas validé ses heures avant le 31 décembre doit repasser le CFF.",correct:true,expl:"Exact ! Règle transitoire 4 : tout formateur qui n'aura pas validé ses heures avant le 31 décembre devra suivre le CFF."},
+{type:'qcm',q:"Quelle partie de l'AGF sert à l'adoption du plan d'action ?",choices:["La première partie à la Convention","La deuxième partie après la Convention","La session extraordinaire","La session trimestrielle"],correct:1,expl:"La deuxième partie (après la Convention Nationale) sert de cadre pour l'étude et adoption du plan d'action."},
+{type:'vf',q:"Un formateur qui a commis des actes répréhensibles peut être sanctionné par le Bureau de l'INF.",correct:true,expl:"Exact ! Les formateurs ayant commis des actes répréhensibles peuvent être sanctionnés par le Bureau de l'INF."},
+{type:'qcm',q:"Qui co-signe les opérations de décaissement sur le compte bancaire de l'INF ?",choices:["Directeur + Trésorier uniquement","Président National + Directeur + Trésorier","Le Bureau au complet + CDN","Le CDN seul"],correct:1,expl:"Les opérations de décaissement sont co-signées par le Président National, le Directeur de l'INF et le Trésorier Général."},
+{type:'vf',q:"Le Comité des Candidatures est présidé par le Directeur en exercice.",correct:false,expl:"Faux ! Le Comité des Candidatures est présidé par le Directeur SORTI (sortant), et non le Directeur en exercice."},
+{type:'qcm',q:"Pour le FN, depuis combien de mois doit-il être FL avant de soumettre son dossier ?",choices:["3 mois","6 mois","9 mois","12 mois"],correct:1,expl:"La demande d'éligibilité pour accéder au grade FN sera recevable après au moins 6 mois en tant que Formateur Local Alpha."},
+{type:'vf',q:"La CNC aide à concevoir et développer des modules de formation en conformité avec la mission de la JCI.",correct:true,expl:"Exact ! La CNC aide à concevoir et à développer des modules de formation en conformité avec la Mission et la Vision de la JCI Togo."},
+{type:'qcm',q:"Combien de voix faut-il pour adopter une sanction grave (suspension/radiation) à l'AGF ?",choices:["Majorité simple","2/3 des membres de l'AGF","3/4 des membres","Unanimité"],correct:1,expl:"Les mesures graves (suspension, radiation) doivent être approuvées par une majorité de 2/3 de l'AGF."},
+{type:'vf',q:"Les Commissaires aux comptes de la JCI TOGO peuvent auditer les comptes de l'INF à tout moment.",correct:true,expl:"Exact ! L'Article 53.2 précise que les Commissaires aux comptes peuvent à tout moment auditer les comptes de l'INF."},
+{type:'qcm',q:"Quand entrent en vigueur les amendements au Règlement Intérieur (sauf disposition contraire) ?",choices:["Immédiatement après adoption","Le 1er juillet suivant","Le 1er janvier suivant","6 mois après adoption"],correct:2,expl:"Sauf disposition contraire, tous les amendements entrent en vigueur le 1er janvier suivant la date à laquelle ils ont été adoptés."},
+{type:'vf',q:"Le Trésorier fait préparer les comptes par un comité des finances de la JCI Togo.",correct:true,expl:"Exact ! Le Trésorier Général fait préparer les comptes de l'exercice et les fait expertiser par un comité des finances de la JCI Togo."},
+{type:'qcm',q:"Que fait la 1ère partie de l'AGF à la Convention Nationale ?",choices:["Adoption du plan d'action","Bilan + élections + information + reconnaissance des mérites","Révision du règlement intérieur","Certification des nouveaux formateurs"],correct:1,expl:"La 1ère partie de l'AGF sert de cadre au bilan, aux élections, à l'information générale, à la reconnaissance des mérites et aux retrouvailles."},
+{type:'vf',q:"Les formateurs ayant dépassé 40 ans ne peuvent en aucun cas continuer à être membres de l'INF.",correct:false,expl:"Faux ! Les membres atteignant 40 ans en cours d'année civile conservent leur affiliation jusqu'à la fin de celle-ci. Des dérogations existent aussi."},
+]},
+
+// ══════════════ NIVEAU 4 — AVANCÉ (40 questions) ══════════════
+{name:'Niveau 4',label:'Avancé',icon:'🔥',questions:[
+{type:'qcm',q:"Pour être candidat au poste de Directeur de l'INF, quelle ancienneté minimum de carrière de formateur est requise après le CFF ?",choices:["1 an","2 ans","3 ans","5 ans"],correct:2,expl:"Le candidat doit avoir une ancienneté d'au moins 3 ans de carrière de formateur après avoir suivi le Cours de Formation des Formateurs."},
+{type:'vf',q:"Le Secrétaire Général de l'INF doit être certifié au moins Formateur National Alpha.",correct:false,expl:"Faux ! Le Secrétaire Général doit être certifié au moins Formateur LOCAL Alpha (pas National)."},
+{type:'qcm',q:"Quel organe prononce la suspension temporaire ou la radiation d'un formateur ?",choices:["Le Bureau de l'INF","Le CDN","L'AGF","La CNC"],correct:1,expl:"La suspension temporaire et la radiation sont prononcées par le CDN, après avis motivé soumis par le Bureau de l'INF."},
+{type:'vf',q:"Selon les règles transitoires, les anciens formateurs CLT sont classés Formateurs Locaux Alpha dans le nouveau système.",correct:true,expl:"Exact ! La règle transitoire n°6 stipule : les anciens formateurs CLT sont de grade Formateur Local Alpha dans le nouveau système."},
+{type:'qcm',q:"Quelle majorité est requise pour amender le Règlement Intérieur de l'INF en urgence à l'AGF ?",choices:["Majorité simple","2/3 des membres de l'AGF","3/4 des membres","Unanimité"],correct:1,expl:"Un vote à la majorité des deux tiers (2/3) de l'AGF est nécessaire pour un amendement en urgence."},
+{type:'vf',q:"Selon les règles transitoires, les anciens formateurs CNT sont classés Formateurs Nationaux Alpha dans le nouveau système.",correct:true,expl:"Exact ! La règle transitoire n°8 : les anciens formateurs CNT sont de grade Formateur National Alpha dans le nouveau système."},
+{type:'qcm',q:"Un ancien formateur CNT ayant 25h+ dont 10h internationale dans 2 pays et un module de 2h peut faire quoi directement ?",choices:["Devenir FIS","Soumettre son dossier FIJ","Devenir Directeur de l'INF","Sauter au grade FN"],correct:1,expl:"Règle transitoire n°9 : ces anciens CNT peuvent directement soumettre leur dossier pour obtenir un reclassement au grade FIJ."},
+{type:'vf',q:"Un responsable peut occuper deux fois le même poste au bureau de l'INF.",correct:false,expl:"Faux ! Aucun responsable ne peut occuper deux fois le même poste (sauf le cas prévu à l'Art. 44 pour la vacance du Directeur)."},
+{type:'qcm',q:"Quel grade minimum faut-il pour siéger à la Commission Nationale de Certification (selon le Règlement Intérieur) ?",choices:["Formateur Alpha","Formateur Local Alpha","Formateur National Alpha","FIJ ou FIS"],correct:3,expl:"Selon le Règlement Intérieur (Art. 31), les membres de la CNC doivent avoir obtenu le statut de FIS ou FIJ avant leur nomination."},
+{type:'vf',q:"Le Blâme et l'Avertissement sont prononcés par le Bureau de l'INF avec compte rendu au CDN.",correct:true,expl:"Exact ! Le Blâme et l'avertissement sont prononcés par le Bureau de l'Institut avec compte rendu au Comité Directeur National."},
+{type:'qcm',q:"Dans quel délai le Comité des Candidatures doit-il être investi avant l'AGF élective ?",choices:["15 jours","20 jours","30 jours","45 jours"],correct:2,expl:"Ce Comité est investi au moins trente (30) jours avant l'Assemblée Générale Élective."},
+{type:'vf',q:"Un candidat au poste de Directeur INF doit avoir siégé au moins une fois dans le bureau de l'INF.",correct:true,expl:"Exact ! Le candidat au poste de Directeur doit avoir siégé au moins un (01) an dans le bureau de l'Institut National de Formation."},
+{type:'qcm',q:"Quel est l'ordre correct des sanctions de l'INF du moins grave au plus grave ?",choices:["Avertissement → Blâme → Suspension → Radiation","Blâme → Avertissement → Suspension temporaire → Radiation","Suspension → Blâme → Avertissement → Radiation","Radiation → Suspension → Avertissement → Blâme"],correct:1,expl:"L'ordre est : Blâme → Avertissement → Suspension temporaire (en cas de persistance/première récidive) → Radiation (en cas de deuxième récidive)."},
+{type:'vf',q:"Les anciens formateurs IG sont de grade Formateur International Junior dans le nouveau système.",correct:true,expl:"Exact ! La règle transitoire n°11 : les anciens formateurs IG sont de grade Formateur International Junior."},
+{type:'qcm',q:"Que doivent faire les anciens formateurs NG avant d'être reclassés Formateurs Internationaux Juniors ?",choices:["Rien, ils sont directement reclassés","Animer 10h à l'international dans 2 autres pays","Suivre le cours CCM","Attendre 3 ans"],correct:1,expl:"Règle transitoire n°10 : les anciens formateurs NG doivent animer au moins dix heures de formation à l'international dans 2 autres pays."},
+{type:'vf',q:"Les anciens formateurs ITF sont de grade Formateur International Sénior dans le nouveau système.",correct:true,expl:"Exact ! La règle transitoire n°12 : les anciens formateurs ITF sont de grade Formateur International Senior dans le nouveau système."},
+{type:'qcm',q:"Quel est le préavis requis pour convoquer une AGF extraordinaire ?",choices:["3 jours","5 jours","8 jours","15 jours"],correct:2,expl:"La convocation doit être envoyée huit (8) jours avant la date de la réunion extraordinaire."},
+{type:'vf',q:"Le Directeur INF voyage sur les fonds propres de l'INF pour ses visites aux OL de l'intérieur.",correct:true,expl:"Exact ! L'Article 52 précise que le Directeur voyage sur les fonds propres de l'INF pour les frais liés à son transport."},
+{type:'qcm',q:"Quel pourcentage de l'AGF peut convoquer une session extraordinaire ?",choices:["1/4 des membres","1/3 des membres","1/2 des membres","2/3 des membres"],correct:1,expl:"Une session extraordinaire peut être convoquée par la majorité du 1/3 de l'AGF, ou par le Directeur avec préavis de 8 jours."},
+{type:'vf',q:"Le candidat au poste de Directeur doit être certifié au moins Formateur International Junior.",correct:false,expl:"Faux ! Le candidat doit être certifié au moins Formateur NATIONAL Alpha (pas nécessairement FIJ)."},
+{type:'qcm',q:"Que se passe-t-il en cas de décès ou incapacité du Directeur de l'INF ?",choices:["Le Trésorier assure l'intérim","Le Secrétaire assure l'intérim jusqu'à l'élection du nouveau Directeur","Le Directeur sortant reprend son poste","Le CDN nomme directement un remplaçant"],correct:1,expl:"Article 44 : en cas de décès, d'incapacité ou de démission, le secrétaire de l'INF assure l'intérim jusqu'à l'élection du nouveau Directeur."},
+{type:'vf',q:"Les anciens formateurs Prime/Trainer avec certification > 3 ans peuvent être automatiquement reclassés Formateurs Alpha.",correct:false,expl:"Faux ! Ces formateurs devront passer à nouveau le cours de formation des formateurs (CFF) pour être certifiés Formateur Alpha."},
+{type:'qcm',q:"Quel rôle joue le Directeur en exercice dans le Comité des Candidatures ?",choices:["Il le préside","Il en est le secrétaire","Il en est le rapporteur sans droit de vote","Il n'en fait pas partie"],correct:2,expl:"Le Directeur en exercice est le rapporteur du Comité des Candidatures. Ce dernier ne dispose pas d'un droit de vote."},
+{type:'vf',q:"Le Plan de Développement Stratégique doit être évalué avant qu'un nouveau plan soit élaboré.",correct:true,expl:"Exact ! L'Article 29 prévoit qu'un Plan doit faire l'objet d'une évaluation au cours de la dernière année de sa mise en œuvre."},
+{type:'qcm',q:"À quel Comité transmet-on le Plan d'Action après adoption par l'AGF ?",choices:["À la CNC","Au CPS","Au CDN","À l'AGN"],correct:2,expl:"Le plan d'action est transmis au CDN (Comité Directeur National) après étude et adoption par l'AGF."},
+{type:'vf',q:"Le Directeur INF présente le budget annuel au CDN.",correct:true,expl:"Exact ! L'Article 45 : le Directeur de l'INF présente le budget annuel au CDN, intégré au Budget Général annuel de la JCI TOGO."},
+{type:'qcm',q:"Comment un formateur peut-il mettre fin à son affiliation à l'INF ?",choices:["Par simple déclaration verbale","Par lettre motivée adressée au Directeur de l'INF","Par email au bureau de l'INF","En cessant de payer sa cotisation"],correct:1,expl:"Article 15 : les formateurs peuvent mettre fin à leur affiliation par lettre motivée adressée au Directeur de l'INF."},
+{type:'vf',q:"Une dérogation de 4 ans est accordée aux formateurs de plus de 40 ans pour siéger à la CNC.",correct:true,expl:"Exact ! Une dérogation spéciale de 4 ans est accordée aux formateurs de plus de 40 ans pour occuper certaines responsabilités, notamment à la CNC."},
+{type:'qcm',q:"Les anciens formateurs Prime/Trainer avec certification < 3 ans et < 15h doivent faire quoi ?",choices:["Repasser le CFF entièrement","Compléter leur nombre d'heures avant reclassement","Attendre 3 ans","Se désaffilier"],correct:1,expl:"Règle transitoire n°3 : ces formateurs devront compléter leur nombre d'heures en animant de nouvelles formations avant de se voir reclasser."},
+{type:'vf',q:"Les FIS et FIJ sont privilégiés par rapport aux FN lors de la constitution de la CNC.",correct:true,expl:"Exact ! Le Programme de Formation précise que les FIS et FIJ seront privilégiés par rapport aux FN lors de la constitution de la commission."},
+{type:'qcm',q:"Quelle est la condition pour qu'un ancien formateur CLT passe directement au grade FN ?",choices:["Avoir 25h dans l'ancien système","Avoir déjà accompli 15h dans l'ancien système et réussir le CCM","Simplement demander le reclassement","Avoir le grade FIJ dans l'ancien système"],correct:1,expl:"Règle transitoire n°7 : les anciens CLT ayant déjà 15h dans l'ancien système peuvent soumettre leur dossier et doivent réussir le CCM pour obtenir le grade FN."},
+{type:'vf',q:"Le Trésorier Général présente son rapport financier à l'AGF à travers le Directeur de l'Institut.",correct:true,expl:"Exact ! Article 94c : le Trésorier présente un rapport financier à chaque AGF à travers le Directeur de l'Institut."},
+{type:'qcm',q:"Combien de membres composent l'AGF ?",choices:["Uniquement les membres du bureau","Tous les formateurs en situation honorable","Uniquement les FIS et FIJ","Les formateurs certifiés depuis plus de 2 ans"],correct:1,expl:"L'Article 24 stipule que l'AGF se compose de tous les formateurs en situation honorable vis-à-vis de l'Institut."},
+{type:'vf',q:"Les publications officielles de l'INF peuvent être faites par n'importe quel formateur certifié.",correct:false,expl:"Faux ! Toutes les publications officielles sont faites par le Directeur ou le Secrétaire Général de l'INF uniquement."},
+{type:'qcm',q:"Quel guide JCI est spécifiquement mentionné pour la formation à la gestion des organisations locales ?",choices:["Guide des Jumelages","Guide Une Année pour Diriger","Manuel du Meilleur Plan d'Affaire","Guide du Développement Personnel"],correct:1,expl:"Le Guide : 'Une Année pour Diriger' est mentionné à l'Article 59 parmi les Guides d'Action JCI pour la gestion des organisations locales."},
+{type:'vf',q:"Le Directeur INF doit recommander les formateurs pour les événements nationaux et internationaux JCI.",correct:true,expl:"Exact ! L'Article 36 prévoit que le Directeur recommande les formateurs de la JCI TOGO pour les événements nationaux et internationaux."},
+{type:'qcm',q:"Que doit faire le Secrétaire Général si l'un des deux derniers Directeurs ne peut pas assumer ses fonctions au Comité des Candidatures ?",choices:["Nommer n'importe quel formateur","Le Directeur en exercice désigne d'autres anciens Directeurs dans l'ordre chronologique","L'AGF élit un remplaçant","Le CDN choisit le remplaçant"],correct:1,expl:"Si un des deux derniers Directeurs ne peut pas assumer, le Directeur de l'INF désigne d'autres anciens Directeurs dans l'ordre chronologique."},
+{type:'vf',q:"L'INF peut être engagé pour promouvoir la liberté de l'entreprise au sein de ses membres.",correct:true,expl:"Exact ! L'Article 12 stipule que l'INF, conformément au Credo de la JCI, s'engage à promouvoir la liberté de l'entreprise."},
+{type:'qcm',q:"Quel préavis écrit est requis pour proposer un amendement au RI avant la Convention ?",choices:["15 jours","20 jours","30 jours","45 jours"],correct:2,expl:"Un préavis écrit définissant l'amendement proposé doit être envoyé trente (30) jours au moins avant la Convention."},
+]},
+
+// ══════════════ NIVEAU 5 — EXPERT (40 questions) ══════════════
+{name:'Niveau 5',label:'Expert',icon:'👑',questions:[
+{type:'qcm',q:"Selon les règles transitoires, que doit faire un ancien formateur avec une certification Prime/Trainer datant de plus de 3 ans ?",choices:["Être automatiquement reclassé Formateur Alpha","Repasser le CFF","Passer directement au grade FL","Demander une dérogation au CDN"],correct:1,expl:"Règle transitoire n°2 : les anciens formateurs dont la certification Prime/Trainer date de plus de 3 ans devront passer à nouveau le CFF."},
+{type:'vf',q:"La tranche d'âge JCI autorisée pour siéger à la CNC est de 18 à 45 ans.",correct:false,expl:"Faux ! La tranche d'âge est de 18 à 40 ans (la limite JCI standard), avec une dérogation de 4 ans pour les formateurs dépassant 40 ans."},
+{type:'qcm',q:"Combien d'anciens Formateurs Prime/Trainer avec ≥15h ET certification < 3 ans sont autorisés à compléter leurs heures pour le grade FL ?",choices:["Aucun, ils doivent tout reprendre","Seulement ceux avec < 3 ans de certification","Tous ceux qui ont < 15h","Tous ceux qui ont ≥ 10h et < 15h de formations depuis 3 dernières années"],correct:3,expl:"Règle transitoire n°5 : les anciens formateurs ayant animé plus de 10h pendant les 3 dernières années sont autorisés à compléter leurs heures pour soumettre leur dossier FL."},
+{type:'vf',q:"Les anciens formateurs IG sont de grade Formateur International Sénior dans le nouveau système.",correct:false,expl:"Faux ! Les anciens formateurs IG sont de grade Formateur International JUNIOR (FIJ), pas Sénior (FIS)."},
+{type:'qcm',q:"Que dit exactement la règle transitoire pour les anciens formateurs NG ?",choices:["Ils sont directement FIJ","Ils doivent animer 10h international dans 2 autres pays","Ils doivent repasser le CFF","Ils sont directement FIS"],correct:1,expl:"Règle transitoire n°10 : les anciens NG doivent animer au moins dix heures de formation à l'international dans 2 autres pays avant d'être reclassés FIJ."},
+{type:'vf',q:"La dérogation d'âge accordée aux formateurs de plus de 40 ans pour certaines responsabilités est de 2 ans.",correct:false,expl:"Faux ! La dérogation spéciale est de QUATRE (4) ans pour les formateurs dépassant 40 ans, pour accompagner la mise en place de l'INF."},
+{type:'qcm',q:"Quel est exactement l'ordre chronologique de reclassement des anciens grades dans le nouveau système ?",choices:["Prime/Trainer→Alpha, CLT→FL, CNT→FN, IG→FIJ, ITF→FIS","Prime/Trainer→FL, CLT→FN, CNT→FIJ, IG→FIS","Alpha→FL, FL→FN, FN→FIJ, FIJ→FIS","Prime→Alpha, CLT→FN, CNT→FIJ, IG→FIS, ITF→Expert"],correct:0,expl:"Prime/Trainer→Formateur Alpha, CLT→Formateur Local Alpha, CNT→Formateur National Alpha, IG→Formateur International Junior, ITF→Formateur International Senior."},
+{type:'vf',q:"Un formateur ayant reçu une certification Prime/Trainer depuis moins de 3 ans et ayant animé exactement 15h est directement reclassé Formateur Alpha sans conditions.",correct:true,expl:"Exact ! Règle transitoire n°1 : les anciens formateurs certifiés Prime/Trainer ayant animé AU MINIMUM 15h seront d'office reclassés Formateur Alpha."},
+{type:'qcm',q:"Comment l'AGF peut-elle être convoquée en session extraordinaire ?",choices:["Par n'importe quel formateur","Par la majorité du 1/3 de l'AGF ou par le Directeur avec préavis de 8 jours","Par simple décision du CDN","Par pétition signée par 5 formateurs"],correct:1,expl:"L'AGF peut être convoquée en session extraordinaire par la majorité du 1/3 de l'AGF, ou par le Directeur à condition que la convocation soit envoyée 8 jours avant."},
+{type:'vf',q:"Le budget de l'INF doit être intégré au Budget Général annuel de la JCI TOGO pour faciliter l'unité des comptes.",correct:true,expl:"Exact ! L'Article 45 le stipule explicitement : intégré au Budget Général annuel de la JCI TOGO pour faciliter l'unité des comptes."},
+{type:'qcm',q:"Quelle est la différence entre les conditions de la CNC selon le Programme de Formation vs le Règlement Intérieur ?",choices:["Il n'y a aucune différence","Le Programme dit FIS/FIJ/FN, le Règlement dit FIS/FIJ uniquement","Le Programme dit FIJ uniquement, le Règlement dit FIS uniquement","Les deux disent FN minimum"],correct:1,expl:"Le Programme de Formation stipule FIS, FIJ ou FN. Le Règlement Intérieur (plus restrictif) stipule FIS ou FIJ uniquement."},
+{type:'vf',q:"L'amendement adopté lors d'une AGF entre en vigueur le 1er juillet suivant.",correct:false,expl:"Faux ! Sauf disposition contraire, les amendements entrent en vigueur le 1er JANVIER suivant la date d'adoption."},
+{type:'qcm',q:"Selon l'Article 62, comment un amendement peut-il être adopté lors d'une Convention ordinaire (sans urgence) ?",choices:["Par majorité simple si préavis de 30 jours","Par 2/3 seulement","Par unanimité","Par décision du CDN uniquement"],correct:0,expl:"Un amendement peut être adopté par majorité simple si un préavis écrit définissant l'amendement a été envoyé 30 jours avant la Convention."},
+{type:'vf',q:"Le Directeur INF élu est reconnu par l'Assemblée Générale de l'ONM (Organisation Nationale Membre).",correct:true,expl:"Exact ! Le Directeur de l'INF élu est reconnu par l'Assemblée Générale de l'ONM et est membre du CDN sans voix délibérative."},
+{type:'qcm',q:"Quelles sont les 3 conditions qui permettent un amendement au RI (selon l'Article 62) ?",choices:["Préavis 30j OU renvoi de la Convention précédente OU résolution 2/3 de l'AGF ou CDN","Préavis 15j OU unanimité OU décision CDN","Préavis 30j OU majorité simple OU vote CDN","Toujours besoin des 3 conditions simultanément"],correct:0,expl:"3 conditions alternatives : 1) Préavis de 30 jours avant Convention, 2) Renvoi de la Convention précédente, 3) Résolution à 2/3 de l'AGF ordinaire ou du CDN."},
+{type:'vf',q:"L'INF dispose d'un centre de documentation pour les matériels de formation.",correct:true,expl:"Exact ! L'INF doit être au service de l'Organisation Nationale comme centre de documentation pour des matériels de formation et développement personnel."},
+{type:'qcm',q:"Selon le Credo de la JCI, laquelle de ces affirmations est CORRECTE ?",choices:["Que la fraternité humaine est relative","Que la liberté des individus assure mieux la justice économique","Que l'autorité doit reposer sur l'arbitraire","Que la nation est plus précieuse que la personne humaine"],correct:1,expl:"Le Credo de la JCI affirme : 'Que la liberté des individus et de l'entreprise assure mieux la justice économique'."},
+{type:'vf',q:"Un ancien formateur CNT avec plus de 25h dont 10h internationale dans 2 pays peut soumettre directement son dossier FIJ sans passer le CCM.",correct:true,expl:"Exact ! Règle n°9 : ces anciens CNT peuvent directement soumettre leur dossier pour le reclassement FIJ (le CCM est déjà acquis pour le grade CNT)."},
+{type:'qcm',q:"Quel est le rôle exact du Directeur INF vis-à-vis de l'Université JCI ?",choices:["Il gère l'Université JCI","Il fait la liaison entre la JCI TOGO et l'Université JCI","Il certifie les cours de l'Université JCI","Il supervise les examens de l'Université JCI"],correct:1,expl:"L'Article 36 stipule que le Directeur fait la liaison entre la JCI TOGO et l'Université JCI."},
+{type:'vf',q:"Le premier amendement au Règlement Intérieur de l'INF a été fait à Lomé.",correct:false,expl:"Faux ! Le premier amendement a été fait à KARA le 28 octobre 2023. Le document original a été fait à Lomé le 02 février 2022."},
+{type:'qcm',q:"Pour être reclassé directement FN, un ancien CLT doit :",choices:["Seulement avoir le grade CLT","Avoir déjà 15h dans l'ancien système + réussir le CCM","Avoir 25h + un module de 2h","Être recommandé par le CDN"],correct:1,expl:"Règle n°7 : les anciens CLT ayant déjà accompli 15h dans l'ancien système peuvent soumettre leur dossier et doivent réussir le CCM pour le grade FN."},
+{type:'vf',q:"L'INF doit s'assurer que les Textes fondamentaux et Guides JCI sont disponibles au centre de documentation.",correct:true,expl:"Exact ! L'Article 60 stipule que ces documents doivent être téléchargés et mis à disposition des différentes OL via le centre de documentation de l'INF."},
+{type:'qcm',q:"Quel guide JCI est mentionné en lien avec les 'Projets Pour le Progrès' dans le Règlement de l'INF ?",choices:["Guide de Constitution d'une OL","Guide pour le Développement de la Communauté","Manuel d'Extension d'une OL","Guide de Débat"],correct:1,expl:"L'Article 58 mentionne le Guide pour le Développement de la Communauté (Projets Pour le Progrès) parmi les programmes JCI que l'INF doit mettre en œuvre."},
+{type:'vf',q:"Selon le Programme, un NIF pour un FIS diplômé en 2025 s'écrirait par exemple : 001/FIS/25.",correct:true,expl:"Exact ! Le format est ordre/FIS/deux derniers chiffres de l'année. Pour 2025 : 001/FIS/25."},
+{type:'qcm',q:"Quelle est la décision du CDN en cas de sanction impliquant une Organisation Locale ?",choices:["Le CDN ne s'implique pas","Le CDN délibère dès réception du rapport du Directeur de l'INF","Le CDN demande un vote de l'AGF","Le CDN laisse l'OL gérer elle-même"],correct:1,expl:"Lorsqu'il s'agit d'une OL, le CDN délibère dès réception du rapport du Directeur de l'Institut National de Formation sur la situation."},
+{type:'vf',q:"L'INF peut promouvoir le Guide du Meilleur Plan d'Affaires dans ses activités de formation.",correct:true,expl:"Exact ! L'Article 58 mentionne le Manuel du Meilleur Plan d'Affaire parmi les programmes JCI que l'INF doit mettre en œuvre."},
+{type:'qcm',q:"La deuxième partie de l'AGF qui se tient après la Convention Nationale sert à :",choices:["Élire le nouveau bureau","Étude et adoption du plan d'action et d'autres documents nécessaires","Certifier les nouveaux formateurs","Organiser l'Académie des présidents"],correct:1,expl:"La deuxième partie de l'AGF, après la Convention Nationale, sert de cadre pour l'étude et adoption du plan d'action et d'autres documents jugés nécessaires."},
+{type:'vf',q:"La radiation d'un formateur peut être prononcée directement sans passer par les étapes précédentes (blâme, avertissement).",correct:false,expl:"Faux ! La radiation intervient seulement en cas de DEUXIÈME récidive, après blâme, avertissement et suspension temporaire."},
+{type:'qcm',q:"Comment l'INF garantit-il la qualité des modules de formation conçus par les formateurs ?",choices:["Par vote de l'AGF","Par validation de la Commission Nationale de Certification","Par approbation du CDN","Par test auprès des membres de l'OL"],correct:1,expl:"Le module de formation conçu par le formateur doit être validé par la commission nationale de certification de la JCI Togo."},
+{type:'vf',q:"Les Guides d'Action Locale et le Guide des Procédures Parlementaires sont mentionnés dans le Règlement de l'INF.",correct:true,expl:"Exact ! L'Article 59 mentionne les Guides d'Action locale et le Guide des Procédures Parlementaires parmi les Guides JCI de gestion."},
+{type:'qcm',q:"Quel document gouverne la vie de l'INF au plus haut niveau hiérarchique ?",choices:["Le Règlement Intérieur de l'INF","La Constitution de la JCI et les Statuts JCI TOGO","Le Plan de Développement Stratégique","Le Programme de Formation et Certification"],correct:1,expl:"L'INF est régi par la Constitution de la Jeune Chambre Internationale (JCI), les Statuts et le Manuel des Règlements de la JCI TOGO, et le Règlement Intérieur."},
+{type:'vf',q:"Le Programme de Formation et de Certification des Formateurs peut être amendé sur proposition de la CNC à l'AGF.",correct:true,expl:"Exact ! L'une des attributions de la CNC est de proposer des amendements au Programme de formation et de certification des formateurs de la JCI Togo."},
+{type:'qcm',q:"Quelle est la condition d'éligibilité supplémentaire pour le Secrétaire Général et le Trésorier Général de l'INF (en plus d'être FL minimum) ?",choices:["Avoir animé 25h de formations","Être certifié sur les cours JCI Discover","Avoir siégé au bureau pendant 2 ans","Être recommandé par l'AGF"],correct:1,expl:"Le Secrétaire Général et le Trésorier Général doivent être certifiés au moins Formateur Local Alpha ET être certifiés sur les cours JCI Discover."},
+{type:'vf',q:"Le Directeur INF peut recommander des programmes de formation au CDN lors d'événements officiels comme la Convention nationale.",correct:true,expl:"Exact ! L'Article 36 prévoit que le Directeur recommande des programmes de formation au CDN lors d'événements officiels de la JCI TOGO."},
+{type:'qcm',q:"Que doit faire un formateur rétrogradé pour inactivité avant de reprendre ses activités ?",choices:["Repasser entièrement le CFF","Suivre le cours de recyclage","Attendre 6 mois supplémentaires","Déposer un dossier au CDN"],correct:1,expl:"Le formateur rétrogradé sera rajouté à l'effectif après avoir suivi le cours de recyclage avant toute formation."},
+{type:'vf',q:"Selon le Credo JCI, la personne humaine est la plus précieuse des richesses.",correct:true,expl:"Exact ! Le Credo de la JCI affirme : 'Que la personne humaine est la plus précieuse des richesses'."},
+{type:'qcm',q:"Le Règlement Intérieur de l'INF a été adopté pour quelle durée ?",choices:["10 ans","25 ans","Jusqu'à la prochaine Convention","Durée illimitée (peut être amendé)"],correct:3,expl:"La durée de vie de l'Institut National de Formation de la JCI TOGO est illimitée. Le RI peut être amendé mais n'a pas de durée fixe."},
+{type:'vf',q:"Selon l'Article 49, le programme d'activités annuel de l'INF doit être axé sur 3 domaines : formateur, membre et certification.",correct:true,expl:"Exact ! L'Article 49 prévoit 3 domaines : 1) Formateur (accompagnement professionnel), 2) Membre (formations de qualité), 3) Programme de certification (suivi rigoureux)."},
+]}
+];
+
+// ═══════════════════════════════════════
+// ÉTAT DU JEU
+// ═══════════════════════════════════════
+const TOTAL_Q = 40;
+let state = {
+  unlockedLevels:[true,false,false,false,false],
+  completedLevels:[false,false,false,false,false],
+  bestScores:[null,null,null,null,null],
+  currentLevel:0, currentQ:0, score:0, answered:false, shuffledQ:[]
+};
+
+function show(id) {
+  ['quiz-home','quiz-game','quiz-result','quiz-expert'].forEach(s=>{
+    document.getElementById(s).style.display='none';
+  });
+  document.getElementById(id).style.display='block';
+  window.scrollTo(0,0);
+}
+
+function goHome(){ updateHomeCards(); show('quiz-home'); }
+
+function updateHomeCards(){
+  for(let i=0;i<5;i++){
+    const card=document.getElementById('card-'+i);
+    if(!card) continue;
+    card.className='level-card';
+    const badge=card.querySelector('.level-badge');
+    const mini=document.getElementById('score-mini-'+i);
+    if(state.bestScores[i]!==null) mini.textContent='Meilleur : '+state.bestScores[i]+'/'+TOTAL_Q;
+    else mini.textContent='';
+    if(state.completedLevels[i]){
+      card.classList.add('done');
+      badge.className='level-badge badge-done';
+      badge.textContent='✓ Réussi';
+      card.onclick=()=>startLevel(i);
+    } else if(state.unlockedLevels[i]){
+      card.classList.add('current');
+      badge.className='level-badge badge-current';
+      badge.textContent='Disponible';
+      card.onclick=()=>startLevel(i);
+    } else {
+      card.classList.add('locked');
+      badge.className='level-badge badge-locked';
+      badge.textContent='Verrouillé';
+      card.onclick=null;
+    }
+  }
+  // Level 5 special
+  const c4=document.getElementById('card-4');
+  if(c4){
+    if(state.unlockedLevels[4]){
+      c4.onclick=()=>startLevel(4);
+    } else {
+      c4.onclick=null;
+    }
+  }
+}
+
+function startLevel(lvl){
+  if(!state.unlockedLevels[lvl]) return;
+  state.currentLevel=lvl;
+  state.currentQ=0;
+  state.score=0;
+  state.answered=false;
+  state.shuffledQ=[...LEVELS[lvl].questions].sort(()=>Math.random()-.5);
+  document.getElementById('game-level-tag').textContent=LEVELS[lvl].name+' · '+LEVELS[lvl].label;
+  show('quiz-game');
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const q=state.shuffledQ[state.currentQ];
+  const total=state.shuffledQ.length;
+  state.answered=false;
+  document.getElementById('q-counter').textContent=(state.currentQ+1)+' / '+total;
+  document.getElementById('progress-bar').style.width=(state.currentQ/total*100)+'%';
+  document.getElementById('q-text').textContent=q.q;
+  const typeTag=document.getElementById('q-type-tag');
+  typeTag.textContent=q.type==='qcm'?'QCM':'VRAI ou FAUX';
+  typeTag.className='q-type-tag '+(q.type==='qcm'?'q-type-qcm':'q-type-vf');
+  document.getElementById('feedback-box').className='feedback-box';
+  document.getElementById('next-btn').className='next-btn';
+  const answersDiv=document.getElementById('q-answers');
+  answersDiv.innerHTML='';
+  if(q.type==='qcm'){
+    const letters=['A','B','C','D'];
+    q.choices.forEach((ch,i)=>{
+      const btn=document.createElement('button');
+      btn.className='answer-btn';
+      btn.innerHTML=`<span class="a-letter">${letters[i]}</span>${ch}`;
+      btn.onclick=()=>selectAnswer(i,q.correct,btn,q.expl);
+      answersDiv.appendChild(btn);
+    });
+  } else {
+    const row=document.createElement('div');
+    row.className='vf-row';
+    ['✅ VRAI','❌ FAUX'].forEach((label,i)=>{
+      const btn=document.createElement('button');
+      btn.className='vf-btn '+(i===0?'vrai':'faux');
+      btn.innerHTML=label;
+      btn.onclick=()=>selectVF(i===0,q.correct,row,q.expl);
+      row.appendChild(btn);
+    });
+    answersDiv.appendChild(row);
+  }
+}
+
+function selectAnswer(idx,correct,btn,expl){
+  if(state.answered) return;
+  state.answered=true;
+  const allBtns=document.querySelectorAll('.answer-btn');
+  allBtns.forEach(b=>b.disabled=true);
+  if(idx===correct){btn.classList.add('correct');state.score++;showFeedback(true,expl);}
+  else{btn.classList.add('wrong');allBtns[correct].classList.add('correct');showFeedback(false,expl);}
+  document.getElementById('next-btn').className='next-btn show';
+}
+
+function selectVF(userAnswer,correct,row,expl){
+  if(state.answered) return;
+  state.answered=true;
+  const btns=row.querySelectorAll('.vf-btn');
+  btns.forEach(b=>b.disabled=true);
+  const isCorrect=userAnswer===correct;
+  if(isCorrect){btns[userAnswer?0:1].classList.add('correct');state.score++;showFeedback(true,expl);}
+  else{btns[userAnswer?0:1].classList.add('wrong');btns[correct?0:1].classList.add('correct');showFeedback(false,expl);}
+  document.getElementById('next-btn').className='next-btn show';
+}
+
+function showFeedback(isCorrect,expl){
+  const fb=document.getElementById('feedback-box');
+  fb.className='feedback-box show '+(isCorrect?'feedback-correct':'feedback-wrong');
+  document.getElementById('fb-title').textContent=isCorrect?'✅ Bonne réponse !':'❌ Mauvaise réponse';
+  document.getElementById('fb-text').textContent=expl;
+}
+
+function nextQuestion(){
+  state.currentQ++;
+  if(state.currentQ>=state.shuffledQ.length) showResult();
+  else renderQuestion();
+}
+
+function showResult(){
+  const lvl=state.currentLevel;
+  const passed=state.score>=PASS_SCORE;
+  document.getElementById('progress-bar').style.width='100%';
+  if(state.bestScores[lvl]===null||state.score>state.bestScores[lvl]) state.bestScores[lvl]=state.score;
+  if(passed){
+    state.completedLevels[lvl]=true;
+    if(lvl+1<5) state.unlockedLevels[lvl+1]=true;
+  }
+  const pct=Math.round(state.score/TOTAL_Q*100);
+  let stars='⭐';
+  if(state.score>=38) stars='⭐⭐⭐';
+  else if(state.score>=32) stars='⭐⭐';
+  document.getElementById('res-emoji').textContent=passed?(lvl===4?'🏆':'🎉'):'💪';
+  document.getElementById('res-title').textContent=passed?(lvl===4?'🏆 Tu es EXPERT !':'Niveau réussi !'):'Pas encore…';
+  document.getElementById('res-pts').textContent=state.score;
+  document.getElementById('res-pts').className=passed?'score-good':'score-bad';
+  document.getElementById('res-stars').textContent=stars;
+  const msgs=['Bonne base !','Tu progresses bien !','Solide maîtrise !','Impressionnant !','Expertise totale !'];
+  const fail=['Révise les bases et réessaie.','Continue à apprendre !','Les détails te résistent encore.','Niveau difficile, persévère !','Le niveau ultime résiste — tu peux le battre !'];
+  document.getElementById('res-msg').textContent=(passed?msgs[lvl]:fail[lvl])+' Score : '+pct+'%';
+  const btnNext=document.getElementById('btn-next');
+  if(passed&&lvl===4){btnNext.textContent='🏆 Voir mon badge Expert';btnNext.onclick=showExpert;btnNext.style.display='block';}
+  else if(passed){btnNext.textContent='Niveau suivant →';btnNext.onclick=nextLevel;btnNext.style.display='block';}
+  else{btnNext.style.display='none';}
+  show('quiz-result');
+}
+
+function nextLevel(){if(state.currentLevel+1<5)startLevel(state.currentLevel+1);else showExpert();}
+function retryLevel(){startLevel(state.currentLevel);}
+function showExpert(){show('quiz-expert');}
+function shareResult(){
+  const msg='🏆 Je suis désormais EXPERT INF JCI Togo !\nJ\'ai réussi les 5 niveaux du Quiz de l\'Institut National de Formation (200 questions).\n#INF #JCITogo #Expert';
+  if(navigator.share){navigator.share({title:'Expert INF JCI Togo',text:msg});}
+  else{navigator.clipboard.writeText(msg).then(()=>alert('Texte copié ! Partage-le sur tes réseaux 🎉'));}
+}
+function resetAll(){
+  state={unlockedLevels:[true,false,false,false,false],completedLevels:[false,false,false,false,false],bestScores:[null,null,null,null,null],currentLevel:0,currentQ:0,score:0,answered:false,shuffledQ:[]};
+  goHome();
+}
+updateHomeCards();
 </script>
 </body>
 </html>         
