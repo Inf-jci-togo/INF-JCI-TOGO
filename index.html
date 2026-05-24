@@ -798,13 +798,17 @@ document.getElementById('search-input').addEventListener('keydown', e => { if (e
 
 // ─── PWA ──────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
-  const hadController = !!navigator.serviceWorker.controller;
   navigator.serviceWorker.register('sw.js').catch(() => {});
-  // Quand un nouveau SW prend le contrôle → afficher la bannière de mise à jour
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (hadController) {
-      document.getElementById('update-banner').style.display = 'flex';
+  // Le SW envoie SW_UPDATED après activation → rechargement automatique
+  navigator.serviceWorker.addEventListener('message', event => {
+    if (event.data && event.data.type === 'SW_UPDATED') {
+      window.location.reload();
     }
+  });
+  // Filet de sécurité : si controllerchange arrive avant le message
+  const hadController = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (hadController) document.getElementById('update-banner').style.display = 'flex';
   });
 }
 

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'inf-jci-v5';
+const CACHE_NAME = 'inf-jci-v6';
 const ASSETS = [
   './',
   './index.html',
@@ -19,24 +19,31 @@ const ASSETS = [
   './assets/icon-512.png'
 ];
 
-// Installation : mise en cache de tous les assets
+// Installation : mise en cache + skipWaiting dans la promesse
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(ASSETS))
+      .then(() => self.skipWaiting())
   );
-  self.skipWaiting();
 });
 
-// Activation : suppression des anciens caches
+// Activation : nettoyage anciens caches → claim → rechargement automatique
 self.addEventListener('activate', e => {
   e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
-      )
-    )
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
+      .then(() => self.clients.matchAll({ type: 'window' }))
+      .then(clients => {
+        clients.forEach(c => {
+          // Notifie la page (pour les clients récents avec le listener)
+          c.postMessage({ type: 'SW_UPDATED' });
+          // Force le rechargement (fonctionne même sur les anciens clients)
+          try { c.navigate(c.url); } catch (e) {}
+        });
+      })
   );
-  self.clients.claim();
 });
 
 // Fetch : cache-first (fonctionne hors ligne)
