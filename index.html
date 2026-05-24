@@ -10,11 +10,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Poppins',sans-serif;background:#f0f4f8;color:#1a1a2e;min-height:100vh;padding-bottom:70px}
+    body{font-family:'Poppins',sans-serif;background:#f0f4f8;color:#1a1a2e;min-height:100vh;padding-bottom:68px}
     /* NAV */
-    nav{position:fixed;bottom:0;left:0;right:0;background:#130F2D;display:flex;justify-content:space-around;align-items:center;height:65px;z-index:999;box-shadow:0 -2px 12px rgba(0,0,0,.3)}
-    .nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;padding:6px 4px;flex:1;transition:.2s;font-family:'Poppins',sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.3px}
-    .nav-btn .icon{font-size:20px;line-height:1}
+    nav{position:fixed;bottom:0;left:0;right:0;background:#130F2D;display:flex;justify-content:flex-start;align-items:center;height:62px;z-index:999;box-shadow:0 -2px 12px rgba(0,0,0,.3);overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    nav::-webkit-scrollbar{display:none}
+    .nav-btn{display:flex;flex-direction:column;align-items:center;gap:1px;background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;padding:5px 4px;flex:0 0 auto;min-width:50px;transition:.2s;font-family:'Poppins',sans-serif;font-size:8px;text-transform:uppercase;letter-spacing:0}
+    .nav-btn .icon{font-size:19px;line-height:1}
     .nav-btn.active{color:#FFD700}
     .nav-btn.active .icon{transform:scale(1.15)}
     /* SECTIONS */
