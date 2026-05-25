@@ -1072,12 +1072,34 @@ const LEVELS = [
 // ÉTAT DU JEU
 // ═══════════════════════════════════════
 const TOTAL_Q = 40;
+const STATE_KEY = 'inf-quiz-state';
 let state = {
   unlockedLevels:[true,false,false,false,false],
   completedLevels:[false,false,false,false,false],
   bestScores:[null,null,null,null,null],
   currentLevel:0, currentQ:0, score:0, answered:false, shuffledQ:[]
 };
+// ── Charger la progression depuis localStorage ──
+(function(){
+  try{
+    const s=JSON.parse(localStorage.getItem(STATE_KEY)||'null');
+    if(s){
+      if(Array.isArray(s.unlockedLevels))  state.unlockedLevels  = s.unlockedLevels;
+      if(Array.isArray(s.completedLevels)) state.completedLevels = s.completedLevels;
+      if(Array.isArray(s.bestScores))      state.bestScores      = s.bestScores;
+    }
+  }catch(e){}
+})();
+// ── Sauvegarder la progression dans localStorage ──
+function saveState(){
+  try{
+    localStorage.setItem(STATE_KEY, JSON.stringify({
+      unlockedLevels:  state.unlockedLevels,
+      completedLevels: state.completedLevels,
+      bestScores:      state.bestScores
+    }));
+  }catch(e){}
+}
 
 function show(id) {
   ['quiz-home','quiz-game','quiz-result','quiz-expert'].forEach(s=>{
@@ -1218,6 +1240,7 @@ function showResult(){
     state.completedLevels[lvl]=true;
     if(lvl+1<5) state.unlockedLevels[lvl+1]=true;
   }
+  saveState(); // ← persistance de la progression
   const pct=Math.round(state.score/TOTAL_Q*100);
   let stars='⭐';
   if(state.score>=38) stars='⭐⭐⭐';
@@ -1246,6 +1269,7 @@ function shareResult(){
   else{navigator.clipboard.writeText(msg).then(()=>alert('Texte copié ! Partage-le sur tes réseaux 🎉'));}
 }
 function resetAll(){
+  try{localStorage.removeItem(STATE_KEY);}catch(e){}
   state={unlockedLevels:[true,false,false,false,false],completedLevels:[false,false,false,false,false],bestScores:[null,null,null,null,null],currentLevel:0,currentQ:0,score:0,answered:false,shuffledQ:[]};
   goHome();
 }
