@@ -1087,17 +1087,35 @@ let state = {
       if(Array.isArray(s.unlockedLevels))  state.unlockedLevels  = s.unlockedLevels;
       if(Array.isArray(s.completedLevels)) state.completedLevels = s.completedLevels;
       if(Array.isArray(s.bestScores))      state.bestScores      = s.bestScores;
+      // Restaurer une partie en cours
+      if(s.midGame && Array.isArray(s.midGame.shuffledQ) && s.midGame.shuffledQ.length > 0){
+        state.currentLevel = s.midGame.level;
+        state.currentQ     = s.midGame.q;
+        state.score        = s.midGame.score;
+        state.shuffledQ    = s.midGame.shuffledQ;
+      }
     }
   }catch(e){}
 })();
 // ── Sauvegarder la progression dans localStorage ──
 function saveState(){
   try{
-    localStorage.setItem(STATE_KEY, JSON.stringify({
+    const toSave = {
       unlockedLevels:  state.unlockedLevels,
       completedLevels: state.completedLevels,
-      bestScores:      state.bestScores
-    }));
+      bestScores:      state.bestScores,
+      midGame: null
+    };
+    // Sauvegarder la partie en cours si au moins 1 question a été jouée et pas terminé
+    if(state.shuffledQ.length > 0 && state.currentQ > 0 && state.currentQ < state.shuffledQ.length){
+      toSave.midGame = {
+        level:     state.currentLevel,
+        q:         state.currentQ,
+        score:     state.score,
+        shuffledQ: state.shuffledQ
+      };
+    }
+    localStorage.setItem(STATE_KEY, JSON.stringify(toSave));
   }catch(e){}
 }
 
@@ -1128,8 +1146,16 @@ function updateHomeCards(){
     } else if(state.unlockedLevels[i]){
       card.classList.add('current');
       badge.className='level-badge badge-current';
-      badge.textContent='Disponible';
-      card.onclick=()=>startLevel(i);
+      // Vérifier si une partie est en cours sur ce niveau
+      const hasMidGame = state.shuffledQ.length > 0 && state.currentLevel===i
+                         && state.currentQ > 0 && state.currentQ < state.shuffledQ.length;
+      if(hasMidGame){
+        badge.textContent='▶ Q'+(state.currentQ+1)+'/'+state.shuffledQ.length;
+        card.onclick=()=>resumeLevel(i);
+      } else {
+        badge.textContent='Disponible';
+        card.onclick=()=>startLevel(i);
+      }
     } else {
       card.classList.add('locked');
       badge.className='level-badge badge-locked';
@@ -1155,6 +1181,7 @@ function startLevel(lvl){
   state.score=0;
   state.answered=false;
   state.shuffledQ=[...LEVELS[lvl].questions].sort(()=>Math.random()-.5);
+  saveState(); // efface toute sauvegarde de mi-partie pour ce niveau (currentQ=0 → midGame=null)
   document.getElementById('game-level-tag').textContent=LEVELS[lvl].name+' · '+LEVELS[lvl].label;
   show('quiz-game');
   renderQuestion();
@@ -1227,8 +1254,19 @@ function showFeedback(isCorrect,expl){
 
 function nextQuestion(){
   state.currentQ++;
-  if(state.currentQ>=state.shuffledQ.length) showResult();
-  else renderQuestion();
+  if(state.currentQ>=state.shuffledQ.length){
+    showResult();
+  } else {
+    saveState(); // ← sauvegarde la position après chaque question
+    renderQuestion();
+  }
+}
+function resumeLevel(lvl){
+  // Reprend la partie là où elle s'était arrêtée (état déjà chargé depuis localStorage)
+  state.answered=false;
+  document.getElementById('game-level-tag').textContent=LEVELS[lvl].name+' · '+LEVELS[lvl].label;
+  show('quiz-game');
+  renderQuestion();
 }
 
 function showResult(){
