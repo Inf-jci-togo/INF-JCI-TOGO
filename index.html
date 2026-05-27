@@ -94,6 +94,13 @@
     .big-card h3{font-size:1.1rem;font-weight:700;color:#130F2D;margin-bottom:8px}
     .big-card p{font-size:.85rem;color:#666;line-height:1.6}
     .big-card .bc-btn{display:inline-block;margin-top:18px;background:#130F2D;color:#FFD700;padding:12px 28px;border-radius:12px;font-weight:600;font-size:.9rem}
+    /* FORMATION LIVE */
+    .big-card.formation-live{background:linear-gradient(135deg,#130F2D 0%,#1e1856 100%);border:2px solid #FFD700}
+    .big-card.formation-live h3{color:#FFD700}
+    .big-card.formation-live p{color:rgba(255,255,255,.82)}
+    .big-card.formation-live .bc-icon{filter:drop-shadow(0 0 8px rgba(255,215,0,.5))}
+    .formation-live-btn{background:#FFD700!important;color:#130F2D!important;display:flex;align-items:center;justify-content:center;gap:8px;animation:pulse-live 2s ease-in-out infinite}
+    @keyframes pulse-live{0%,100%{box-shadow:0 0 0 0 rgba(255,215,0,.5)}50%{box-shadow:0 0 0 8px rgba(255,215,0,0)}}
     /* BANDEAU MISE À JOUR */
     #update-banner{display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:#FFD700;color:#130F2D;padding:12px 16px;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 3px 14px rgba(0,0,0,.25);animation:slideDown .35s ease}
     @keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
@@ -322,20 +329,31 @@
   <div id="search-results"></div>
 </section>
 
-<!-- ===== BIBLIOTHEQUE ===== -->
-<section id="bibliotheque" class="section">
+<!-- ===== FORMATION ===== -->
+<section id="formation" class="section">
   <div class="page-header">
-    <h1>📚 Bibliothèque</h1>
-    <p>Ressources de formation INF</p>
+    <h1>🎓 Formation</h1>
+    <p>Ressources et formations en ligne — INF JCI Togo</p>
   </div>
   <div style="height:28px"></div>
   <div class="content">
+
+    <!-- Carte 1 : Suivre une formation en ligne -->
+    <a class="big-card formation-live" href="https://meet.google.com/acr-mnya-ksn" target="_blank" rel="noopener">
+      <div class="bc-icon">🎥</div>
+      <h3>Suivre une formation INF</h3>
+      <p>Suivez toutes les formations en ligne organisées par l'INF JCI-TOGO. Rejoignez la salle virtuelle et participez en direct aux sessions animées par nos formateurs certifiés.</p>
+      <div class="bc-btn formation-live-btn">Rejoindre la formation →</div>
+    </a>
+
+    <!-- Carte 2 : Bibliothèque -->
     <a class="big-card" href="https://drive.google.com/drive/folders/1PdXR-lmTbv_wzRGHvUlIJpYpvtJ9RwZ1?usp=sharing" target="_blank" rel="noopener">
-      <div class="bc-icon">📂</div>
-      <h3>Ressources de Formation</h3>
+      <div class="bc-icon">📚</div>
+      <h3>Bibliothèque de Ressources</h3>
       <p>Accédez à tous les modules, guides et outils pédagogiques mis à disposition par l'INF.</p>
       <div class="bc-btn">Consulter les ressources →</div>
     </a>
+
   </div>
 </section>
 
@@ -506,8 +524,8 @@
   <button class="nav-btn" onclick="showSection('formateurs',this)">
     <span class="icon">👥</span><span>Formateurs</span>
   </button>
-  <button class="nav-btn" onclick="showSection('bibliotheque',this)">
-    <span class="icon">📚</span><span>Biblio.</span>
+  <button class="nav-btn" onclick="showSection('formation',this)">
+    <span class="icon">🎓</span><span>Formation</span>
   </button>
   <button class="nav-btn" onclick="showSection('suggestion',this)">
     <span class="icon">💡</span><span>Suggestion</span>
