@@ -14,6 +14,7 @@
     /* NAV */
     nav{position:fixed;bottom:0;left:0;right:0;background:#130F2D;display:flex;justify-content:flex-start;align-items:center;height:62px;z-index:999;box-shadow:0 -2px 12px rgba(0,0,0,.3);overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
     nav::-webkit-scrollbar{display:none}
+    @media(min-width:600px){nav{justify-content:center;overflow-x:hidden}.nav-btn{min-width:60px;font-size:9px}}
     .nav-btn{display:flex;flex-direction:column;align-items:center;gap:1px;background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;padding:5px 4px;flex:0 0 auto;min-width:50px;transition:.2s;font-family:'Poppins',sans-serif;font-size:8px;text-transform:uppercase;letter-spacing:0}
     .nav-btn .icon{font-size:19px;line-height:1}
     .nav-btn.active{color:#FFD700}
@@ -537,7 +538,7 @@
     <span class="icon">💳</span><span>Cotis.</span>
   </button>
   <button class="nav-btn" onclick="showSection('quiz',this)">
-    <span class="icon">🎓</span><span>Quiz</span>
+    <span class="icon">🧠</span><span>Quiz</span>
   </button>
 </nav>
 
