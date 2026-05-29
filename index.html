@@ -7,14 +7,16 @@
   <title>INF JCI Togo</title>
   <link rel="manifest" href="manifest.json"/>
   <link rel="apple-touch-icon" href="assets/icon-192.png"/>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Poppins',sans-serif;background:#f0f4f8;color:#1a1a2e;min-height:100vh;padding-bottom:70px}
+    body{font-family:'Poppins',sans-serif;background:#f0f4f8;color:#1a1a2e;min-height:100vh;padding-bottom:68px}
     /* NAV */
-    nav{position:fixed;bottom:0;left:0;right:0;background:#130F2D;display:flex;justify-content:space-around;align-items:center;height:65px;z-index:999;box-shadow:0 -2px 12px rgba(0,0,0,.3)}
-    .nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;padding:6px 4px;flex:1;transition:.2s;font-family:'Poppins',sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.3px}
-    .nav-btn .icon{font-size:20px;line-height:1}
+    nav{position:fixed;bottom:0;left:0;right:0;background:#130F2D;display:flex;justify-content:flex-start;align-items:center;height:62px;z-index:999;box-shadow:0 -2px 12px rgba(0,0,0,.3);overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    nav::-webkit-scrollbar{display:none}
+    @media(min-width:600px){nav{justify-content:center;overflow-x:hidden}.nav-btn{min-width:60px;font-size:9px}}
+    .nav-btn{display:flex;flex-direction:column;align-items:center;gap:1px;background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;padding:5px 4px;flex:0 0 auto;min-width:50px;transition:.2s;font-family:'Poppins',sans-serif;font-size:8px;text-transform:uppercase;letter-spacing:0}
+    .nav-btn .icon{font-size:19px;line-height:1}
     .nav-btn.active{color:#FFD700}
     .nav-btn.active .icon{transform:scale(1.15)}
     /* SECTIONS */
@@ -93,6 +95,19 @@
     .big-card h3{font-size:1.1rem;font-weight:700;color:#130F2D;margin-bottom:8px}
     .big-card p{font-size:.85rem;color:#666;line-height:1.6}
     .big-card .bc-btn{display:inline-block;margin-top:18px;background:#130F2D;color:#FFD700;padding:12px 28px;border-radius:12px;font-weight:600;font-size:.9rem}
+    /* FORMATION LIVE */
+    .big-card.formation-live{background:linear-gradient(135deg,#130F2D 0%,#1e1856 100%);border:2px solid #FFD700}
+    .big-card.formation-live h3{color:#FFD700}
+    .big-card.formation-live p{color:rgba(255,255,255,.82)}
+    .big-card.formation-live .bc-icon{filter:drop-shadow(0 0 8px rgba(255,215,0,.5))}
+    .formation-live-btn{background:#FFD700!important;color:#130F2D!important;display:flex;align-items:center;justify-content:center;gap:8px;animation:pulse-live 2s ease-in-out infinite}
+    @keyframes pulse-live{0%,100%{box-shadow:0 0 0 0 rgba(255,215,0,.5)}50%{box-shadow:0 0 0 8px rgba(255,215,0,0)}}
+    /* BANDEAU MISE À JOUR */
+    #update-banner{display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:#FFD700;color:#130F2D;padding:12px 16px;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 3px 14px rgba(0,0,0,.25);animation:slideDown .35s ease}
+    @keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
+    #update-banner span{font-size:.85rem;font-weight:600;line-height:1.4}
+    #update-reload-btn{background:#130F2D;color:#FFD700;border:none;border-radius:10px;padding:9px 18px;font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:.2s}
+    #update-reload-btn:active{transform:scale(.96)}
     /* BANDEAU INSTALLATION */
     #install-banner{display:none;margin:0 16px 20px;background:linear-gradient(135deg,#FFD700 0%,#f5c200 100%);border-radius:20px;padding:18px 20px;box-shadow:0 4px 20px rgba(255,215,0,.35);animation:pulse-install 2s ease-in-out infinite}
     @keyframes pulse-install{0%,100%{box-shadow:0 4px 20px rgba(255,215,0,.35)}50%{box-shadow:0 6px 30px rgba(255,215,0,.65)}}
@@ -211,18 +226,126 @@
     .expert-share{background:#FFD700;color:#130F2D;border:none;border-radius:14px;padding:14px 28px;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;width:100%;margin-bottom:10px}
     .expert-home{background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:14px;padding:12px 28px;font-family:'Poppins',sans-serif;font-size:.88rem;cursor:pointer;width:100%}
     .score-mini{display:inline-block;background:#f0f4f8;border-radius:10px;padding:4px 12px;font-size:.75rem;font-weight:600;color:#130F2D;margin-top:4px}
+
+    /* ── ACCUEIL : HEADER COMPACT ────────────────────────────── */
+    .header-compact-acc{background:linear-gradient(135deg,#130F2D 0%,#1e1856 100%);padding:10px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 12px rgba(0,0,0,.3);position:sticky;top:0;z-index:100}
+    .acc-header-logo{width:44px;height:44px;border-radius:8px;object-fit:contain;flex-shrink:0;background:rgba(255,255,255,.08);padding:3px}
+    .acc-header-div{width:1px;height:36px;background:rgba(255,255,255,.2);flex-shrink:0}
+    .acc-header-texts{flex:1;min-width:0}
+    .acc-header-title{font-size:.82rem;font-weight:700;color:#FFD700;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .acc-header-sub{font-size:.68rem;color:rgba(255,255,255,.7);letter-spacing:.5px;margin-top:1px}
+    .acc-header-badge{background:rgba(255,215,0,.15);border:1px solid rgba(255,215,0,.35);border-radius:20px;padding:3px 10px;font-size:.65rem;font-weight:700;color:#FFD700;letter-spacing:.5px;white-space:nowrap}
+    /* ── ACCUEIL : HERO ──────────────────────────────────────── */
+    .acc-hero{background:linear-gradient(135deg,#130F2D 0%,#231d4f 60%,#1a1040 100%);padding:18px 20px 32px;text-align:center;position:relative;overflow:hidden}
+    .acc-hero::after{content:'';position:absolute;bottom:-20px;left:0;right:0;height:40px;background:#f0f4f8;border-radius:50% 50% 0 0}
+    .acc-hero-tagline{font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:#FFD700;font-weight:600;margin-bottom:6px;opacity:.9}
+    .acc-hero-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#fff;line-height:1.3}
+    /* ── ACCUEIL : DIRECTEUR HORIZONTAL ─────────────────────── */
+    .dir-card-h{margin:30px 16px 0;background:#fff;border-radius:20px;box-shadow:0 4px 24px rgba(19,15,45,.1);overflow:hidden;position:relative}
+    .dir-card-h::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#130F2D,#FFD700,#130F2D)}
+    .dir-card-h .dir-inner{display:flex;align-items:stretch}
+    .dir-photo-col-h{background:linear-gradient(160deg,#130F2D 0%,#231d4f 100%);padding:24px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:130px;flex-shrink:0}
+    .dir-photo-h{width:90px;height:90px;border-radius:50%;object-fit:cover;object-position:center top;border:3px solid #FFD700;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+    .dir-name-h{font-family:'Playfair Display',serif;font-size:.8rem;font-weight:700;color:#FFD700;text-align:center;line-height:1.3}
+    .dir-poste-h{font-size:.62rem;color:rgba(255,255,255,.75);text-align:center;line-height:1.4;letter-spacing:.3px}
+    .dir-star-h{color:#FFD700;font-size:.8rem;margin-top:2px}
+    .dir-msg-col-h{flex:1;padding:20px 18px 20px 16px;display:flex;flex-direction:column;gap:10px}
+    .mot-label-h{display:inline-flex;align-items:center;gap:6px;font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#888;border-bottom:2px solid #FFD700;padding-bottom:4px;align-self:flex-start}
+    .mot-text-h{font-family:'Cormorant Garamond',serif;font-size:.95rem;line-height:1.75;color:#2c2c2c;font-style:italic;flex:1}
+    .mot-text-h strong{font-style:normal;color:#130F2D;font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:700}
+    .dir-sig-h{font-family:'Playfair Display',serif;font-size:.82rem;font-weight:600;color:#130F2D;text-align:right;border-top:1px solid #f0f0f0;padding-top:8px;line-height:1.4}
+    .dir-sig-h small{display:block;font-family:'Poppins',sans-serif;font-size:.65rem;color:#888;font-weight:400;font-style:normal}
+    /* ── ACCUEIL : PARTENAIRES VIP ───────────────────────────── */
+    .section-vip{margin:24px 0 0}
+    .section-vip-header{display:flex;align-items:center;justify-content:space-between;padding:0 16px;margin-bottom:14px}
+    .section-vip-left{display:flex;align-items:center;gap:8px}
+    .section-vip-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#130F2D,#231d4f);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+    .section-vip-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:#130F2D}
+    .section-vip-hint{font-size:.65rem;color:#aaa;letter-spacing:.5px}
+    .partners-scroll{display:flex;gap:12px;padding:4px 16px 16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    .partners-scroll::-webkit-scrollbar{display:none}
+    .partner-card{flex:0 0 130px;background:#fff;border-radius:16px;box-shadow:0 2px 14px rgba(19,15,45,.09);padding:16px 10px 14px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;scroll-snap-align:start;transition:.2s;border:2px solid transparent;position:relative;overflow:hidden}
+    .partner-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#130F2D,#FFD700);transform:scaleX(0);transition:.2s;transform-origin:left}
+    .partner-card:hover{border-color:#FFD700;box-shadow:0 6px 20px rgba(19,15,45,.15);transform:translateY(-3px)}
+    .partner-card:hover::after{transform:scaleX(1)}
+    .partner-card:active{transform:scale(.97)}
+    .partner-card.vip-gold{background:linear-gradient(135deg,#fffbea,#fff)}
+    .partner-logo{width:70px;height:70px;object-fit:contain;border-radius:10px}
+    .partner-logo-ph{width:70px;height:70px;border-radius:10px;background:linear-gradient(135deg,#f0f4f8,#e0e8f0);display:flex;align-items:center;justify-content:center;font-size:1.8rem}
+    .partner-name-lbl{font-size:.72rem;font-weight:700;color:#130F2D;text-align:center;line-height:1.3}
+    .partner-tag-lbl{font-size:.58rem;color:#888;text-align:center;line-height:1.3}
+    .partner-vip-badge{position:absolute;top:8px;right:8px;background:#FFD700;color:#130F2D;font-size:.52rem;font-weight:800;padding:2px 5px;border-radius:4px;letter-spacing:.5px}
+    /* ── ACCUEIL : ACTIVITÉS ─────────────────────────────────── */
+    .section-act{margin:24px 0 0}
+    .section-act-header{display:flex;align-items:center;gap:8px;padding:0 16px;margin-bottom:14px}
+    .section-act-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#130F2D,#231d4f);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+    .section-act-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:#130F2D}
+    .act-card{background:#fff;border-radius:18px;margin:0 16px 14px;box-shadow:0 2px 14px rgba(19,15,45,.08);overflow:hidden;display:flex;gap:0;cursor:pointer;transition:.2s}
+    .act-card:hover{box-shadow:0 6px 24px rgba(19,15,45,.14);transform:translateX(3px)}
+    .act-date-col{background:linear-gradient(160deg,#130F2D,#231d4f);min-width:72px;padding:16px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex-shrink:0}
+    .act-date-col.col-detente{background:linear-gradient(160deg,#0a7a4b,#0e9e62)}
+    .act-day{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:#FFD700;line-height:1}
+    .act-month{font-size:.62rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.8)}
+    .act-year{font-size:.58rem;color:rgba(255,255,255,.5);margin-top:2px}
+    .act-body{padding:14px 16px;flex:1}
+    .act-badge{display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 9px;border-radius:20px;margin-bottom:7px}
+    .badge-discover{background:#cce5ff;color:#003d80}
+    .badge-presenter{background:#d4edda;color:#155724}
+    .badge-designer{background:#e8d5ff;color:#4a0080}
+    .badge-cff{background:#fff3cd;color:#856404}
+    .badge-detente{background:#fde8f5;color:#8b0057}
+    .act-title{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:#130F2D;margin-bottom:4px;line-height:1.3}
+    .act-desc{font-size:.78rem;color:#666;line-height:1.5}
+    .act-footer{display:flex;align-items:center;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid #f0f0f0;flex-wrap:wrap}
+    .act-loc{font-size:.72rem;color:#888}
+    .act-dot{width:3px;height:3px;border-radius:50%;background:#ccc}
+    .act-price{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#FFD700,#f5c200);color:#130F2D;font-size:.72rem;font-weight:800;border-radius:20px;padding:3px 10px;margin-top:6px;letter-spacing:.3px}
+    /* ── MODAL PARTENAIRE ────────────────────────────────────── */
+    .partner-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9998;align-items:flex-end;justify-content:center}
+    .partner-overlay.show{display:flex;animation:ovFadeIn .2s ease}
+    @keyframes ovFadeIn{from{opacity:0}to{opacity:1}}
+    .partner-modal{background:#fff;border-radius:24px 24px 0 0;padding:24px 20px 36px;width:100%;max-width:480px;animation:modalUp .3s ease}
+    @keyframes modalUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+    .modal-handle{width:40px;height:4px;border-radius:2px;background:#e0e0e0;margin:0 auto 18px}
+    .modal-logo-row{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+    .modal-logo{width:70px;height:70px;object-fit:contain;border-radius:12px;border:2px solid #f0f0f0;flex-shrink:0}
+    .modal-logo-ph{width:70px;height:70px;border-radius:12px;background:linear-gradient(135deg,#f0f4f8,#e0e8f0);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0}
+    .modal-pname{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:#130F2D}
+    .modal-ptype{font-size:.78rem;color:#888;margin-top:2px}
+    .modal-desc{font-size:.88rem;color:#444;line-height:1.7;margin-bottom:16px}
+    .modal-svcs h4{font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#888;margin-bottom:8px}
+    .svc-tag{display:inline-block;background:#f0f4f8;color:#130F2D;font-size:.72rem;font-weight:600;border-radius:20px;padding:4px 12px;margin:3px 3px 3px 0}
+    .modal-close{width:100%;background:#130F2D;color:#FFD700;border:none;border-radius:14px;padding:13px;font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:12px}
   </style>
 </head>
 <body>
 
+<!-- BANNIÈRE MISE À JOUR -->
+<div id="update-banner">
+  <span>🔄 Nouvelle version disponible !</span>
+  <button id="update-reload-btn" onclick="window.location.reload()">Actualiser</button>
+</div>
+
 <!-- ===== ACCUEIL ===== -->
 <section id="accueil" class="section active">
-  <div class="page-header">
-    <img src="assets/logo-blanc.png" alt="Logo INF" onerror="this.style.display='none'"/>
-    <h1>Institut National de Formation</h1>
-    <p>JCI Togo</p>
+
+  <!-- Header compact -->
+  <div class="header-compact-acc">
+    <img src="assets/logo-blanc.png" class="acc-header-logo" alt="INF"
+         onerror="this.style.display='none'"/>
+    <div class="acc-header-div"></div>
+    <div class="acc-header-texts">
+      <div class="acc-header-title">Institut National de Formation</div>
+      <div class="acc-header-sub">JCI TOGO · INF</div>
+    </div>
+    <div class="acc-header-badge">🏆 INF</div>
   </div>
-  <div style="height:28px"></div>
+
+  <!-- Hero -->
+  <div class="acc-hero">
+    <div class="acc-hero-tagline">Bienvenue sur</div>
+    <div class="acc-hero-title">L'espace officiel<br/>des Formateurs INF</div>
+  </div>
 
   <!-- Bandeau d'installation PWA -->
   <div id="install-banner">
@@ -237,23 +360,128 @@
     <button id="install-dismiss">Plus tard</button>
   </div>
 
-  <div class="directeur-card" style="margin:0 16px 20px;background:#fff;border-radius:20px;padding:24px 20px;box-shadow:0 4px 20px rgba(19,15,45,.1)">
-    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:16px">
-      <img src="assets/kokouvi-djiwonou.jpeg" alt="Directeur" class="dir-photo"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-      <div class="dir-photo-placeholder" style="display:none">👤</div>
-      <div class="dir-name">Kokouvi DJIWONOU</div>
-      <div class="dir-title">Directeur de l'INF · JCI Togo</div>
-    </div>
-    <div class="mot-directeur">
-      <p>Chers Formateurs,</p><br/>
-      <p>Notre vision est claire : <strong>être l'organe de la JCI Togo qui garantit la qualité et l'excellence.</strong></p><br/>
-      <p>Pour y parvenir, notre mission est de <strong>garantir, à travers la formation, la qualité et l'excellence des membres pour la performance de nos organisations.</strong></p><br/>
-      <p>Vous êtes les artisans de cette excellence. Chaque formation que vous dispensez est un acte de transformation — pour nos membres, pour nos organisations, pour la JCI Togo tout entière.</p><br/>
-      <p>Restez engagés, restez excellents. L'INF compte sur vous.</p>
-      <div class="signature">— Kokouvi DJIWONOU<br/><span style="font-size:.78rem;color:#888;font-weight:400">Directeur de l'INF</span></div>
+  <!-- Directeur — layout horizontal -->
+  <div class="dir-card-h">
+    <div class="dir-inner">
+      <div class="dir-photo-col-h">
+        <img src="assets/kokouvi-djiwonou.jpeg" class="dir-photo-h" alt="Directeur"
+             onerror="this.style.display='none'"/>
+        <div class="dir-name-h">Kokouvi<br/>DJIWONOU</div>
+        <div class="dir-poste-h">Directeur de l'INF<br/>JCI Togo</div>
+        <div class="dir-star-h">⭐ 2026</div>
+      </div>
+      <div class="dir-msg-col-h">
+        <div class="mot-label-h">✉️ Mot du Directeur</div>
+        <div class="mot-text-h">
+          <p>Chers Formateurs,</p><br/>
+          <p>Notre vision est claire : <strong>être l'organe de la JCI Togo qui garantit la qualité et l'excellence.</strong></p><br/>
+          <p>Pour y parvenir, notre mission est de <strong>garantir, à travers la formation, la qualité et l'excellence des membres pour la performance de nos organisations.</strong></p><br/>
+          <p>Vous êtes les artisans de cette excellence. Chaque formation que vous dispensez est un acte de transformation — pour nos membres, pour nos organisations, pour la JCI Togo tout entière.</p><br/>
+          <p>Restez engagés, restez excellents. L'INF compte sur vous.</p>
+        </div>
+        <div class="dir-sig-h">— Kokouvi DJIWONOU<small>Directeur de l'INF · Mandat 2026</small></div>
+      </div>
     </div>
   </div>
+
+  <!-- Partenaires VIP -->
+  <div class="section-vip">
+    <div class="section-vip-header">
+      <div class="section-vip-left">
+        <div class="section-vip-icon">🤝</div>
+        <div class="section-vip-title">Nos Partenaires VIP</div>
+      </div>
+      <div class="section-vip-hint">← Glisser</div>
+    </div>
+    <div class="partners-scroll">
+      <div class="partner-card vip-gold" onclick="openPartner('ls')">
+        <div class="partner-vip-badge">VIP</div>
+        <img src="assets/logo-light-service.png" class="partner-logo" alt="Light-Service"
+             onerror="this.outerHTML='&lt;div class=&quot;partner-logo-ph&quot;&gt;💡&lt;/div&gt;'"/>
+        <div class="partner-name-lbl">Light-Service</div>
+        <div class="partner-tag-lbl">Communication &amp;<br/>Événementiel</div>
+      </div>
+      <div class="partner-card" onclick="openPartner('inf')">
+        <img src="assets/logo-inf-officiel.png" class="partner-logo" alt="INF JCI"/>
+        <div class="partner-name-lbl">INF JCI Togo</div>
+        <div class="partner-tag-lbl">Formation &amp;<br/>Certification</div>
+      </div>
+      <div class="partner-card" onclick="openPartner('p3')">
+        <div class="partner-logo-ph">🏢</div>
+        <div class="partner-name-lbl">Partenaire 3</div>
+        <div class="partner-tag-lbl">À définir</div>
+      </div>
+      <div class="partner-card" onclick="openPartner('p4')">
+        <div class="partner-logo-ph">🌐</div>
+        <div class="partner-name-lbl">Partenaire 4</div>
+        <div class="partner-tag-lbl">À définir</div>
+      </div>
+      <div class="partner-card" onclick="openPartner('p5')">
+        <div class="partner-logo-ph">🤝</div>
+        <div class="partner-name-lbl">Partenaire 5</div>
+        <div class="partner-tag-lbl">À définir</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activités à venir -->
+  <div class="section-act">
+    <div class="section-act-header">
+      <div class="section-act-icon">📅</div>
+      <div class="section-act-title">Nos Activités à Venir</div>
+    </div>
+    <div class="act-card">
+      <div class="act-date-col"><div class="act-day">13</div><div class="act-month">Juin</div><div class="act-year">2026</div></div>
+      <div class="act-body">
+        <span class="act-badge badge-discover">DISCOVER</span>
+        <div class="act-title">Cours JCI — Discover</div>
+        <div class="act-desc">Connaître l'organisation, le parcours et le leader.</div>
+        <div class="act-footer"><span class="act-loc">📅 Samedi 13 Juin</span><div class="act-dot"></div><span class="act-loc">📍 Lomé, JCI Togo</span></div>
+        <span class="act-price">💰 5 000 FCFA</span>
+      </div>
+    </div>
+    <div class="act-card">
+      <div class="act-date-col"><div class="act-day">27</div><div class="act-month">Juin</div><div class="act-year">2026</div></div>
+      <div class="act-body">
+        <span class="act-badge badge-presenter">PRESENTER</span>
+        <div class="act-title">Cours JCI — Presenter</div>
+        <div class="act-desc">Développer les compétences de présentation efficaces.</div>
+        <div class="act-footer"><span class="act-loc">📅 Samedi 27 Juin</span><div class="act-dot"></div><span class="act-loc">📍 Lomé, JCI Togo</span></div>
+        <span class="act-price">💰 10 000 FCFA</span>
+      </div>
+    </div>
+    <div class="act-card">
+      <div class="act-date-col"><div class="act-day">10</div><div class="act-month">Juil</div><div class="act-year">2026</div></div>
+      <div class="act-body">
+        <span class="act-badge badge-designer">DESIGNER</span>
+        <div class="act-title">Cours de Conception de Modules (CCM)</div>
+        <div class="act-desc">Cours de conception de modules. Requis pour le grade Formateur National Alpha.</div>
+        <div class="act-footer"><span class="act-loc">📅 Vend. 10 – Dim. 12 Juillet</span><div class="act-dot"></div><span class="act-loc">📍 Lomé, JCI Togo</span></div>
+        <span class="act-price">💰 90 000 FCFA</span>
+      </div>
+    </div>
+    <div class="act-card">
+      <div class="act-date-col"><div class="act-day">25</div><div class="act-month">Juil</div><div class="act-year">2026</div></div>
+      <div class="act-body">
+        <span class="act-badge badge-cff">CFF</span>
+        <div class="act-title">Cours de Formation des Formateurs (CFF)</div>
+        <div class="act-desc">Cours de formation des formateurs. Certification niveau Formateur Alpha.</div>
+        <div class="act-footer"><span class="act-loc">📅 Sam. 25 – Dim. 26 Juillet</span><div class="act-dot"></div><span class="act-loc">📍 Lomé, JCI Togo</span></div>
+        <span class="act-price">💰 40 000 FCFA</span>
+      </div>
+    </div>
+    <div class="act-card">
+      <div class="act-date-col col-detente"><div class="act-day">01</div><div class="act-month">Août</div><div class="act-year">2026</div></div>
+      <div class="act-body">
+        <span class="act-badge badge-detente">🌴 Détente</span>
+        <div class="act-title">Sortie Détente des Formateurs</div>
+        <div class="act-desc">Moment de cohésion et de convivialité pour tous les formateurs INF. Journée de détente et de renforcement des liens.</div>
+        <div class="act-footer"><span class="act-loc">📅 Samedi 1er Août 2026</span><div class="act-dot"></div><span class="act-loc">📍 À définir</span></div>
+        <span class="act-price">🤝 Participation : 10 000 FCFA</span>
+      </div>
+    </div>
+  </div>
+
 </section>
 
 <!-- ===== RAPPORTS ===== -->
@@ -309,20 +537,31 @@
   <div id="search-results"></div>
 </section>
 
-<!-- ===== BIBLIOTHEQUE ===== -->
-<section id="bibliotheque" class="section">
+<!-- ===== FORMATION ===== -->
+<section id="formation" class="section">
   <div class="page-header">
-    <h1>📚 Bibliothèque</h1>
-    <p>Ressources de formation INF</p>
+    <h1>🎓 Formation</h1>
+    <p>Ressources et formations en ligne — INF JCI Togo</p>
   </div>
   <div style="height:28px"></div>
   <div class="content">
+
+    <!-- Carte 1 : Suivre une formation en ligne -->
+    <a class="big-card formation-live" href="https://meet.google.com/acr-mnya-ksn" target="_blank" rel="noopener">
+      <div class="bc-icon">🎥</div>
+      <h3>Suivre une formation INF</h3>
+      <p>Suivez toutes les formations en ligne organisées par l'INF JCI-TOGO. Rejoignez la salle virtuelle et participez en direct aux sessions animées par nos formateurs certifiés.</p>
+      <div class="bc-btn formation-live-btn">Rejoindre la formation →</div>
+    </a>
+
+    <!-- Carte 2 : Bibliothèque -->
     <a class="big-card" href="https://drive.google.com/drive/folders/1PdXR-lmTbv_wzRGHvUlIJpYpvtJ9RwZ1?usp=sharing" target="_blank" rel="noopener">
-      <div class="bc-icon">📂</div>
-      <h3>Ressources de Formation</h3>
+      <div class="bc-icon">📚</div>
+      <h3>Bibliothèque de Ressources</h3>
       <p>Accédez à tous les modules, guides et outils pédagogiques mis à disposition par l'INF.</p>
       <div class="bc-btn">Consulter les ressources →</div>
     </a>
+
   </div>
 </section>
 
@@ -482,6 +721,27 @@
   </div>
 </section>
 
+<!-- ===== MODAL PARTENAIRE ===== -->
+<div class="partner-overlay" id="partnerOverlay" onclick="closePartner(event)">
+  <div class="partner-modal">
+    <div class="modal-handle"></div>
+    <div class="modal-logo-row">
+      <div id="modal-logo-ph" class="modal-logo-ph">🤝</div>
+      <img id="modal-logo-img" class="modal-logo" style="display:none" src="" alt=""/>
+      <div>
+        <div class="modal-pname" id="modal-pname">Partenaire</div>
+        <div class="modal-ptype" id="modal-ptype">Partenaire VIP</div>
+      </div>
+    </div>
+    <p class="modal-desc" id="modal-pdesc"></p>
+    <div class="modal-svcs">
+      <h4>Services &amp; Domaines</h4>
+      <div id="modal-ptags"></div>
+    </div>
+    <button class="modal-close" onclick="closePartnerBtn()">Fermer</button>
+  </div>
+</div>
+
 <!-- ===== NAVIGATION ===== -->
 <nav>
   <button class="nav-btn active" onclick="showSection('accueil',this)">
@@ -493,8 +753,8 @@
   <button class="nav-btn" onclick="showSection('formateurs',this)">
     <span class="icon">👥</span><span>Formateurs</span>
   </button>
-  <button class="nav-btn" onclick="showSection('bibliotheque',this)">
-    <span class="icon">📚</span><span>Biblio.</span>
+  <button class="nav-btn" onclick="showSection('formation',this)">
+    <span class="icon">🎓</span><span>Formation</span>
   </button>
   <button class="nav-btn" onclick="showSection('suggestion',this)">
     <span class="icon">💡</span><span>Suggestion</span>
@@ -506,7 +766,7 @@
     <span class="icon">💳</span><span>Cotis.</span>
   </button>
   <button class="nav-btn" onclick="showSection('quiz',this)">
-    <span class="icon">🎓</span><span>Quiz</span>
+    <span class="icon">🧠</span><span>Quiz</span>
   </button>
 </nav>
 
@@ -787,6 +1047,17 @@ document.getElementById('search-input').addEventListener('keydown', e => { if (e
 // ─── PWA ──────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
+  // Le SW envoie SW_UPDATED après activation → rechargement automatique
+  navigator.serviceWorker.addEventListener('message', event => {
+    if (event.data && event.data.type === 'SW_UPDATED') {
+      window.location.reload();
+    }
+  });
+  // Filet de sécurité : si controllerchange arrive avant le message
+  const hadController = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (hadController) document.getElementById('update-banner').style.display = 'flex';
+  });
 }
 
 // ─── BOUTON INSTALLATION PWA ──────────────────────────────
@@ -1048,12 +1319,52 @@ const LEVELS = [
 // ÉTAT DU JEU
 // ═══════════════════════════════════════
 const TOTAL_Q = 40;
+const STATE_KEY = 'inf-quiz-state';
 let state = {
   unlockedLevels:[true,false,false,false,false],
   completedLevels:[false,false,false,false,false],
   bestScores:[null,null,null,null,null],
   currentLevel:0, currentQ:0, score:0, answered:false, shuffledQ:[]
 };
+// ── Charger la progression depuis localStorage ──
+(function(){
+  try{
+    const s=JSON.parse(localStorage.getItem(STATE_KEY)||'null');
+    if(s){
+      if(Array.isArray(s.unlockedLevels))  state.unlockedLevels  = s.unlockedLevels;
+      if(Array.isArray(s.completedLevels)) state.completedLevels = s.completedLevels;
+      if(Array.isArray(s.bestScores))      state.bestScores      = s.bestScores;
+      // Restaurer une partie en cours
+      if(s.midGame && Array.isArray(s.midGame.shuffledQ) && s.midGame.shuffledQ.length > 0){
+        state.currentLevel = s.midGame.level;
+        state.currentQ     = s.midGame.q;
+        state.score        = s.midGame.score;
+        state.shuffledQ    = s.midGame.shuffledQ;
+      }
+    }
+  }catch(e){}
+})();
+// ── Sauvegarder la progression dans localStorage ──
+function saveState(){
+  try{
+    const toSave = {
+      unlockedLevels:  state.unlockedLevels,
+      completedLevels: state.completedLevels,
+      bestScores:      state.bestScores,
+      midGame: null
+    };
+    // Sauvegarder la partie en cours si au moins 1 question a été jouée et pas terminé
+    if(state.shuffledQ.length > 0 && state.currentQ > 0 && state.currentQ < state.shuffledQ.length){
+      toSave.midGame = {
+        level:     state.currentLevel,
+        q:         state.currentQ,
+        score:     state.score,
+        shuffledQ: state.shuffledQ
+      };
+    }
+    localStorage.setItem(STATE_KEY, JSON.stringify(toSave));
+  }catch(e){}
+}
 
 function show(id) {
   ['quiz-home','quiz-game','quiz-result','quiz-expert'].forEach(s=>{
@@ -1082,8 +1393,16 @@ function updateHomeCards(){
     } else if(state.unlockedLevels[i]){
       card.classList.add('current');
       badge.className='level-badge badge-current';
-      badge.textContent='Disponible';
-      card.onclick=()=>startLevel(i);
+      // Vérifier si une partie est en cours sur ce niveau
+      const hasMidGame = state.shuffledQ.length > 0 && state.currentLevel===i
+                         && state.currentQ > 0 && state.currentQ < state.shuffledQ.length;
+      if(hasMidGame){
+        badge.textContent='▶ Q'+(state.currentQ+1)+'/'+state.shuffledQ.length;
+        card.onclick=()=>resumeLevel(i);
+      } else {
+        badge.textContent='Disponible';
+        card.onclick=()=>startLevel(i);
+      }
     } else {
       card.classList.add('locked');
       badge.className='level-badge badge-locked';
@@ -1109,6 +1428,7 @@ function startLevel(lvl){
   state.score=0;
   state.answered=false;
   state.shuffledQ=[...LEVELS[lvl].questions].sort(()=>Math.random()-.5);
+  saveState(); // efface toute sauvegarde de mi-partie pour ce niveau (currentQ=0 → midGame=null)
   document.getElementById('game-level-tag').textContent=LEVELS[lvl].name+' · '+LEVELS[lvl].label;
   show('quiz-game');
   renderQuestion();
@@ -1181,8 +1501,19 @@ function showFeedback(isCorrect,expl){
 
 function nextQuestion(){
   state.currentQ++;
-  if(state.currentQ>=state.shuffledQ.length) showResult();
-  else renderQuestion();
+  if(state.currentQ>=state.shuffledQ.length){
+    showResult();
+  } else {
+    saveState(); // ← sauvegarde la position après chaque question
+    renderQuestion();
+  }
+}
+function resumeLevel(lvl){
+  // Reprend la partie là où elle s'était arrêtée (état déjà chargé depuis localStorage)
+  state.answered=false;
+  document.getElementById('game-level-tag').textContent=LEVELS[lvl].name+' · '+LEVELS[lvl].label;
+  show('quiz-game');
+  renderQuestion();
 }
 
 function showResult(){
@@ -1194,6 +1525,7 @@ function showResult(){
     state.completedLevels[lvl]=true;
     if(lvl+1<5) state.unlockedLevels[lvl+1]=true;
   }
+  saveState(); // ← persistance de la progression
   const pct=Math.round(state.score/TOTAL_Q*100);
   let stars='⭐';
   if(state.score>=38) stars='⭐⭐⭐';
@@ -1222,10 +1554,41 @@ function shareResult(){
   else{navigator.clipboard.writeText(msg).then(()=>alert('Texte copié ! Partage-le sur tes réseaux 🎉'));}
 }
 function resetAll(){
+  try{localStorage.removeItem(STATE_KEY);}catch(e){}
   state={unlockedLevels:[true,false,false,false,false],completedLevels:[false,false,false,false,false],bestScores:[null,null,null,null,null],currentLevel:0,currentQ:0,score:0,answered:false,shuffledQ:[]};
   goHome();
 }
 updateHomeCards();
+
+// ─── PARTENAIRES VIP ──────────────────────────────────────────
+const partnersData = {
+  ls:  { name:'Light-Service',  type:'Structure multiservices', logo:'assets/logo-light-service.png', icon:'💡',
+         desc:'Light-Service est une structure multiservices dynamique basée à Lomé. Spécialisée dans la communication visuelle, l\'organisation événementielle et le commerce, elle accompagne entreprises et organisations dans leur rayonnement.',
+         tags:['Communication','Événementiel','Commerce','Design graphique','Marketing'] },
+  inf: { name:'INF JCI Togo',   type:'Institut de Formation',   logo:'assets/logo-inf-officiel.png',  icon:'🏆',
+         desc:'L\'Institut National de Formation de la JCI Togo est l\'organe officiel de formation et de certification des formateurs JCI au Togo. Il garantit la qualité et l\'excellence à travers ses programmes.',
+         tags:['Formation','Certification','Leadership','Management','Entrepreneuriat'] },
+  p3:  { name:'Partenaire 3', type:'À compléter', logo:'', icon:'🏢', desc:'Informations sur ce partenaire à venir. Contactez le bureau INF.', tags:['Partenaire VIP'] },
+  p4:  { name:'Partenaire 4', type:'À compléter', logo:'', icon:'🌐', desc:'Informations sur ce partenaire à venir. Contactez le bureau INF.', tags:['Partenaire VIP'] },
+  p5:  { name:'Partenaire 5', type:'À compléter', logo:'', icon:'🤝', desc:'Informations sur ce partenaire à venir. Contactez le bureau INF.', tags:['Partenaire VIP'] }
+};
+function openPartner(id) {
+  const p = partnersData[id]; if (!p) return;
+  document.getElementById('modal-pname').textContent = p.name;
+  document.getElementById('modal-ptype').textContent = p.type;
+  document.getElementById('modal-pdesc').textContent = p.desc;
+  const img = document.getElementById('modal-logo-img');
+  const ph  = document.getElementById('modal-logo-ph');
+  if (p.logo) {
+    img.src = p.logo; img.style.display = 'block'; ph.style.display = 'none';
+    img.onerror = () => { img.style.display='none'; ph.style.display='flex'; ph.textContent=p.icon; };
+  } else { img.style.display='none'; ph.style.display='flex'; ph.textContent=p.icon; }
+  document.getElementById('modal-ptags').innerHTML = p.tags.map(t=>`<span class="svc-tag">${t}</span>`).join('');
+  document.getElementById('partnerOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closePartner(e) { if (e.target===document.getElementById('partnerOverlay')) closePartnerBtn(); }
+function closePartnerBtn() { document.getElementById('partnerOverlay').classList.remove('show'); document.body.style.overflow=''; }
 </script>
 </body>
 </html>         
