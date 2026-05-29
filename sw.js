@@ -1,4 +1,4 @@
-const CACHE_NAME = 'inf-jci-v11';
+const CACHE_NAME = 'inf-jci-v12';
 const ASSETS = [
   './',
   './index.html',
@@ -6,6 +6,7 @@ const ASSETS = [
   './assets/logo-inf-officiel.png',
   './assets/logo-blanc.png',
   './assets/logo-filigrane.png',
+  './assets/logo-light-service.png',
   './assets/kokouvi-djiwonou.jpeg',
   './assets/jean-pierre-agonglovi.jpeg',
   './assets/anne-solange-ameganvi.jpeg',
@@ -37,9 +38,7 @@ self.addEventListener('activate', e => {
       .then(() => self.clients.matchAll({ type: 'window' }))
       .then(clients => {
         clients.forEach(c => {
-          // Notifie la page (pour les clients récents avec le listener)
           c.postMessage({ type: 'SW_UPDATED' });
-          // Force le rechargement (fonctionne même sur les anciens clients)
           try { c.navigate(c.url); } catch (e) {}
         });
       })
