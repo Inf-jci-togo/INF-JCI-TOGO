@@ -1,4 +1,4 @@
-const CACHE_NAME = 'inf-jci-v19';
+const CACHE_NAME = 'inf-jci-v20';
 const ASSETS = [
   './',
   './index.html',
@@ -45,11 +45,30 @@ self.addEventListener('activate', e => {
   );
 });
 
-// Fetch : cache-first (fonctionne hors ligne)
+// Fetch : network-first pour index.html, cache-first pour les assets
 self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(cached => {
-      return cached || fetch(e.request).catch(() => caches.match('./index.html'));
-    })
-  );
+  const url = e.request.url;
+  const isHTML = url.endsWith('/') || url.endsWith('/index.html') || url.includes('INF-JCI-TOGO/') && !url.includes('.');
+
+  if (isHTML) {
+    // Network-first pour la page principale → toujours la dernière version
+    e.respondWith(
+      fetch(e.request)
+        .then(response => {
+          if (response && response.status === 200) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then(c => c.put(e.request, clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match('./index.html'))
+    );
+  } else {
+    // Cache-first pour images, manifest, etc. → rapide et hors ligne
+    e.respondWith(
+      caches.match(e.request).then(cached => {
+        return cached || fetch(e.request).catch(() => caches.match('./index.html'));
+      })
+    );
+  }
 });
