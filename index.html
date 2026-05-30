@@ -115,16 +115,21 @@
     /* BIG CARDS (Formation/Bibliothèque/Suggestion) */
     .big-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px 22px;text-align:center;box-shadow:0 4px 18px var(--shadow);cursor:pointer;transition:.2s;text-decoration:none;display:block;color:inherit}
     .big-card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.12)}
-    .big-card .bc-icon{font-size:3rem;margin-bottom:12px}
+    .big-card .bc-icon{width:56px;height:56px;border-radius:14px;background:rgba(0,151,215,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+    .big-card .bc-icon .material-symbols-rounded{font-size:28px;color:var(--blue)}
+    .big-card.formation-live .bc-icon{background:rgba(0,151,215,.2)}
     .big-card h3{font-size:1.05rem;font-weight:700;color:var(--text-1);margin-bottom:8px}
     .big-card p{font-size:.85rem;color:var(--text-2);line-height:1.6}
-    .big-card .bc-btn{display:inline-block;margin-top:18px;background:#130F2D;color:#FFD700;padding:12px 28px;border-radius:12px;font-weight:600;font-size:.9rem}
+    .big-card .bc-btn{display:inline-flex;align-items:center;gap:7px;margin-top:16px;background:var(--blue);color:#fff;padding:11px 22px;border-radius:10px;font-weight:700;font-size:.85rem;transition:.2s}
+    .big-card .bc-btn .material-symbols-rounded{font-size:16px}
+    .big-card .bc-btn:hover{background:var(--blue-d)}
     /* FORMATION LIVE */
     .big-card.formation-live{background:linear-gradient(135deg,#130F2D 0%,#1e1856 100%);border:2px solid #FFD700}
     .big-card.formation-live h3{color:#FFD700}
     .big-card.formation-live p{color:rgba(255,255,255,.82)}
     .big-card.formation-live .bc-icon{filter:drop-shadow(0 0 8px rgba(255,215,0,.5))}
-    .formation-live-btn{background:#FFD700!important;color:#130F2D!important;display:flex;align-items:center;justify-content:center;gap:8px;animation:pulse-live 2s ease-in-out infinite}
+    .formation-live-btn{background:#0097D7!important;color:#fff!important;display:flex;align-items:center;justify-content:center;gap:8px;animation:pulse-live 2s ease-in-out infinite}
+    @keyframes pulse-live{0%,100%{box-shadow:0 0 0 0 rgba(0,151,215,.4)}50%{box-shadow:0 0 0 8px rgba(0,151,215,0)}}
     @keyframes pulse-live{0%,100%{box-shadow:0 0 0 0 rgba(255,215,0,.5)}50%{box-shadow:0 0 0 8px rgba(255,215,0,0)}}
     /* BANDEAU MISE À JOUR */
     #update-banner{display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:#FFD700;color:#130F2D;padding:12px 16px;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 3px 14px rgba(0,0,0,.25);animation:slideDown .35s ease}
@@ -186,11 +191,13 @@
     .badge-current{background:var(--blue);color:#fff}
     .badge-locked{background:var(--border);color:var(--text-3)}
     .quiz-intro{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:0 2px 14px var(--shadow);margin-bottom:16px;text-align:center}
-    .quiz-intro .trophy{font-size:3rem;margin-bottom:8px;color:var(--gold)}
+    .quiz-intro .trophy{margin-bottom:8px}
+    .quiz-intro .trophy .material-symbols-rounded{font-size:3rem;color:var(--gold)}
     .quiz-intro h2{color:var(--text-1);font-size:1.1rem;font-weight:700;margin-bottom:6px}
     .quiz-intro p{color:var(--text-2);font-size:.85rem;line-height:1.6}
     .quiz-rules{background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:14px;text-align:left}
     .quiz-rules li{font-size:.8rem;color:var(--text-2);margin:5px 0;display:flex;align-items:center;gap:8px}
+    .quiz-rules li .material-symbols-rounded{font-size:15px;color:var(--blue);flex-shrink:0}
     #quiz-game{display:none;padding:16px}
     .quiz-topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
     .quiz-level-tag{background:var(--navy);color:var(--blue);font-size:.75rem;font-weight:700;padding:5px 14px;border-radius:20px;border:1px solid var(--blue)}
@@ -579,18 +586,18 @@
 
     <!-- Carte 1 : Suivre une formation en ligne -->
     <a class="big-card formation-live" href="https://meet.google.com/acr-mnya-ksn" target="_blank" rel="noopener">
-      <div class="bc-icon">🎥</div>
+      <div class="bc-icon"><span class="material-symbols-rounded">videocam</span></div>
       <h3>Suivre une formation INF</h3>
-      <p>Suivez toutes les formations en ligne organisées par l'INF JCI-TOGO. Rejoignez la salle virtuelle et participez en direct aux sessions animées par nos formateurs certifiés.</p>
-      <div class="bc-btn formation-live-btn">Rejoindre la formation →</div>
+      <p>Rejoignez la salle virtuelle et participez en direct aux sessions animées par nos formateurs certifiés.</p>
+      <div class="bc-btn formation-live-btn"><span class="material-symbols-rounded">play_circle</span>Rejoindre la formation</div>
     </a>
 
     <!-- Carte 2 : Bibliothèque -->
     <a class="big-card" href="https://drive.google.com/drive/folders/1PdXR-lmTbv_wzRGHvUlIJpYpvtJ9RwZ1?usp=sharing" target="_blank" rel="noopener">
-      <div class="bc-icon">📚</div>
+      <div class="bc-icon"><span class="material-symbols-rounded">library_books</span></div>
       <h3>Bibliothèque de Ressources</h3>
       <p>Accédez à tous les modules, guides et outils pédagogiques mis à disposition par l'INF.</p>
-      <div class="bc-btn">Consulter les ressources →</div>
+      <div class="bc-btn"><span class="material-symbols-rounded">open_in_new</span>Consulter les ressources</div>
     </a>
 
   </div>
@@ -605,10 +612,10 @@
   <div style="height:28px"></div>
   <div class="content">
     <a class="big-card" href="https://forms.gle/AjZEvCgHHQ7iYRbw7" target="_blank" rel="noopener">
-      <div class="bc-icon">💬</div>
+      <div class="bc-icon"><span class="material-symbols-rounded">forum</span></div>
       <h3>Partagez vos idées</h3>
-      <p>Vos suggestions nous aident à améliorer l'INF et à mieux servir les formateurs. N'hésitez pas à partager vos idées, remarques et propositions.</p>
-      <div class="bc-btn">Ouvrir la Boîte à Suggestions →</div>
+      <p>Vos suggestions nous aident à améliorer l'INF et à mieux servir les formateurs. Partagez vos idées, remarques et propositions.</p>
+      <div class="bc-btn"><span class="material-symbols-rounded">send</span>Ouvrir la Boîte à Suggestions</div>
     </a>
   </div>
 </section>
@@ -655,43 +662,43 @@
 
   <div id="quiz-home">
     <div class="quiz-intro">
-      <div class="trophy">🏆</div>
+      <div class="trophy"><span class="material-symbols-rounded">emoji_events</span></div>
       <h2>Défi Formateur INF</h2>
       <p>Réponds aux questions sur le Programme de Formation et le Règlement Intérieur de l'INF JCI Togo.</p>
       <div class="quiz-rules">
         <ul style="list-style:none">
-          <li>🎯 <span><strong>5 niveaux</strong> de difficulté croissante</span></li>
-          <li>❓ <span><strong>40 questions</strong> mélangées (QCM + Vrai/Faux) par niveau</span></li>
-          <li>✅ <span>Score minimum <strong>28/40</strong> (70%) pour débloquer le niveau suivant</span></li>
-          <li>🌟 <span>Complète les 5 niveaux pour devenir <strong>EXPERT INF</strong></span></li>
+          <li><span class="material-symbols-rounded">target</span><span><strong>5 niveaux</strong> de difficulté croissante</span></li>
+          <li><span class="material-symbols-rounded">help</span><span><strong>40 questions</strong> mélangées (QCM + Vrai/Faux) par niveau</span></li>
+          <li><span class="material-symbols-rounded">check_circle</span><span>Score minimum <strong>28/40</strong> (70%) pour débloquer</span></li>
+          <li><span class="material-symbols-rounded">star</span><span>Complète les 5 niveaux → <strong>EXPERT INF</strong></span></li>
         </ul>
       </div>
     </div>
     <div class="level-grid">
       <div class="level-card current" id="card-0" onclick="startLevel(0)">
         <span class="level-badge badge-current">Disponible</span>
-        <div class="level-icon">🌱</div>
+        <span class="material-symbols-rounded level-icon">spa</span>
         <div class="level-name">Niveau 1</div>
         <div class="level-sub">Débutant</div>
         <div class="score-mini" id="score-mini-0"></div>
       </div>
       <div class="level-card locked" id="card-1">
         <span class="level-badge badge-locked">Verrouillé</span>
-        <div class="level-icon">📘</div>
+        <span class="material-symbols-rounded level-icon">menu_book</span>
         <div class="level-name">Niveau 2</div>
         <div class="level-sub">Apprenti</div>
         <div class="score-mini" id="score-mini-1"></div>
       </div>
       <div class="level-card locked" id="card-2">
         <span class="level-badge badge-locked">Verrouillé</span>
-        <div class="level-icon">⚡</div>
+        <span class="material-symbols-rounded level-icon">bolt</span>
         <div class="level-name">Niveau 3</div>
         <div class="level-sub">Confirmé</div>
         <div class="score-mini" id="score-mini-2"></div>
       </div>
       <div class="level-card locked" id="card-3">
         <span class="level-badge badge-locked">Verrouillé</span>
-        <div class="level-icon">🔥</div>
+        <span class="material-symbols-rounded level-icon">local_fire_department</span>
         <div class="level-name">Niveau 4</div>
         <div class="level-sub">Avancé</div>
         <div class="score-mini" id="score-mini-3"></div>
@@ -699,7 +706,7 @@
     </div>
     <div class="level-card locked" id="card-4" style="margin:0 0 20px">
       <span class="level-badge badge-locked">Verrouillé</span>
-      <div class="level-icon">👑</div>
+      <span class="material-symbols-rounded level-icon">crown</span>
       <div class="level-name">Niveau 5 — Expert</div>
       <div class="level-sub">Le défi ultime · Maîtrise totale de l'INF</div>
       <div class="score-mini" id="score-mini-4"></div>
@@ -833,7 +840,7 @@ function buildBureau() {
       <div class="b-avatar" style="display:none">👤</div>
       <div class="b-name">${m.nom}</div>
       <div class="b-poste">${m.poste}</div>
-      <a href="tel:${m.contact}">📞 ${m.contact}</a>
+      <a href="tel:${m.contact}"><span class="material-symbols-rounded">phone</span></a>
     </div>
   `).join('');
 }
