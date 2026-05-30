@@ -944,17 +944,6 @@ window.addEventListener('appinstalled', () => {
   deferredPrompt = null;
 });
 
-// ─── QUIZ ─────────────────────────────────────────────────
-
-// ── Bandeau install
-let deferredPrompt=null;
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;const b=document.getElementById('install-banner');if(b)b.style.display='block';});
-const installBtn=document.getElementById('install-btn');
-if(installBtn)installBtn.addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;const b=document.getElementById('install-banner');if(b)b.style.display='none';});
-const dismissBtn=document.getElementById('install-dismiss');
-if(dismissBtn)dismissBtn.addEventListener('click',()=>{const b=document.getElementById('install-banner');if(b)b.style.display='none';});
-window.addEventListener('appinstalled',()=>{const b=document.getElementById('install-banner');if(b)b.style.display='none';deferredPrompt=null;});
-
 // ── Quiz (PASS_SCORE + LEVELS + fonctions jeu)
 const PASS_SCORE = 28; // 70% de 40
 
