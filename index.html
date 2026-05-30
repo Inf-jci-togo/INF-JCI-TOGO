@@ -1,224 +1,299 @@
 ﻿<!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="light">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="theme-color" content="#130F2D"/>
-  <title>INF JCI Togo</title>
-  <link rel="manifest" href="manifest.json"/>
-  <link rel="apple-touch-icon" href="assets/icon-192.png"/>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet"/>
-  <style>
-    /* ── THÈME CLAIR / SOMBRE ─────────────────────── */
-    :root{
-      --bg:#F2F5F9; --surface:#FFFFFF; --surface-2:#F8FAFC;
-      --text-1:#130F2D; --text-2:#4A5568; --text-3:#9AA3B0;
-      --border:#E2E8F0; --shadow:rgba(19,15,45,.09);
-      --blue:#0097D7; --blue-d:#0078AA; --navy:#130F2D; --gold:#FFD700;
-      --nav-bg:#130F2D; --nav-in:rgba(255,255,255,.45); --nav-act:#0097D7;
-      --ph-bg:linear-gradient(135deg,#130F2D 0%,#1a3d6b 100%);
-    }
-    [data-theme="dark"]{
-      --bg:#080C18; --surface:rgba(255,255,255,.05); --surface-2:rgba(255,255,255,.03);
-      --text-1:#E8F4FB; --text-2:rgba(255,255,255,.55); --text-3:rgba(255,255,255,.28);
-      --border:rgba(255,255,255,.09); --shadow:rgba(0,0,0,.35);
-      --nav-bg:#050810; --nav-in:rgba(255,255,255,.28); --nav-act:#0097D7;
-      --ph-bg:linear-gradient(135deg,#0A0D1A 0%,#0D2340 100%);
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text-1);min-height:100vh;padding-bottom:68px;padding-top:58px;transition:background .3s,color .3s}
-    .material-symbols-rounded{vertical-align:middle;user-select:none}
-    /* ── ENTÊTE GLOBAL ────────────────────────────── */
-    .top-bar-global{
-      position:fixed;top:0;left:0;right:0;z-index:999;
-      background:var(--navy);
-      border-bottom:1px solid rgba(0,151,215,.2);
-      height:58px;
-      display:flex;align-items:center;gap:10px;
-      padding:0 14px;
-      transition:background .3s;
-    }
-    .tbg-logo{width:36px;height:36px;object-fit:contain;border-radius:7px;background:rgba(255,255,255,.07);padding:2px;flex-shrink:0}
-    .tbg-sep{width:1px;height:28px;background:rgba(255,255,255,.15);flex-shrink:0}
-    .tbg-texts{flex:1;min-width:0}
-    .tbg-title{font-size:.78rem;font-weight:700;color:var(--gold);letter-spacing:.2px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .tbg-sub{font-size:.6rem;color:rgba(255,255,255,.4);letter-spacing:.8px;margin-top:1px;text-transform:uppercase}
-    /* ── THÈME TOGGLE ─────────────────────────────── */
-    .theme-toggle-btn{width:32px;height:32px;border-radius:50%;background:rgba(0,151,215,.15);border:1px solid rgba(0,151,215,.3);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:.2s}
-    .theme-toggle-btn .material-symbols-rounded{font-size:16px;color:var(--blue)}
-    /* ── NAV ─────────────────────────────────────── */
-    nav{position:fixed;bottom:0;left:0;right:0;background:var(--nav-bg);display:flex;justify-content:flex-start;align-items:center;height:62px;z-index:999;box-shadow:0 -2px 12px rgba(0,0,0,.3);overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;transition:background .3s}
-    nav::-webkit-scrollbar{display:none}
-    @media(min-width:600px){nav{justify-content:center;overflow-x:hidden}.nav-btn{min-width:60px;font-size:9px}}
-    .nav-btn{display:flex;flex-direction:column;align-items:center;gap:1px;background:none;border:none;color:var(--nav-in);cursor:pointer;padding:5px 4px;flex:0 0 auto;min-width:50px;transition:.2s;font-family:'Poppins',sans-serif;font-size:8px;text-transform:uppercase;letter-spacing:0;position:relative}
-    .nav-btn .material-symbols-rounded{font-size:20px;line-height:1;transition:.2s}
-    .nav-btn.active{color:var(--nav-act)}
-    .nav-btn.active .material-symbols-rounded{font-size:22px}
-    .nav-btn.active::before{content:'';position:absolute;top:0;left:22%;right:22%;height:2px;background:var(--nav-act);border-radius:0 0 3px 3px}
-    /* SECTIONS */
-    .section{display:none;min-height:calc(100vh - 65px);animation:fadeIn .3s ease}
-    .section.active{display:block}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-    /* HEADER SECTIONS INTERNES */
-    .page-header{background:var(--ph-bg);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;position:relative;transition:background .3s}
-    .page-header::after{content:none}
-    .ph-icon{width:36px;height:36px;border-radius:9px;background:rgba(0,151,215,.2);border:1px solid rgba(0,151,215,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .ph-icon .material-symbols-rounded{font-size:19px;color:var(--blue)}
-    .page-header h1{font-size:.92rem;font-weight:700;letter-spacing:.3px;color:#fff}
-    .page-header p{font-size:.65rem;color:rgba(255,255,255,.55);margin-top:1px}
-    /* CARDS */
-    .card{background:var(--surface);border-radius:16px;padding:20px;margin:16px;box-shadow:0 2px 12px var(--shadow);transition:.2s;border:1px solid var(--border)}
-    .card:hover{box-shadow:0 4px 20px rgba(0,0,0,.12);transform:translateY(-2px)}
-    .card-link{text-decoration:none;color:inherit;display:block}
-    /* BADGES */
-    .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
-    .badge-alpha{background:#e8e8f0;color:#444}
-    .badge-local{background:#d4edda;color:#155724}
-    .badge-national{background:#fff3cd;color:#856404}
-    .badge-int-jr{background:#cce5ff;color:#130F2D}
-    .badge-int-sr{background:#ffd700;color:#130F2D}
-    .badge-actif{background:#d4edda;color:#155724}
-    .badge-inactif{background:#f8d7da;color:#721c24}
-    /* ACCUEIL */
-    #accueil .directeur-card{position:relative;overflow:hidden}
-    #accueil .directeur-card::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:85%;height:85%;background:url('assets/logo-filigrane.png') center/contain no-repeat;opacity:.10;pointer-events:none;z-index:0}
-    #accueil .directeur-card>*{position:relative;z-index:1}
-    #accueil .hero{padding:36px 20px 20px;text-align:center}
-    #accueil .directeur-card{background:#fff;border-radius:20px;margin:0 16px 20px;padding:24px 20px;box-shadow:0 4px 20px rgba(19,15,45,.1);display:flex;flex-direction:column;align-items:center;gap:16px}
-    #accueil .dir-photo{width:110px;height:110px;border-radius:50%;object-fit:cover;object-position:center top;border:4px solid #FFD700;box-shadow:0 4px 16px rgba(19,15,45,.2)}
-    #accueil .dir-photo-placeholder{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#130F2D,#231d4f);display:flex;align-items:center;justify-content:center;font-size:2.5rem;border:4px solid #FFD700}
-    #accueil .dir-name{font-weight:700;color:#130F2D;font-size:1rem;margin-top:4px}
-    #accueil .dir-title{font-size:.8rem;color:#666;margin-top:2px}
-    #accueil .mot-directeur{font-size:.9rem;line-height:1.75;color:#2c2c2c;text-align:left;font-style:italic}
-    #accueil .mot-directeur strong{color:#130F2D;font-style:normal}
-    #accueil .signature{text-align:right;margin-top:12px;font-weight:600;color:#130F2D;font-size:.9rem}
-    /* RAPPORTS */
-    #rapports .content{padding:20px 0 8px}
-    .rapport-card{background:#fff;border-radius:18px;margin:0 16px 16px;padding:22px;box-shadow:0 2px 12px rgba(19,15,45,.08);display:flex;gap:16px;align-items:flex-start;cursor:pointer;text-decoration:none;color:inherit;transition:.2s;border-left:5px solid #130F2D}
-    .rapport-card:hover{transform:translateX(4px);box-shadow:0 4px 20px rgba(19,15,45,.15)}
-    .rapport-card .r-icon{width:44px;height:44px;border-radius:10px;background:rgba(0,151,215,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .rapport-card .r-icon .material-symbols-rounded{font-size:22px;color:var(--blue)}
-    .rapport-card h3{font-size:1rem;font-weight:600;color:var(--text-1);margin-bottom:6px}
-    .rapport-card p{font-size:.82rem;color:var(--text-2);line-height:1.5}
-    .rapport-card .r-arrow{margin-left:auto;color:var(--text-3);font-size:1.2rem;align-self:center;flex-shrink:0}
-    /* FORMATEURS */
-    #formateurs .search-box{background:var(--surface);margin:16px;border-radius:16px;padding:18px;box-shadow:0 2px 12px var(--shadow);border:1px solid var(--border)}
-    #formateurs .search-box h3{font-size:1rem;color:var(--text-1);font-weight:600;margin-bottom:12px}
-    .search-row{display:flex;gap:10px;flex-wrap:wrap}
-    .search-row input{flex:1;min-width:160px;border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;font-family:'Poppins',sans-serif;font-size:.9rem;outline:none;transition:.2s;background:var(--surface-2);color:var(--text-1)}
-    .search-row input:focus{border-color:var(--blue)}
-    .search-row select{border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;font-family:'Poppins',sans-serif;font-size:.88rem;outline:none;color:var(--text-1);background:var(--surface-2);transition:.2s}
-    .search-row select:focus{border-color:var(--blue)}
-    .search-row button{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;transition:.2s}
-    .search-row button:hover{background:var(--blue-d)}
-    #search-results{padding:0 16px 16px}
-    .formateur-card{background:var(--surface);border-radius:16px;padding:20px;margin-bottom:14px;box-shadow:0 2px 12px var(--shadow);border:1px solid var(--border)}
-    .formateur-card .f-name{font-size:1.05rem;font-weight:700;color:var(--text-1);margin-bottom:8px}
-    .formateur-card .f-row{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text-2);margin:5px 0}
-    .formateur-card .f-row a{color:var(--blue);text-decoration:none;font-weight:500}
-    .formateur-card .f-row a:hover{text-decoration:underline}
-    .f-label{font-weight:600;color:var(--text-3);min-width:130px;font-size:.8rem}
-    .list-item{background:var(--surface);border-radius:12px;padding:14px 18px;margin-bottom:10px;box-shadow:0 2px 8px var(--shadow);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:.2s;border:1px solid var(--border)}
-    .list-item:hover{border-color:var(--blue);transform:translateX(3px)}
-    .list-item span{font-size:.9rem;font-weight:500;color:var(--text-1)}
-    .list-item .l-badge{font-size:.75rem}
-    .no-result{text-align:center;color:var(--text-3);padding:30px;font-size:.9rem}
-    .back-btn{background:var(--surface-2);border:1px solid var(--border);color:var(--text-1);font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;padding:8px 16px;border-radius:10px;margin-bottom:14px;display:flex;align-items:center;gap:6px;transition:.2s}
-    .back-btn:hover{border-color:var(--blue);color:var(--blue)}
-    /* BIG CARDS (Formation/Bibliothèque/Suggestion) */
-    .big-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px 22px;text-align:center;box-shadow:0 4px 18px var(--shadow);cursor:pointer;transition:.2s;text-decoration:none;display:block;color:inherit}
-    .big-card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.12)}
-    .big-card .bc-icon{width:56px;height:56px;border-radius:14px;background:rgba(0,151,215,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
-    .big-card .bc-icon .material-symbols-rounded{font-size:28px;color:var(--blue)}
-    .big-card.formation-live .bc-icon{background:rgba(0,151,215,.2)}
-    .big-card h3{font-size:1.05rem;font-weight:700;color:var(--text-1);margin-bottom:8px}
-    .big-card p{font-size:.85rem;color:var(--text-2);line-height:1.6}
-    .big-card .bc-btn{display:inline-flex;align-items:center;gap:7px;margin-top:16px;background:var(--blue);color:#fff;padding:11px 22px;border-radius:10px;font-weight:700;font-size:.85rem;transition:.2s}
-    .big-card .bc-btn .material-symbols-rounded{font-size:16px}
-    .big-card .bc-btn:hover{background:var(--blue-d)}
-    /* FORMATION LIVE */
-    .big-card.formation-live{background:linear-gradient(135deg,#130F2D 0%,#1e1856 100%);border:2px solid #FFD700}
-    .big-card.formation-live h3{color:#FFD700}
-    .big-card.formation-live p{color:rgba(255,255,255,.82)}
-    .big-card.formation-live .bc-icon{filter:drop-shadow(0 0 8px rgba(255,215,0,.5))}
-    .formation-live-btn{background:#0097D7!important;color:#fff!important;display:flex;align-items:center;justify-content:center;gap:8px;animation:pulse-live 2s ease-in-out infinite}
-    @keyframes pulse-live{0%,100%{box-shadow:0 0 0 0 rgba(0,151,215,.4)}50%{box-shadow:0 0 0 8px rgba(0,151,215,0)}}
-    @keyframes pulse-live{0%,100%{box-shadow:0 0 0 0 rgba(255,215,0,.5)}50%{box-shadow:0 0 0 8px rgba(255,215,0,0)}}
-    /* BANDEAU MISE À JOUR */
-    #update-banner{display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:#FFD700;color:#130F2D;padding:12px 16px;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 3px 14px rgba(0,0,0,.25);animation:slideDown .35s ease}
-    @keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
-    #update-banner span{font-size:.85rem;font-weight:600;line-height:1.4}
-    #update-reload-btn{background:#130F2D;color:#FFD700;border:none;border-radius:10px;padding:9px 18px;font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:.2s}
-    #update-reload-btn:active{transform:scale(.96)}
-    /* BANDEAU INSTALLATION */
-    #install-banner{display:none;margin:0 16px 20px;background:linear-gradient(135deg,#FFD700 0%,#f5c200 100%);border-radius:20px;padding:18px 20px;box-shadow:0 4px 20px rgba(255,215,0,.35);animation:pulse-install 2s ease-in-out infinite}
-    @keyframes pulse-install{0%,100%{box-shadow:0 4px 20px rgba(255,215,0,.35)}50%{box-shadow:0 6px 30px rgba(255,215,0,.65)}}
-    #install-banner .ib-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-    #install-banner .ib-icon{font-size:2.4rem;line-height:1}
-    #install-banner .ib-title{font-weight:700;font-size:1rem;color:#130F2D;line-height:1.3}
-    #install-banner .ib-sub{font-size:.78rem;color:#2a2050;margin-top:2px}
-    #install-btn{width:100%;background:#130F2D;color:#FFD700;border:none;border-radius:14px;padding:15px;font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;letter-spacing:.3px;transition:.2s}
-    #install-btn:active{transform:scale(.97)}
-    #install-dismiss{width:100%;background:none;border:none;color:#2a2050;font-family:'Poppins',sans-serif;font-size:.78rem;cursor:pointer;margin-top:8px;padding:4px;opacity:.7}
-    /* SUGGESTION */
-    #suggestion .content{padding:20px}
-    /* BUREAU */
-    #bureau .content{padding:16px}
-    .bureau-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px}
-    .bureau-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 12px;text-align:center;box-shadow:0 2px 12px var(--shadow)}
-    .bureau-card img{width:90px;height:90px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid var(--blue);margin-bottom:10px}
-    .bureau-card .b-avatar{width:90px;height:90px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 10px;border:2px solid var(--blue)}
-    .bureau-card .b-name{font-weight:700;font-size:.82rem;color:var(--text-1);line-height:1.3;margin-bottom:4px}
-    .bureau-card .b-poste{font-size:.72rem;color:var(--text-3);line-height:1.4;margin-bottom:8px}
-    .bureau-card a{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(0,151,215,.1);border:1px solid rgba(0,151,215,.25);border-radius:50%;text-decoration:none;transition:.2s}
-    .bureau-card a .material-symbols-rounded{font-size:15px;color:var(--blue)}
-    .bureau-card a:hover{background:var(--blue)}
-    .bureau-card a:hover .material-symbols-rounded{color:#fff}
-    /* COTISATION */
-    #cotisation .content{padding:20px}
-    .cotis-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:30px 20px;text-align:center;box-shadow:0 4px 20px var(--shadow)}
-    .cotis-card img{width:100px;height:100px;border-radius:50%;object-fit:cover;object-position:center top;border:3px solid var(--blue);margin-bottom:14px}
-    .cotis-card .c-avatar{width:90px;height:90px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 14px;border:3px solid var(--blue)}
-    .cotis-card h3{font-weight:700;color:var(--text-1);font-size:1.05rem;margin-bottom:4px}
-    .cotis-card .c-poste{color:var(--text-3);font-size:.85rem;margin-bottom:18px}
-    .cotis-card .c-intro{color:var(--text-2);font-size:.88rem;line-height:1.6;margin-bottom:20px}
-    .cotis-card a{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;padding:14px 28px;border-radius:14px;font-weight:700;font-size:.95rem;text-decoration:none;transition:.2s}
-    .cotis-card a:hover{background:var(--blue-d);transform:scale(1.03)}
-    /* SECTION TITLES */
-    .section-intro{text-align:center;padding:30px 20px 10px;color:#888;font-size:.88rem}
-    .section-intro h2{color:#130F2D;font-size:1.3rem;font-weight:700;margin-bottom:6px}
-    /* QUIZ */
-    #quiz-home{padding:20px}
-    .level-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-    .level-card{background:var(--surface);border:1.5px solid var(--border);border-radius:18px;padding:18px 14px;text-align:center;box-shadow:0 2px 14px var(--shadow);cursor:pointer;transition:.2s;position:relative}
-    .level-card:hover{transform:translateY(-3px);box-shadow:0 6px 22px rgba(0,0,0,.1)}
-    .level-card.locked{opacity:.5;cursor:not-allowed}
-    .level-card.locked:hover{transform:none}
-    .level-card.done{border-color:#22c55e}
-    .level-card.current{border-color:var(--blue)}
-    .level-icon{font-size:1.8rem;margin-bottom:6px;display:block}
-    .level-name{font-weight:700;font-size:.88rem;color:var(--text-1);margin-bottom:2px}
-    .level-sub{font-size:.72rem;color:var(--text-3)}
-    .level-badge{position:absolute;top:8px;right:8px;font-size:.58rem;font-weight:700;padding:2px 7px;border-radius:20px}
-    .badge-done{background:#d4edda;color:#155724}
-    .badge-current{background:var(--blue);color:#fff}
-    .badge-locked{background:var(--border);color:var(--text-3)}
-    .quiz-intro{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:0 2px 14px var(--shadow);margin-bottom:16px;text-align:center}
-    .quiz-intro .trophy{margin-bottom:8px}
-    .quiz-intro .trophy .material-symbols-rounded{font-size:3rem;color:var(--gold)}
-    .quiz-intro h2{color:var(--text-1);font-size:1.1rem;font-weight:700;margin-bottom:6px}
-    .quiz-intro p{color:var(--text-2);font-size:.85rem;line-height:1.6}
-    .quiz-rules{background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:14px;text-align:left}
-    .quiz-rules li{font-size:.8rem;color:var(--text-2);margin:5px 0;display:flex;align-items:center;gap:8px}
-    .quiz-rules li .material-symbols-rounded{font-size:15px;color:var(--blue);flex-shrink:0}
-    #quiz-game{display:none;padding:16px}
-    .quiz-topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-    .quiz-level-tag{background:var(--navy);color:var(--blue);font-size:.75rem;font-weight:700;padding:5px 14px;border-radius:20px;border:1px solid var(--blue)}
-    .quiz-progress-wrap{flex:1;margin:0 12px;height:8px;background:var(--border);border-radius:10px;overflow:hidden}
-    .quiz-progress-bar{height:100%;background:linear-gradient(90deg,var(--navy),var(--blue));border-radius:10px;transition:width .4s ease}
-    .quiz-counter{font-size:.75rem;color:var(--text-3);font-weight:600;white-space:nowrap}
-    .question-card{background:#fff;border-radius:20px;padding:24px 20px;box-shadow:0 4px 20px rgba(19,15,45,.1);margin-bottom:16px}
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="theme-color" content="#130F2D"/>
+<title>INF JCI Togo</title>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="assets/icon-192.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@600;700&family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet"/>
+<script>
+(function(){var p=new URLSearchParams(location.search).get('theme'),s=localStorage.getItem('inf-theme'),t=p||s||(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);})();
+</script>
+<style>
+
+/* ══ CSS VARIABLES ═══════════════════════════════════════════ */
+:root{
+  --navy:#130F2D; --blue:#0097D7; --blue-d:#0078AA; --gold:#FFD700;
+  --bg:#F2F5F9; --surface:#FFFFFF; --surface-2:#F8FAFC;
+  --text-1:#130F2D; --text-2:#4A5568; --text-3:#9AA3B0;
+  --border:#E2E8F0; --shadow:rgba(19,15,45,.09); --shadow-md:rgba(19,15,45,.14);
+  --header-bg:#130F2D; --header-border:rgba(0,151,215,.25);
+  --nav-bg:#130F2D; --nav-in:rgba(255,255,255,.4); --nav-act:#0097D7; --nav-line:#0097D7;
+  --hero-bg:linear-gradient(155deg,#130F2D 0%,#1a3d6b 100%);
+  --hero-text:#FFFFFF; --hero-sub:rgba(255,255,255,.6);
+  --chip-blue-bg:#E3F5FD; --chip-blue-text:#005F8A;
+  --chip-green-bg:#E8F5E9; --chip-green-text:#2E7D32;
+  --chip-purple-bg:#F3E5F5; --chip-purple-text:#6A1B9A;
+  --chip-amber-bg:#FFF8E1; --chip-amber-text:#E65100;
+  --chip-teal-bg:#E0F7FA; --chip-teal-text:#006064;
+}
+[data-theme="dark"]{
+  --bg:#080C18; --surface:rgba(255,255,255,.05); --surface-2:rgba(255,255,255,.03);
+  --text-1:#E8F4FB; --text-2:rgba(255,255,255,.55); --text-3:rgba(255,255,255,.28);
+  --border:rgba(255,255,255,.09); --shadow:rgba(0,0,0,.35); --shadow-md:rgba(0,0,0,.5);
+  --header-bg:#0A0D1A; --header-border:rgba(0,151,215,.2);
+  --nav-bg:#050810; --nav-in:rgba(255,255,255,.28);
+  --hero-bg:linear-gradient(155deg,#0A0D1A 0%,#0D2340 100%);
+  --hero-text:#E8F4FB; --hero-sub:rgba(232,244,251,.45);
+  --chip-blue-bg:rgba(0,151,215,.15); --chip-blue-text:#60C8EF;
+  --chip-green-bg:rgba(46,200,120,.14); --chip-green-text:#4AC98F;
+  --chip-purple-bg:rgba(160,80,220,.14); --chip-purple-text:#BF80FF;
+  --chip-amber-bg:rgba(255,160,0,.14); --chip-amber-text:#FFAA40;
+  --chip-teal-bg:rgba(0,200,200,.14); --chip-teal-text:#40D8D0;
+}
+/* ══ BASE ═══════════════════════════════════════════════════ */
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text-1);padding-bottom:68px;padding-top:58px;transition:background .3s,color .3s}
+.material-symbols-rounded{vertical-align:middle;user-select:none}
+/* ══ HEADER GLOBAL ══════════════════════════════════════════ */
+.top-bar{position:fixed;top:0;left:0;right:0;z-index:999;background:var(--header-bg);border-bottom:1px solid var(--header-border);height:58px;display:flex;align-items:center;gap:10px;padding:0 14px;transition:background .3s,border-color .3s}
+.top-logo{width:36px;height:36px;object-fit:contain;border-radius:7px;background:rgba(255,255,255,.07);padding:2px;flex-shrink:0}
+.top-sep{width:1px;height:28px;background:rgba(255,255,255,.15);flex-shrink:0}
+.top-texts{flex:1;min-width:0}
+.top-title{font-size:.78rem;font-weight:700;color:var(--gold);letter-spacing:.2px;line-height:1.25}
+.top-sub{font-size:.6rem;color:rgba(255,255,255,.4);letter-spacing:.8px;margin-top:1px;text-transform:uppercase}
+.theme-toggle{width:34px;height:34px;border-radius:50%;background:rgba(0,151,215,.15);border:1px solid rgba(0,151,215,.3);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:.2s}
+.theme-toggle:hover{background:rgba(0,151,215,.25)}
+.theme-toggle .material-symbols-rounded{font-size:17px;color:var(--blue)}
+/* ══ NAVIGATION ═════════════════════════════════════════════ */
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--nav-bg);height:64px;display:flex;border-top:1px solid rgba(0,151,215,.12);overflow-x:auto;scrollbar-width:none;z-index:999;transition:background .3s}
+nav::-webkit-scrollbar{display:none}
+@media(min-width:600px){nav{justify-content:center}}
+.nb{flex:0 0 auto;min-width:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:none;color:var(--nav-in);cursor:pointer;padding:5px 7px;transition:.2s;font-family:'Inter',sans-serif;font-size:.55rem;font-weight:500;text-transform:uppercase;letter-spacing:.2px;position:relative}
+.nb .material-symbols-rounded{font-size:20px;transition:.2s}
+.nb.active{color:var(--nav-act)}
+.nb.active .material-symbols-rounded{font-size:22px}
+.nb.active::before{content:'';position:absolute;top:0;left:22%;right:22%;height:2px;background:var(--nav-line);border-radius:0 0 3px 3px;box-shadow:0 0 6px rgba(0,151,215,.5)}
+/* ══ SECTIONS ═══════════════════════════════════════════════ */
+.pg{min-height:calc(100vh - 64px - 58px);display:none}
+/* ══ HERO ═══════════════════════════════════════════════════ */
+.hero{background:var(--hero-bg);padding:24px 20px 38px;position:relative;overflow:hidden;transition:background .3s}
+.hero::before{content:'';position:absolute;top:-40px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(0,151,215,.15) 0%,transparent 65%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:30px;background:var(--bg);border-radius:50% 50% 0 0;transition:background .3s}
+.hero-eye{display:flex;align-items:center;gap:6px;margin-bottom:10px}
+.hero-dot{width:5px;height:5px;border-radius:50%;background:var(--blue)}
+.hero-eye-txt{font-size:.6rem;font-weight:600;color:rgba(255,255,255,.45);letter-spacing:2px;text-transform:uppercase}
+.hero-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--hero-text);line-height:1.2;margin-bottom:6px}
+.hero-title .ht-blue{color:var(--blue)}
+.hero-sub{font-size:.72rem;color:var(--hero-sub)}
+.hero-chips{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
+.hchip{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:4px 10px;font-size:.6rem;color:rgba(255,255,255,.65);font-weight:500}
+.hchip .material-symbols-rounded{font-size:12px;color:var(--blue)}
+/* ══ DIRECTEUR ══════════════════════════════════════════════ */
+.dir-card{margin:28px 14px 0;background:var(--surface);border-radius:18px;box-shadow:0 3px 20px var(--shadow);overflow:hidden;position:relative;transition:background .3s,box-shadow .3s}
+.dir-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--navy),var(--blue),var(--navy))}
+.dir-inner{display:flex}
+.dir-left{width:118px;flex-shrink:0;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:7px;background:var(--navy);position:relative;overflow:hidden}
+.dir-left::after{content:'';position:absolute;inset:0;background:url('assets/logo-filigrane.png') center/65% no-repeat;opacity:.10;pointer-events:none}
+.dir-left>*{position:relative;z-index:1}
+.dir-av{width:74px;height:74px;border-radius:50%;border:2.5px solid var(--gold);padding:2px;flex-shrink:0}
+.dir-av img{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center top}
+.dir-id-name{font-family:'Playfair Display',serif;font-size:.72rem;font-weight:700;color:var(--gold);text-align:center;line-height:1.3;margin-top:3px}
+.dir-id-role{font-size:.57rem;color:rgba(255,255,255,.5);text-align:center;line-height:1.4;margin-top:2px}
+.dir-id-yr{margin-top:6px;background:rgba(0,151,215,.2);border:1px solid rgba(0,151,215,.35);border-radius:5px;padding:2px 7px;font-size:.55rem;font-weight:700;color:var(--blue);letter-spacing:.8px}
+.dir-right{flex:1;padding:16px 16px 16px 14px;display:flex;flex-direction:column;gap:9px;background:var(--surface);transition:background .3s}
+.dir-lbl{display:flex;align-items:center;gap:5px;font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3)}
+.dir-lbl .material-symbols-rounded{font-size:13px;color:var(--blue)}
+.dir-line{height:1.5px;background:linear-gradient(90deg,var(--blue) 0%,transparent 80%);width:40px}
+.dir-txt{font-family:'Cormorant Garamond',serif;font-size:.9rem;line-height:1.75;color:var(--text-2);font-style:italic;flex:1}
+.dir-txt strong{font-style:normal;font-family:'Inter',sans-serif;font-size:.79rem;font-weight:700;color:var(--text-1)}
+.dir-sig{font-family:'Playfair Display',serif;font-size:.74rem;font-weight:700;color:var(--blue);text-align:right;padding-top:8px;border-top:1px solid var(--border);transition:border-color .3s}
+.dir-sig small{display:block;font-family:'Inter',sans-serif;font-size:.58rem;color:var(--text-3);font-weight:400}
+/* ══ SECTION HEADERS ═════════════════════════════════════════ */
+.sh{display:flex;align-items:center;justify-content:space-between;padding:0 14px;margin-bottom:12px}
+.sh-left{display:flex;align-items:center;gap:8px}
+.sh-ico{width:30px;height:30px;border-radius:8px;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sh-ico .material-symbols-rounded{font-size:15px;color:#fff}
+.sh-title{font-size:.9rem;font-weight:700;color:var(--text-1);font-family:'Playfair Display',serif}
+.sh-hint{font-size:.6rem;color:var(--text-3);display:flex;align-items:center;gap:2px}
+.sh-hint .material-symbols-rounded{font-size:12px}
+/* ══ PARTENAIRES ════════════════════════════════════════════ */
+.sec-wrap{margin:24px 0 0}
+.partners-row{display:flex;gap:10px;padding:2px 14px 14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.partners-row::-webkit-scrollbar{display:none}
+.pc{flex:0 0 115px;background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:14px 8px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;scroll-snap-align:start;transition:.2s;position:relative;overflow:hidden}
+.pc:hover{border-color:var(--blue);box-shadow:0 4px 16px var(--shadow-md);transform:translateY(-2px)}
+.pc:active{transform:scale(.97)}
+.pc.gold-pc{border-color:rgba(255,215,0,.35)}
+.pc-vip{position:absolute;top:7px;right:7px;background:var(--gold);color:var(--navy);font-size:.48rem;font-weight:800;padding:1px 5px;border-radius:3px;letter-spacing:.5px}
+.pc-logo{width:54px;height:54px;object-fit:contain;border-radius:8px}
+.pc-logo-ph{width:54px;height:54px;border-radius:8px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+.pc-logo-ph .material-symbols-rounded{font-size:22px;color:var(--text-3)}
+.pc-name{font-size:.66rem;font-weight:700;color:var(--text-1);text-align:center;line-height:1.3}
+.pc-tag{font-size:.56rem;color:var(--text-3);text-align:center}
+/* ══ ACTIVITÉS ══════════════════════════════════════════════ */
+.act-list{padding:0 14px}
+.ai{background:var(--surface);border-radius:14px;margin-bottom:10px;display:flex;overflow:hidden;box-shadow:0 2px 10px var(--shadow);cursor:pointer;transition:.2s;border:1px solid var(--border)}
+.ai:hover{box-shadow:0 5px 18px var(--shadow-md);transform:translateX(2px)}
+.ai-date{width:62px;flex-shrink:0;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 4px;gap:1px}
+.ai-date.dt-blue{background:var(--blue)}
+.ai-date.dt-teal{background:#008080}
+.ai-day{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:700;color:var(--gold);line-height:1}
+.ai-month{font-size:.54rem;font-weight:700;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.8px;margin-top:3px}
+.ai-body{flex:1;padding:11px 14px}
+.ai-chip{display:inline-flex;align-items:center;gap:3px;font-size:.57rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-bottom:5px}
+.ai-chip .material-symbols-rounded{font-size:10px}
+.c-disc{background:var(--chip-blue-bg);color:var(--chip-blue-text)}
+.c-pres{background:var(--chip-green-bg);color:var(--chip-green-text)}
+.c-dsgn{background:var(--chip-purple-bg);color:var(--chip-purple-text)}
+.c-cff{background:var(--chip-amber-bg);color:var(--chip-amber-text)}
+.c-det{background:var(--chip-teal-bg);color:var(--chip-teal-text)}
+.ai-title{font-size:.83rem;font-weight:700;color:var(--text-1);margin-bottom:3px}
+.ai-desc{font-size:.7rem;color:var(--text-2);line-height:1.4}
+.ai-meta{display:flex;align-items:center;gap:4px;margin-top:6px}
+.ai-meta .material-symbols-rounded{font-size:11px;color:var(--text-3)}
+.ai-meta-t{font-size:.62rem;color:var(--text-3)}
+.ai-price{display:inline-flex;align-items:center;gap:3px;margin-top:5px;background:rgba(0,151,215,.1);border:1px solid rgba(0,151,215,.25);border-radius:4px;padding:2px 8px;font-size:.62rem;font-weight:700;color:var(--blue)}
+.ai-price .material-symbols-rounded{font-size:10px}
+/* ══ INNER PAGES ════════════════════════════════════════════ */
+.inh{padding:14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);transition:border-color .3s}
+.inh-ico{width:36px;height:36px;border-radius:9px;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.inh-ico .material-symbols-rounded{font-size:18px;color:#fff}
+.inh-title{font-size:.92rem;font-weight:700;color:var(--text-1)}
+.inh-sub{font-size:.64rem;color:var(--text-3);margin-top:1px}
+.inc{padding:14px}
+/* ══ RAPPORT CARDS ══════════════════════════════════════════ */
+.rcard{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:15px;margin-bottom:10px;display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;border-left:3px solid var(--navy);transition:.2s}
+.rcard:hover{border-left-color:var(--blue);box-shadow:0 3px 14px var(--shadow);transform:translateX(2px)}
+.rc-ico{width:40px;height:40px;border-radius:9px;background:rgba(0,151,215,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rc-ico .material-symbols-rounded{font-size:20px;color:var(--blue)}
+.rc-title{font-size:.87rem;font-weight:700;color:var(--text-1);margin-bottom:3px}
+.rc-desc{font-size:.73rem;color:var(--text-2);line-height:1.4}
+.rc-arr{margin-left:auto;flex-shrink:0}
+.rc-arr .material-symbols-rounded{font-size:20px;color:var(--text-3)}
+/* ══ FORMATEURS ═════════════════════════════════════════════ */
+.sbox{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:13px;transition:background .3s,border-color .3s}
+.sb-lbl{font-size:.75rem;font-weight:700;color:var(--text-1);margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.sb-lbl .material-symbols-rounded{font-size:14px;color:var(--blue)}
+.sb-row{display:flex;gap:8px;margin-bottom:10px}
+.sb-iw{flex:1;display:flex;align-items:center;gap:6px;background:var(--surface-2);border-radius:8px;padding:0 10px;border:1.5px solid var(--border);transition:.2s}
+.sb-iw:focus-within{border-color:var(--blue)}
+.sb-iw .material-symbols-rounded{font-size:16px;color:var(--text-3)}
+.sb-iw input{border:none;background:none;font-family:'Inter',sans-serif;font-size:.83rem;width:100%;outline:none;padding:9px 0;color:var(--text-1)}
+.sb-iw input::placeholder{color:var(--text-3)}
+.sb-sel{background:var(--surface-2);border:1.5px solid var(--border);border-radius:8px;padding:9px 10px;font-family:'Inter',sans-serif;font-size:.78rem;color:var(--text-1);outline:none;transition:.2s}
+.sb-btn{width:100%;background:var(--blue);color:#fff;border:none;border-radius:9px;padding:10px;font-family:'Inter',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:.2s}
+.sb-btn:hover{background:var(--blue-d)}
+.sb-btn .material-symbols-rounded{font-size:16px}
+#fmt-results .fc{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:11px;transition:background .3s}
+.fc-av{width:38px;height:38px;border-radius:50%;background:var(--navy);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;border:1.5px solid rgba(0,151,215,.3)}
+.fc-name{font-size:.83rem;font-weight:700;color:var(--text-1);margin-bottom:4px}
+.fc-meta{display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap}
+.gbadge{font-size:.57rem;font-weight:700;padding:1px 6px;border-radius:4px}
+.gb-a{background:var(--border);color:var(--text-2)}
+.gb-l{background:var(--chip-green-bg);color:var(--chip-green-text)}
+.gb-n{background:var(--chip-amber-bg);color:var(--chip-amber-text)}
+.gb-ij{background:var(--chip-blue-bg);color:var(--chip-blue-text)}
+.gb-is{background:rgba(255,215,0,.15);color:#856404}
+.fc-org{font-size:.68rem;color:var(--text-3)}
+.fc-tel{display:flex;align-items:center;gap:4px;font-size:.68rem;color:var(--text-2)}
+.fc-tel .material-symbols-rounded{font-size:12px;color:var(--blue)}
+.fc-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px}
+.fc-card .fcn{font-size:.95rem;font-weight:700;color:var(--text-1);margin-bottom:6px}
+.fc-card .fcr{display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--text-2);margin:5px 0}
+.fc-card .fcr a{color:var(--blue);text-decoration:none;font-weight:500}
+.fc-card .fcl{font-weight:600;color:var(--text-3);min-width:130px;font-size:.75rem}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;color:var(--blue);background:rgba(0,151,215,.08);border:1px solid rgba(0,151,215,.2);border-radius:8px;padding:7px 14px;cursor:pointer;margin-bottom:14px;font-family:'Inter',sans-serif;transition:.2s}
+.list-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:.2s}
+.list-item:hover{border-color:var(--blue);transform:translateX(2px)}
+.no-result{text-align:center;color:var(--text-3);padding:30px;font-size:.9rem}
+/* ══ BIG CARDS ══════════════════════════════════════════════ */
+.bcard{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px 18px;text-align:center;cursor:pointer;transition:.2s;text-decoration:none;display:block;color:inherit;margin-bottom:13px}
+.bcard:hover{box-shadow:0 6px 24px var(--shadow-md);transform:translateY(-2px)}
+.bcard.live{background:var(--navy);border-color:rgba(0,151,215,.4)}
+.bcard.live .bc-title{color:var(--blue)}
+.bcard.live .bc-desc{color:rgba(255,255,255,.55)}
+.bc-ico{width:52px;height:52px;border-radius:13px;background:rgba(0,151,215,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.bc-ico .material-symbols-rounded{font-size:26px;color:var(--blue)}
+.bcard.live .bc-ico{background:rgba(0,151,215,.2)}
+.bc-title{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--text-1);margin-bottom:7px}
+.bc-desc{font-size:.78rem;color:var(--text-2);line-height:1.6;margin-bottom:15px}
+.bc-btn{display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;padding:10px 20px;border-radius:9px;font-size:.78rem;font-weight:700;font-family:'Inter',sans-serif;transition:.2s}
+.bc-btn:hover{background:var(--blue-d)}
+.bc-btn .material-symbols-rounded{font-size:14px}
+/* ══ BUREAU ═════════════════════════════════════════════════ */
+.bg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bm{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 10px;text-align:center;transition:background .3s}
+.bm img{width:66px;height:66px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid var(--blue);margin-bottom:8px}
+.bm-name{font-size:.68rem;font-weight:700;color:var(--text-1);line-height:1.3;margin-bottom:2px}
+.bm-role{font-size:.6rem;color:var(--text-3);margin-bottom:8px;line-height:1.3}
+.bm a{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:rgba(0,151,215,.1);border:1px solid rgba(0,151,215,.25);border-radius:50%;text-decoration:none;transition:.2s}
+.bm a:hover{background:var(--blue)}
+.bm a:hover .material-symbols-rounded{color:#fff}
+.bm a .material-symbols-rounded{font-size:13px;color:var(--blue)}
+/* ══ COTISATION ═════════════════════════════════════════════ */
+.ccard{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px 18px;text-align:center;transition:background .3s}
+.ccard img{width:88px;height:88px;border-radius:50%;object-fit:cover;object-position:center top;border:2.5px solid var(--blue);margin-bottom:12px}
+.cc-name{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--text-1);margin-bottom:3px}
+.cc-role{font-size:.72rem;color:var(--text-3);margin-bottom:14px}
+.cc-desc{font-size:.79rem;color:var(--text-2);line-height:1.6;margin-bottom:18px}
+.cc-btn{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;padding:12px 22px;border-radius:10px;font-size:.85rem;font-weight:700;text-decoration:none;font-family:'Inter',sans-serif;transition:.2s}
+.cc-btn:hover{background:var(--blue-d)}
+.cc-btn .material-symbols-rounded{font-size:17px}
+/* ══ QUIZ HOME ══════════════════════════════════════════════ */
+.qintro{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center;margin-bottom:12px;transition:background .3s}
+.qi-troph .material-symbols-rounded{font-size:2.8rem;color:var(--gold)}
+.qi-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text-1);margin:8px 0 6px}
+.qi-desc{font-size:.78rem;color:var(--text-2);line-height:1.6;margin-bottom:12px}
+.qi-rules{background:var(--surface-2);border-radius:8px;padding:10px;text-align:left;border:1px solid var(--border)}
+.qr{display:flex;align-items:center;gap:8px;font-size:.75rem;color:var(--text-2);margin:5px 0}
+.qr .material-symbols-rounded{font-size:14px;color:var(--blue);flex-shrink:0}
+.lv-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.lv{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:14px 10px;text-align:center;position:relative;cursor:pointer;transition:.2s;display:flex;flex-direction:column;align-items:center}
+.lv:hover{transform:translateY(-2px)}
+.lv.avail{border-color:var(--blue)}
+.lv.locked{opacity:.5}
+.lv-badge{position:absolute;top:7px;right:7px;font-size:.52rem;font-weight:700;padding:2px 5px;border-radius:3px}
+.bav{background:var(--blue);color:#fff}
+.blk{background:var(--border);color:var(--text-3)}
+.lv-ico{font-size:1.7rem;color:var(--navy);margin-bottom:5px}
+[data-theme="dark"] .lv-ico{color:var(--blue)}
+.lv-name{font-size:.78rem;font-weight:700;color:var(--text-1)}
+.lv-sub{font-size:.62rem;color:var(--text-3);margin-top:1px}
+/* ══ PARTNER MODAL ══════════════════════════════════════════ */
+.pm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9998;align-items:flex-end;justify-content:center}
+.pm-overlay.show{display:flex;animation:pmFade .2s ease}
+@keyframes pmFade{from{opacity:0}to{opacity:1}}
+.pm-modal{background:var(--surface);border-radius:24px 24px 0 0;padding:24px 20px 36px;width:100%;max-width:430px;animation:pmUp .3s ease;transition:background .3s}
+@keyframes pmUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.pm-handle{width:40px;height:4px;border-radius:2px;background:var(--border);margin:0 auto 18px}
+.pm-logo-row{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.pm-logo{width:70px;height:70px;object-fit:contain;border-radius:12px;border:2px solid var(--border);flex-shrink:0}
+.pm-logo-ph{width:70px;height:70px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0}
+.pm-name{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text-1)}
+.pm-type{font-size:.75rem;color:var(--text-3);margin-top:2px}
+.pm-desc{font-size:.85rem;color:var(--text-2);line-height:1.7;margin-bottom:14px}
+.pm-svcs h4{font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-3);margin-bottom:8px}
+.pm-tag{display:inline-block;background:rgba(0,151,215,.1);border:1px solid rgba(0,151,215,.2);color:var(--blue);font-size:.7rem;font-weight:600;border-radius:20px;padding:3px 10px;margin:3px 3px 3px 0}
+.pm-close{width:100%;background:var(--blue);color:#fff;border:none;border-radius:12px;padding:12px;font-family:'Inter',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;margin-top:12px;transition:.2s}
+.pm-close:hover{background:var(--blue-d)}
+/* ══ UPDATE BANNER ══════════════════════════════════════════ */
+#update-banner{display:none;position:fixed;top:58px;left:0;right:0;z-index:9999;background:var(--gold);color:var(--navy);padding:12px 16px;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 3px 14px rgba(0,0,0,.25);animation:slideDown .35s ease}
+@keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
+#update-banner span{font-size:.85rem;font-weight:600;line-height:1.4}
+#update-reload-btn{background:var(--navy);color:var(--gold);border:none;border-radius:10px;padding:9px 18px;font-family:'Inter',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:.2s}
+/* ══ INSTALL BANNER ══════════════════════════════════════════ */
+#install-banner{display:none;margin:24px 14px 0;background:linear-gradient(135deg,var(--gold) 0%,#f5c200 100%);border-radius:18px;padding:18px 16px;animation:pulse-install 2s ease-in-out infinite}
+@keyframes pulse-install{0%,100%{box-shadow:0 4px 20px rgba(255,215,0,.35)}50%{box-shadow:0 6px 30px rgba(255,215,0,.65)}}
+.ib-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.ib-icon .material-symbols-rounded{font-size:2rem;color:var(--navy)}
+.ib-title{font-weight:700;font-size:.95rem;color:var(--navy);line-height:1.3}
+.ib-sub{font-size:.75rem;color:#2a2050;margin-top:2px}
+#install-btn{width:100%;background:var(--navy);color:var(--gold);border:none;border-radius:12px;padding:14px;font-family:'Inter',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:.2s}
+#install-dismiss{width:100%;background:none;border:none;color:#2a2050;font-family:'Inter',sans-serif;font-size:.75rem;cursor:pointer;margin-top:8px;padding:4px;opacity:.7}
+/* ══ BADGE GRADES ════════════════════════════════════════════ */
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.badge-alpha{background:var(--border);color:var(--text-2)}
+.badge-local{background:var(--chip-green-bg);color:var(--chip-green-text)}
+.badge-national{background:var(--chip-amber-bg);color:var(--chip-amber-text)}
+.badge-int-jr{background:var(--chip-blue-bg);color:var(--chip-blue-text)}
+.badge-int-sr{background:rgba(255,215,0,.15);color:#856404}
+
+/* ── QUIZ GAME CSS ─ */
+.question-card{background:#fff;border-radius:20px;padding:24px 20px;box-shadow:0 4px 20px rgba(19,15,45,.1);margin-bottom:16px}
     .q-type-tag{display:inline-block;font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px}
     .q-type-qcm{background:#cce5ff;color:#003d80}
     .q-type-vf{background:#fff3cd;color:#856404}
@@ -272,569 +347,242 @@
     .expert-desc{color:rgba(255,255,255,.8);font-size:.85rem;line-height:1.7;margin-bottom:24px}
     .expert-share{background:#FFD700;color:#130F2D;border:none;border-radius:14px;padding:14px 28px;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;width:100%;margin-bottom:10px}
     .expert-home{background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:14px;padding:12px 28px;font-family:'Poppins',sans-serif;font-size:.88rem;cursor:pointer;width:100%}
-    .score-mini{display:inline-block;background:#f0f4f8;border-radius:10px;padding:4px 12px;font-size:.75rem;font-weight:600;color:#130F2D;margin-top:4px}
-
-    /* ── ACCUEIL : HEADER COMPACT ────────────────────────────── */
-    .header-compact-acc{background:linear-gradient(135deg,#130F2D 0%,#1e1856 100%);padding:10px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 12px rgba(0,0,0,.3);position:sticky;top:0;z-index:100}
-    .acc-header-logo{width:44px;height:44px;border-radius:8px;object-fit:contain;flex-shrink:0;background:rgba(255,255,255,.08);padding:3px}
-    .acc-header-div{width:1px;height:36px;background:rgba(255,255,255,.2);flex-shrink:0}
-    .acc-header-texts{flex:1;min-width:0}
-    .acc-header-title{font-size:.8rem;font-weight:700;color:#FFD700;letter-spacing:.2px;line-height:1.25}
-    .acc-header-sub{font-size:.66rem;color:rgba(255,255,255,.7);letter-spacing:.5px;margin-top:1px}
-    .acc-header-badge{background:rgba(255,215,0,.15);border:1px solid rgba(255,215,0,.35);border-radius:20px;padding:3px 10px;font-size:.65rem;font-weight:700;color:#FFD700;letter-spacing:.5px;white-space:nowrap;flex-shrink:0}
-    @media(max-width:400px){.acc-header-badge{display:none}}
-    /* ── ACCUEIL : HERO ──────────────────────────────────────── */
-    .acc-hero{background:var(--ph-bg);padding:18px 20px 32px;text-align:center;position:relative;overflow:hidden;transition:background .3s}
-    .acc-hero::after{content:'';position:absolute;bottom:-20px;left:0;right:0;height:40px;background:var(--bg);border-radius:50% 50% 0 0;transition:background .3s}
-    .acc-hero-tagline{font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:#FFD700;font-weight:600;margin-bottom:6px;opacity:.9}
-    .acc-hero-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#fff;line-height:1.3}
-    /* ── ACCUEIL : DIRECTEUR HORIZONTAL ─────────────────────── */
-    .dir-card-h{margin:30px 16px 0;background:#fff;border-radius:20px;box-shadow:0 4px 24px rgba(19,15,45,.1);overflow:hidden;position:relative}
-    .dir-card-h::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#130F2D,#FFD700,#130F2D)}
-    .dir-card-h .dir-inner{display:flex;align-items:stretch}
-    .dir-photo-col-h{background:linear-gradient(160deg,#130F2D 0%,#231d4f 100%);padding:24px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:130px;flex-shrink:0}
-    .dir-photo-h{width:90px;height:90px;border-radius:50%;object-fit:cover;object-position:center top;border:3px solid #FFD700;box-shadow:0 4px 16px rgba(0,0,0,.3)}
-    .dir-name-h{font-family:'Playfair Display',serif;font-size:.8rem;font-weight:700;color:#FFD700;text-align:center;line-height:1.3}
-    .dir-poste-h{font-size:.62rem;color:rgba(255,255,255,.75);text-align:center;line-height:1.4;letter-spacing:.3px}
-    .dir-star-h{color:#FFD700;font-size:.8rem;margin-top:2px}
-    .dir-msg-col-h{flex:1;padding:20px 18px 20px 16px;display:flex;flex-direction:column;gap:10px;position:relative}
-    .dir-msg-col-h::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:85%;height:85%;background:url('assets/logo-filigrane.png') center/contain no-repeat;opacity:.10;pointer-events:none;z-index:0}
-    .dir-msg-col-h>*{position:relative;z-index:1}
-    .mot-label-h{display:inline-flex;align-items:center;gap:6px;font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#888;border-bottom:2px solid #FFD700;padding-bottom:4px;align-self:flex-start}
-    .mot-text-h{font-family:'Cormorant Garamond',serif;font-size:.95rem;line-height:1.75;color:#2c2c2c;font-style:italic;flex:1}
-    .mot-text-h strong{font-style:normal;color:#130F2D;font-family:'Poppins',sans-serif;font-size:.82rem;font-weight:700}
-    .dir-sig-h{font-family:'Playfair Display',serif;font-size:.82rem;font-weight:600;color:#130F2D;text-align:right;border-top:1px solid #f0f0f0;padding-top:8px;line-height:1.4}
-    .dir-sig-h small{display:block;font-family:'Poppins',sans-serif;font-size:.65rem;color:#888;font-weight:400;font-style:normal}
-    /* ── ACCUEIL : PARTENAIRES VIP ───────────────────────────── */
-    .section-vip{margin:24px 0 0}
-    .section-vip-header{display:flex;align-items:center;justify-content:space-between;padding:0 16px;margin-bottom:14px}
-    .section-vip-left{display:flex;align-items:center;gap:8px}
-    .section-vip-icon{width:32px;height:32px;border-radius:8px;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .section-vip-icon .material-symbols-rounded{font-size:16px;color:#fff}
-    .section-vip-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text-1)}
-    .section-vip-hint{font-size:.65rem;color:#aaa;letter-spacing:.5px}
-    .partners-scroll{display:flex;gap:12px;padding:4px 16px 16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-    .partners-scroll::-webkit-scrollbar{display:none}
-    .partner-card{flex:0 0 130px;background:#fff;border-radius:16px;box-shadow:0 2px 14px rgba(19,15,45,.09);padding:16px 10px 14px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;scroll-snap-align:start;transition:.2s;border:2px solid transparent;position:relative;overflow:hidden}
-    .partner-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#130F2D,#FFD700);transform:scaleX(0);transition:.2s;transform-origin:left}
-    .partner-card:hover{border-color:#FFD700;box-shadow:0 6px 20px rgba(19,15,45,.15);transform:translateY(-3px)}
-    .partner-card:hover::after{transform:scaleX(1)}
-    .partner-card:active{transform:scale(.97)}
-    .partner-card.vip-gold{background:linear-gradient(135deg,#fffbea,#fff)}
-    .partner-logo{width:70px;height:70px;object-fit:contain;border-radius:10px}
-    .partner-logo-ph{width:70px;height:70px;border-radius:10px;background:linear-gradient(135deg,#f0f4f8,#e0e8f0);display:flex;align-items:center;justify-content:center;font-size:1.8rem}
-    .partner-name-lbl{font-size:.72rem;font-weight:700;color:#130F2D;text-align:center;line-height:1.3}
-    .partner-tag-lbl{font-size:.58rem;color:#888;text-align:center;line-height:1.3}
-    .partner-vip-badge{position:absolute;top:8px;right:8px;background:#FFD700;color:#130F2D;font-size:.52rem;font-weight:800;padding:2px 5px;border-radius:4px;letter-spacing:.5px}
-    /* ── ACCUEIL : ACTIVITÉS ─────────────────────────────────── */
-    .section-act{margin:24px 0 0}
-    .section-act-header{display:flex;align-items:center;gap:8px;padding:0 16px;margin-bottom:14px}
-    .section-act-icon{width:32px;height:32px;border-radius:8px;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-    .section-act-icon .material-symbols-rounded{font-size:16px;color:#fff}
-    .section-act-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--text-1)}
-    .act-card{background:#fff;border-radius:18px;margin:0 16px 14px;box-shadow:0 2px 14px rgba(19,15,45,.08);overflow:hidden;display:flex;gap:0;cursor:pointer;transition:.2s}
-    .act-card:hover{box-shadow:0 6px 24px rgba(19,15,45,.14);transform:translateX(3px)}
-    .act-date-col{background:linear-gradient(160deg,#130F2D,#231d4f);min-width:72px;padding:16px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex-shrink:0}
-    .act-date-col.col-detente{background:linear-gradient(160deg,#0a7a4b,#0e9e62)}
-    .act-day{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:#FFD700;line-height:1}
-    .act-month{font-size:.62rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.8)}
-    .act-year{font-size:.58rem;color:rgba(255,255,255,.5);margin-top:2px}
-    .act-body{padding:14px 16px;flex:1}
-    .act-badge{display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 9px;border-radius:20px;margin-bottom:7px}
-    .badge-discover{background:#cce5ff;color:#003d80}
-    .badge-presenter{background:#d4edda;color:#155724}
-    .badge-designer{background:#e8d5ff;color:#4a0080}
-    .badge-cff{background:#fff3cd;color:#856404}
-    .badge-detente{background:#fde8f5;color:#8b0057}
-    .act-title{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:#130F2D;margin-bottom:4px;line-height:1.3}
-    .act-desc{font-size:.78rem;color:#666;line-height:1.5}
-    .act-footer{display:flex;align-items:center;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid #f0f0f0;flex-wrap:wrap}
-    .act-loc{font-size:.72rem;color:#888}
-    .act-dot{width:3px;height:3px;border-radius:50%;background:#ccc}
-    .act-price{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#FFD700,#f5c200);color:#130F2D;font-size:.72rem;font-weight:800;border-radius:20px;padding:3px 10px;margin-top:6px;letter-spacing:.3px}
-    /* ── MODAL PARTENAIRE ────────────────────────────────────── */
-    .partner-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9998;align-items:flex-end;justify-content:center}
-    .partner-overlay.show{display:flex;animation:ovFadeIn .2s ease}
-    @keyframes ovFadeIn{from{opacity:0}to{opacity:1}}
-    .partner-modal{background:#fff;border-radius:24px 24px 0 0;padding:24px 20px 36px;width:100%;max-width:480px;animation:modalUp .3s ease}
-    @keyframes modalUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-    .modal-handle{width:40px;height:4px;border-radius:2px;background:#e0e0e0;margin:0 auto 18px}
-    .modal-logo-row{display:flex;align-items:center;gap:14px;margin-bottom:16px}
-    .modal-logo{width:70px;height:70px;object-fit:contain;border-radius:12px;border:2px solid #f0f0f0;flex-shrink:0}
-    .modal-logo-ph{width:70px;height:70px;border-radius:12px;background:linear-gradient(135deg,#f0f4f8,#e0e8f0);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0}
-    .modal-pname{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:#130F2D}
-    .modal-ptype{font-size:.78rem;color:#888;margin-top:2px}
-    .modal-desc{font-size:.88rem;color:#444;line-height:1.7;margin-bottom:16px}
-    .modal-svcs h4{font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#888;margin-bottom:8px}
-    .svc-tag{display:inline-block;background:#f0f4f8;color:#130F2D;font-size:.72rem;font-weight:600;border-radius:20px;padding:4px 12px;margin:3px 3px 3px 0}
-    .modal-close{width:100%;background:#130F2D;color:#FFD700;border:none;border-radius:14px;padding:13px;font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:12px}
-  </style>
+    .score-mini{display:inline-block;background:#f0f4f8;border-radius:10px;padding:4px 12px;font-size:.7
+</style>
 </head>
 <body>
 
-<!-- ═══ ENTÊTE GLOBAL (toutes les pages) ═══ -->
-<header class="top-bar-global">
-  <img src="assets/logo-blanc.png" class="tbg-logo" alt="INF"
-       onerror="this.style.display='none'"/>
-  <div class="tbg-sep"></div>
-  <div class="tbg-texts">
-    <div class="tbg-title">Institut National de Formation</div>
-    <div class="tbg-sub">JCI TOGO · INF</div>
+<header class="top-bar">
+  <img src="assets/logo-blanc.png" class="top-logo" alt="INF" onerror="this.style.display='none'"/>
+  <div class="top-sep"></div>
+  <div class="top-texts">
+    <div class="top-title">Institut National de Formation</div>
+    <div class="top-sub">JCI TOGO · INF</div>
   </div>
-  <div class="theme-toggle-btn" onclick="toggleTheme()" id="theme-toggle" title="Changer de thème">
+  <div class="theme-toggle" onclick="toggleTheme()" title="Changer de thème">
     <span class="material-symbols-rounded" id="theme-icon">dark_mode</span>
   </div>
 </header>
 
-<!-- BANNIÈRE MISE À JOUR -->
-<div id="update-banner">
-  <span>🔄 Nouvelle version disponible !</span>
-  <button id="update-reload-btn" onclick="window.location.reload()">Actualiser</button>
-</div>
-
-<!-- ===== ACCUEIL ===== -->
-<section id="accueil" class="section active">
-
-  <!-- Hero -->
-  <div class="acc-hero">
-    <div class="acc-hero-tagline">Bienvenue sur</div>
-    <div class="acc-hero-title">L'espace officiel<br/>des Formateurs INF</div>
+<!-- ══ ACCUEIL ══ -->
+<div id="pg-accueil" class="pg" style="display:block">
+  <div class="hero">
+    <div class="hero-eye"><div class="hero-dot"></div><span class="hero-eye-txt">Espace officiel</span></div>
+    <div class="hero-title">Bienvenue sur<br/><span class="ht-blue">l'INF JCI Togo</span></div>
+    <div class="hero-sub">Institut National de Formation · Mandat 2026</div>
+    <div class="hero-chips">
+      <div class="hchip"><span class="material-symbols-rounded">location_city</span>13 organisations locales</div>
+      <div class="hchip"><span class="material-symbols-rounded">calendar_today</span>Mandat 2026</div>
+      <div class="hchip"><span class="material-symbols-rounded">groups</span>150 Formateurs</div>
+    </div>
   </div>
 
-  <!-- Bandeau d'installation PWA -->
   <div id="install-banner">
-    <div class="ib-top">
-      <div class="ib-icon"><span class="material-symbols-rounded">install_mobile</span></div>
-      <div>
-        <div class="ib-title">Installer l'application INF</div>
-        <div class="ib-sub">Accès rapide · Fonctionne hors ligne</div>
-      </div>
+    <div class="ib-top"><div class="ib-icon"><span class="material-symbols-rounded">install_mobile</span></div>
+      <div><div class="ib-title">Installer l'application INF</div><div class="ib-sub">Accès rapide · Fonctionne hors ligne</div></div>
     </div>
     <button id="install-btn"><span class="material-symbols-rounded" style="font-size:18px">download</span>Installer sur mon téléphone</button>
     <button id="install-dismiss">Plus tard</button>
   </div>
 
-  <!-- Directeur — layout horizontal -->
-  <div class="dir-card-h">
+  <div class="dir-card">
     <div class="dir-inner">
-      <div class="dir-photo-col-h">
-        <img src="assets/kokouvi-djiwonou.jpeg" class="dir-photo-h" alt="Directeur"
-             onerror="this.style.display='none'"/>
-        <div class="dir-name-h">Kokouvi<br/>DJIWONOU</div>
-        <div class="dir-poste-h">Directeur de l'INF<br/>JCI Togo</div>
-        <div class="dir-star-h"><span class="material-symbols-rounded" style="font-size:13px;color:var(--blue)">verified</span> 2026</div>
+      <div class="dir-left">
+        <div class="dir-av"><img src="assets/kokouvi-djiwonou.jpeg" alt="Dir" onerror="this.style.display='none'"/></div>
+        <div class="dir-id-name">Kokouvi<br/>DJIWONOU</div>
+        <div class="dir-id-role">Directeur de l'INF<br/>JCI Togo</div>
+        <div class="dir-id-yr">2026</div>
       </div>
-      <div class="dir-msg-col-h">
-        <div class="mot-label-h"><span class="material-symbols-rounded" style="font-size:13px;color:var(--blue)">mail</span>Mot du Directeur</div>
-        <div class="mot-text-h">
-          <p>Chers Formateurs,</p><br/>
-          <p>Notre vision est claire : <strong>être l'organe de la JCI Togo qui garantit la qualité et l'excellence.</strong></p><br/>
-          <p>Pour y parvenir, notre mission est de <strong>garantir, à travers la formation, la qualité et l'excellence des membres pour la performance de nos organisations.</strong></p><br/>
-          <p>Vous êtes les artisans de cette excellence. Chaque formation que vous dispensez est un acte de transformation — pour nos membres, pour nos organisations, pour la JCI Togo tout entière.</p><br/>
-          <p>Restez engagés, restez excellents. L'INF compte sur vous.</p>
+      <div class="dir-right">
+        <div class="dir-lbl"><span class="material-symbols-rounded">mail</span>Mot du Directeur</div>
+        <div class="dir-line"></div>
+        <div class="dir-txt">
+          Chers Formateurs,<br/><br/>
+          Notre vision est claire : <strong>être l'organe de la JCI Togo qui garantit la qualité et l'excellence.</strong><br/><br/>
+          Pour y parvenir, notre mission est de <strong>garantir, à travers la formation, la qualité et l'excellence des membres pour la performance de nos organisations.</strong><br/><br/>
+          Vous êtes les artisans de cette excellence. Chaque formation que vous dispensez est un acte de transformation — pour nos membres, pour nos organisations, pour la JCI Togo tout entière.<br/><br/>
+          Restez engagés, restez excellents. L'INF compte sur vous.
         </div>
-        <div class="dir-sig-h">— Kokouvi DJIWONOU<small>Directeur de l'INF · Mandat 2026</small></div>
+        <div class="dir-sig">— Kokouvi DJIWONOU<small>Directeur de l'INF · Mandat 2026</small></div>
       </div>
     </div>
   </div>
 
-  <!-- Partenaires VIP -->
-  <div class="section-vip">
-    <div class="section-vip-header">
-      <div class="section-vip-left">
-        <div class="section-vip-icon"><span class="material-symbols-rounded">handshake</span></div>
-        <div class="section-vip-title">Nos Partenaires VIP</div>
-      </div>
-      <div class="section-vip-hint">← Glisser</div>
+  <div class="sec-wrap">
+    <div class="sh">
+      <div class="sh-left"><div class="sh-ico"><span class="material-symbols-rounded">handshake</span></div><div class="sh-title">Nos Partenaires VIP</div></div>
+      <div class="sh-hint"><span class="material-symbols-rounded">swipe_left</span>Glisser</div>
     </div>
-    <div class="partners-scroll">
-      <div class="partner-card vip-gold" onclick="openPartner('ls')">
-        <div class="partner-vip-badge">VIP</div>
-        <img src="assets/logo-light-service.png" class="partner-logo" alt="Light-Service"
-             onerror="this.outerHTML='&lt;div class=&quot;partner-logo-ph&quot;&gt;💡&lt;/div&gt;'"/>
-        <div class="partner-name-lbl">Light-Service</div>
-        <div class="partner-tag-lbl">Communication &amp;<br/>Événementiel</div>
+    <div class="partners-row">
+      <div class="pc gold-pc" onclick="openPartner('ls')">
+        <div class="pc-vip">VIP</div>
+        <img src="assets/logo-light-service.png" class="pc-logo" alt="LS" onerror="this.outerHTML='<div class=\'pc-logo-ph\'><span class=\'material-symbols-rounded\'>lightbulb</span></div>'"/>
+        <div class="pc-name">Light-Service</div><div class="pc-tag">Communication</div>
       </div>
-      <div class="partner-card" onclick="openPartner('inf')">
-        <img src="assets/logo-inf-officiel.png" class="partner-logo" alt="INF JCI"/>
-        <div class="partner-name-lbl">INF JCI Togo</div>
-        <div class="partner-tag-lbl">Formation &amp;<br/>Certification</div>
+      <div class="pc" onclick="openPartner('inf')">
+        <img src="assets/logo-inf-officiel.png" class="pc-logo" alt="INF"/>
+        <div class="pc-name">INF JCI Togo</div><div class="pc-tag">Formation</div>
       </div>
-      <div class="partner-card" onclick="openPartner('p3')">
-        <div class="partner-logo-ph">🏢</div>
-        <div class="partner-name-lbl">Partenaire 3</div>
-        <div class="partner-tag-lbl">À définir</div>
-      </div>
-      <div class="partner-card" onclick="openPartner('p4')">
-        <div class="partner-logo-ph">🌐</div>
-        <div class="partner-name-lbl">Partenaire 4</div>
-        <div class="partner-tag-lbl">À définir</div>
-      </div>
-      <div class="partner-card" onclick="openPartner('p5')">
-        <div class="partner-logo-ph">🤝</div>
-        <div class="partner-name-lbl">Partenaire 5</div>
-        <div class="partner-tag-lbl">À définir</div>
-      </div>
+      <div class="pc" onclick="openPartner('p3')"><div class="pc-logo-ph"><span class="material-symbols-rounded">apartment</span></div><div class="pc-name">Partenaire 3</div><div class="pc-tag">À définir</div></div>
+      <div class="pc" onclick="openPartner('p4')"><div class="pc-logo-ph"><span class="material-symbols-rounded">language</span></div><div class="pc-name">Partenaire 4</div><div class="pc-tag">À définir</div></div>
+      <div class="pc" onclick="openPartner('p5')"><div class="pc-logo-ph"><span class="material-symbols-rounded">diversity_3</span></div><div class="pc-name">Partenaire 5</div><div class="pc-tag">À définir</div></div>
     </div>
   </div>
 
-  <!-- Activités à venir -->
-  <div class="section-act">
-    <div class="section-act-header">
-      <div class="section-act-icon"><span class="material-symbols-rounded">calendar_month</span></div>
-      <div class="section-act-title">Nos Activités à Venir</div>
+  <div class="sec-wrap" style="margin-bottom:20px">
+    <div class="sh"><div class="sh-left"><div class="sh-ico"><span class="material-symbols-rounded">calendar_month</span></div><div class="sh-title">Activités à Venir</div></div></div>
+    <div class="act-list">
+      <div class="ai"><div class="ai-date dt-blue"><div class="ai-day">13</div><div class="ai-month">Juin</div></div><div class="ai-body"><span class="ai-chip c-disc"><span class="material-symbols-rounded">school</span>DISCOVER</span><div class="ai-title">Cours JCI — Discover</div><div class="ai-desc">Connaître l'organisation, le parcours et le leader.</div><div class="ai-meta"><span class="material-symbols-rounded">location_on</span><span class="ai-meta-t">Lomé · Samedi 13 Juin</span></div><div class="ai-price"><span class="material-symbols-rounded">payments</span>5 000 FCFA</div></div></div>
+      <div class="ai"><div class="ai-date dt-blue"><div class="ai-day">27</div><div class="ai-month">Juin</div></div><div class="ai-body"><span class="ai-chip c-pres"><span class="material-symbols-rounded">record_voice_over</span>PRESENTER</span><div class="ai-title">Cours JCI — Presenter</div><div class="ai-desc">Développer les compétences de présentation efficaces.</div><div class="ai-meta"><span class="material-symbols-rounded">location_on</span><span class="ai-meta-t">Lomé · Samedi 27 Juin</span></div><div class="ai-price"><span class="material-symbols-rounded">payments</span>10 000 FCFA</div></div></div>
+      <div class="ai"><div class="ai-date"><div class="ai-day">10</div><div class="ai-month">Juil</div></div><div class="ai-body"><span class="ai-chip c-dsgn"><span class="material-symbols-rounded">design_services</span>DESIGNER</span><div class="ai-title">Cours de Conception de Modules</div><div class="ai-desc">CCM · Vendredi 10 au Dimanche 12 Juillet.</div><div class="ai-meta"><span class="material-symbols-rounded">location_on</span><span class="ai-meta-t">Lomé · 3 jours</span></div><div class="ai-price"><span class="material-symbols-rounded">payments</span>90 000 FCFA</div></div></div>
+      <div class="ai"><div class="ai-date"><div class="ai-day">25</div><div class="ai-month">Juil</div></div><div class="ai-body"><span class="ai-chip c-cff"><span class="material-symbols-rounded">workspace_premium</span>CFF</span><div class="ai-title">Cours de Formation des Formateurs</div><div class="ai-desc">Certification Formateur Alpha · Sam. 25 – Dim. 26.</div><div class="ai-meta"><span class="material-symbols-rounded">location_on</span><span class="ai-meta-t">Lomé · 2 jours</span></div><div class="ai-price"><span class="material-symbols-rounded">payments</span>40 000 FCFA</div></div></div>
+      <div class="ai"><div class="ai-date dt-teal"><div class="ai-day">01</div><div class="ai-month">Août</div></div><div class="ai-body"><span class="ai-chip c-det"><span class="material-symbols-rounded">beach_access</span>DÉTENTE</span><div class="ai-title">Sortie Détente des Formateurs</div><div class="ai-desc">Journée de cohésion et de renforcement des liens.</div><div class="ai-meta"><span class="material-symbols-rounded">location_on</span><span class="ai-meta-t">À définir · 1er Août</span></div><div class="ai-price"><span class="material-symbols-rounded">payments</span>Participation : 10 000 FCFA</div></div></div>
     </div>
-    <div class="act-card">
-      <div class="act-date-col"><div class="act-day">13</div><div class="act-month">Juin</div><div class="act-year">2026</div></div>
-      <div class="act-body">
-        <span class="act-badge badge-discover">DISCOVER</span>
-        <div class="act-title">Cours JCI — Discover</div>
-        <div class="act-desc">Connaître l'organisation, le parcours et le leader.</div>
-        <div class="act-footer"><span class="act-loc">📅 Samedi 13 Juin</span><div class="act-dot"></div><span class="act-loc">📍 Lomé, JCI Togo</span></div>
-        <span class="act-price">💰 5 000 FCFA</span>
-      </div>
-    </div>
-    <div class="act-card">
-      <div class="act-date-col"><div class="act-day">27</div><div class="act-month">Juin</div><div class="act-year">2026</div></div>
-      <div class="act-body">
-        <span class="act-badge badge-presenter">PRESENTER</span>
-        <div class="act-title">Cours JCI — Presenter</div>
-        <div class="act-desc">Développer les compétences de présentation efficaces.</div>
-        <div class="act-footer"><span class="act-loc">📅 Samedi 27 Juin</span><div class="act-dot"></div><span class="act-loc">📍 Lomé, JCI Togo</span></div>
-        <span class="act-price">💰 10 000 FCFA</span>
-      </div>
-    </div>
-    <div class="act-card">
-      <div class="act-date-col"><div class="act-day">10</div><div class="act-month">Juil</div><div class="act-year">2026</div></div>
-      <div class="act-body">
-        <span class="act-badge badge-designer">DESIGNER</span>
-        <div class="act-title">Cours de Conception de Modules (CCM)</div>
-        <div class="act-desc">Cours de conception de modules. Requis pour le grade Formateur National Alpha.</div>
-        <div class="act-footer"><span class="act-loc">📅 Vend. 10 – Dim. 12 Juillet</span><div class="act-dot"></div><span class="act-loc">📍 Lomé, JCI Togo</span></div>
-        <span class="act-price">💰 90 000 FCFA</span>
-      </div>
-    </div>
-    <div class="act-card">
-      <div class="act-date-col"><div class="act-day">25</div><div class="act-month">Juil</div><div class="act-year">2026</div></div>
-      <div class="act-body">
-        <span class="act-badge badge-cff">CFF</span>
-        <div class="act-title">Cours de Formation des Formateurs (CFF)</div>
-        <div class="act-desc">Cours de formation des formateurs. Certification niveau Formateur Alpha.</div>
-        <div class="act-footer"><span class="act-loc">📅 Sam. 25 – Dim. 26 Juillet</span><div class="act-dot"></div><span class="act-loc">📍 Lomé, JCI Togo</span></div>
-        <span class="act-price">💰 40 000 FCFA</span>
-      </div>
-    </div>
-    <div class="act-card">
-      <div class="act-date-col col-detente"><div class="act-day">01</div><div class="act-month">Août</div><div class="act-year">2026</div></div>
-      <div class="act-body">
-        <span class="act-badge badge-detente">🌴 Détente</span>
-        <div class="act-title">Sortie Détente des Formateurs</div>
-        <div class="act-desc">Moment de cohésion et de convivialité pour tous les formateurs INF. Journée de détente et de renforcement des liens.</div>
-        <div class="act-footer"><span class="act-loc">📅 Samedi 1er Août 2026</span><div class="act-dot"></div><span class="act-loc">📍 À définir</span></div>
-        <span class="act-price">🤝 Participation : 10 000 FCFA</span>
-      </div>
-    </div>
-  </div>
-
-</section>
-
-<!-- ===== RAPPORTS ===== -->
-<section id="rapports" class="section">
-  <div class="page-header">
-    <div class="ph-icon"><span class="material-symbols-rounded">assignment</span></div>
-    <div><h1>Envoyer un Rapport</h1><p>Choisissez le type de rapport à soumettre</p></div>
-  </div>
-  <div style="height:28px"></div>
-  <div class="content" style="padding:0 0 16px">
-    <a class="rapport-card" href="https://forms.gle/eRFYptc6VPk8m3WMA" target="_blank" rel="noopener">
-      <div class="r-icon"><span class="material-symbols-rounded">bar_chart</span></div>
-      <div>
-        <h3>Rapport de l'Organisation</h3>
-        <p>Avoir une photo de la liste de présence et des participants.</p>
-      </div>
-      <div class="r-arrow"><span class="material-symbols-rounded">chevron_right</span></div>
-    </a>
-    <a class="rapport-card" href="https://forms.gle/Q3JfgMSiDuqifdT66" target="_blank" rel="noopener" style="border-left-color:var(--gold)">
-      <div class="r-icon"><span class="material-symbols-rounded">edit_note</span></div>
-      <div>
-        <h3>Rapport du Formateur</h3>
-        <p>Avoir une photo de la liste de présence.</p>
-      </div>
-      <div class="r-arrow"><span class="material-symbols-rounded">chevron_right</span></div>
-    </a>
-  </div>
-</section>
-
-<!-- ===== FORMATEURS ===== -->
-<section id="formateurs" class="section">
-  <div class="page-header">
-    <div class="ph-icon"><span class="material-symbols-rounded">group</span></div>
-    <div><h1>Formateurs</h1><p>Base des formateurs INF · JCI Togo</p></div>
-  </div>
-  <div style="height:28px"></div>
-  <div class="search-box">
-    <h3>🔍 Rechercher un formateur</h3>
-    <div class="search-row">
-      <input type="text" id="search-input" placeholder="Saisir votre recherche…"/>
-      <select id="search-type">
-        <option value="nom">Par Nom</option>
-        <option value="nif">Par NIF</option>
-        <option value="locale">Par Organisation</option>
-        <option value="grade">Par Grade</option>
-      </select>
-    </div>
-    <div style="margin-top:10px;display:flex;gap:10px">
-      <button onclick="doSearch()" style="flex:1;background:#130F2D;color:#FFD700;border:none;border-radius:10px;padding:11px;font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer">Rechercher</button>
-      <button onclick="clearSearch()" style="background:#e0e8f0;color:#130F2D;border:none;border-radius:10px;padding:11px 16px;font-family:'Poppins',sans-serif;font-size:.88rem;cursor:pointer">Effacer</button>
-    </div>
-  </div>
-  <div id="search-results"></div>
-</section>
-
-<!-- ===== FORMATION ===== -->
-<section id="formation" class="section">
-  <div class="page-header">
-    <div class="ph-icon"><span class="material-symbols-rounded">cast_for_education</span></div>
-    <div><h1>Formation</h1><p>Ressources et formations en ligne</p></div>
-  </div>
-  <div style="height:28px"></div>
-  <div class="content">
-
-    <!-- Carte 1 : Suivre une formation en ligne -->
-    <a class="big-card formation-live" href="https://meet.google.com/acr-mnya-ksn" target="_blank" rel="noopener">
-      <div class="bc-icon"><span class="material-symbols-rounded">videocam</span></div>
-      <h3>Suivre une formation INF</h3>
-      <p>Rejoignez la salle virtuelle et participez en direct aux sessions animées par nos formateurs certifiés.</p>
-      <div class="bc-btn formation-live-btn"><span class="material-symbols-rounded">play_circle</span>Rejoindre la formation</div>
-    </a>
-
-    <!-- Carte 2 : Bibliothèque -->
-    <a class="big-card" href="https://drive.google.com/drive/folders/1PdXR-lmTbv_wzRGHvUlIJpYpvtJ9RwZ1?usp=sharing" target="_blank" rel="noopener">
-      <div class="bc-icon"><span class="material-symbols-rounded">library_books</span></div>
-      <h3>Bibliothèque de Ressources</h3>
-      <p>Accédez à tous les modules, guides et outils pédagogiques mis à disposition par l'INF.</p>
-      <div class="bc-btn"><span class="material-symbols-rounded">open_in_new</span>Consulter les ressources</div>
-    </a>
-
-  </div>
-</section>
-
-<!-- ===== SUGGESTION ===== -->
-<section id="suggestion" class="section">
-  <div class="page-header">
-    <div class="ph-icon"><span class="material-symbols-rounded">tips_and_updates</span></div>
-    <div><h1>Boîte à Suggestions</h1><p>Votre avis compte !</p></div>
-  </div>
-  <div style="height:28px"></div>
-  <div class="content">
-    <a class="big-card" href="https://forms.gle/AjZEvCgHHQ7iYRbw7" target="_blank" rel="noopener">
-      <div class="bc-icon"><span class="material-symbols-rounded">forum</span></div>
-      <h3>Partagez vos idées</h3>
-      <p>Vos suggestions nous aident à améliorer l'INF et à mieux servir les formateurs. Partagez vos idées, remarques et propositions.</p>
-      <div class="bc-btn"><span class="material-symbols-rounded">send</span>Ouvrir la Boîte à Suggestions</div>
-    </a>
-  </div>
-</section>
-
-<!-- ===== BUREAU ===== -->
-<section id="bureau" class="section">
-  <div class="page-header">
-    <div class="ph-icon"><span class="material-symbols-rounded">account_balance</span></div>
-    <div><h1>Bureau INF</h1><p>Membres du Bureau · Mandat 2026</p></div>
-  </div>
-  <div style="height:28px"></div>
-  <div class="content">
-    <div class="bureau-grid" id="bureau-grid"></div>
-  </div>
-</section>
-
-<!-- ===== COTISATION ===== -->
-<section id="cotisation" class="section">
-  <div class="page-header">
-    <div class="ph-icon"><span class="material-symbols-rounded">credit_score</span></div>
-    <div><h1>Cotisation</h1><p>Payer ma cotisation INF</p></div>
-  </div>
-  <div style="height:28px"></div>
-  <div class="content">
-    <div class="cotis-card">
-      <img src="assets/anne-solange-ameganvi.jpeg" alt="Trésorière"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-      <div class="c-avatar" style="display:none">👤</div>
-      <h3>Anne-Solange AMEGANVI</h3>
-      <div class="c-poste">Trésorière Générale · INF JCI Togo</div>
-      <p class="c-intro">Pour payer votre cotisation, veuillez contacter directement la Trésorerie Générale. Elle vous guidera pour le paiement et vous fournira votre reçu.</p>
-      <a href="tel:91593504"><span class="material-symbols-rounded">phone</span>Appeler : 91 59 35 04</a>
-    </div>
-  </div>
-</section>
-
-<!-- ===== QUIZ ===== -->
-<section id="quiz" class="section">
-  <div class="page-header">
-    <div class="ph-icon"><span class="material-symbols-rounded">quiz</span></div>
-    <div><h1>Quiz INF JCI Togo</h1><p>Teste tes connaissances · Deviens Expert</p></div>
-  </div>
-  <div style="height:28px"></div>
-
-  <div id="quiz-home">
-    <div class="quiz-intro">
-      <div class="trophy"><span class="material-symbols-rounded">emoji_events</span></div>
-      <h2>Défi Formateur INF</h2>
-      <p>Réponds aux questions sur le Programme de Formation et le Règlement Intérieur de l'INF JCI Togo.</p>
-      <div class="quiz-rules">
-        <ul style="list-style:none">
-          <li><span class="material-symbols-rounded">target</span><span><strong>5 niveaux</strong> de difficulté croissante</span></li>
-          <li><span class="material-symbols-rounded">help</span><span><strong>40 questions</strong> mélangées (QCM + Vrai/Faux) par niveau</span></li>
-          <li><span class="material-symbols-rounded">check_circle</span><span>Score minimum <strong>28/40</strong> (70%) pour débloquer</span></li>
-          <li><span class="material-symbols-rounded">star</span><span>Complète les 5 niveaux → <strong>EXPERT INF</strong></span></li>
-        </ul>
-      </div>
-    </div>
-    <div class="level-grid">
-      <div class="level-card current" id="card-0" onclick="startLevel(0)">
-        <span class="level-badge badge-current">Disponible</span>
-        <span class="material-symbols-rounded level-icon">spa</span>
-        <div class="level-name">Niveau 1</div>
-        <div class="level-sub">Débutant</div>
-        <div class="score-mini" id="score-mini-0"></div>
-      </div>
-      <div class="level-card locked" id="card-1">
-        <span class="level-badge badge-locked">Verrouillé</span>
-        <span class="material-symbols-rounded level-icon">menu_book</span>
-        <div class="level-name">Niveau 2</div>
-        <div class="level-sub">Apprenti</div>
-        <div class="score-mini" id="score-mini-1"></div>
-      </div>
-      <div class="level-card locked" id="card-2">
-        <span class="level-badge badge-locked">Verrouillé</span>
-        <span class="material-symbols-rounded level-icon">bolt</span>
-        <div class="level-name">Niveau 3</div>
-        <div class="level-sub">Confirmé</div>
-        <div class="score-mini" id="score-mini-2"></div>
-      </div>
-      <div class="level-card locked" id="card-3">
-        <span class="level-badge badge-locked">Verrouillé</span>
-        <span class="material-symbols-rounded level-icon">local_fire_department</span>
-        <div class="level-name">Niveau 4</div>
-        <div class="level-sub">Avancé</div>
-        <div class="score-mini" id="score-mini-3"></div>
-      </div>
-    </div>
-    <div class="level-card locked" id="card-4" style="margin:0 0 20px">
-      <span class="level-badge badge-locked">Verrouillé</span>
-      <span class="material-symbols-rounded level-icon">crown</span>
-      <div class="level-name">Niveau 5 — Expert</div>
-      <div class="level-sub">Le défi ultime · Maîtrise totale de l'INF</div>
-      <div class="score-mini" id="score-mini-4"></div>
-    </div>
-  </div>
-
-  <div id="quiz-game">
-    <div class="quiz-topbar">
-      <span class="quiz-level-tag" id="game-level-tag">Niveau 1</span>
-      <div class="quiz-progress-wrap">
-        <div class="quiz-progress-bar" id="progress-bar" style="width:0%"></div>
-      </div>
-      <span class="quiz-counter" id="q-counter">1 / 40</span>
-    </div>
-    <div class="question-card">
-      <span class="q-type-tag" id="q-type-tag">QCM</span>
-      <p class="q-text" id="q-text"></p>
-      <div class="answers" id="q-answers"></div>
-      <div class="feedback-box" id="feedback-box">
-        <div class="fb-title" id="fb-title"></div>
-        <p id="fb-text"></p>
-      </div>
-    </div>
-    <button class="next-btn" id="next-btn" onclick="nextQuestion()">Question suivante →</button>
-  </div>
-
-  <div id="quiz-result">
-    <div class="result-card">
-      <div class="result-emoji" id="res-emoji">🎉</div>
-      <div class="result-title" id="res-title">Niveau réussi !</div>
-      <div class="result-stars" id="res-stars">⭐⭐⭐</div>
-      <div class="result-score" id="res-score"><span id="res-pts" class="score-good">30</span><span style="font-size:1.2rem;color:#888"> / 40</span></div>
-      <p class="result-msg" id="res-msg"></p>
-      <button class="result-btn btn-next-level" id="btn-next" onclick="nextLevel()">Niveau suivant →</button>
-      <button class="result-btn btn-retry" onclick="retryLevel()">🔄 Réessayer ce niveau</button>
-      <button class="result-btn btn-retry" onclick="goHome()" style="margin-top:0">🏠 Accueil Quiz</button>
-    </div>
-  </div>
-
-  <div id="quiz-expert">
-    <div class="expert-card">
-      <div class="expert-badge">🏆</div>
-      <div class="expert-title">EXPERT INF</div>
-      <div class="expert-name">Tu maîtrises le Programme &amp; le Règlement de l'INF JCI Togo</div>
-      <div class="expert-stars">⭐⭐⭐⭐⭐</div>
-      <p class="expert-desc">Félicitations ! Tu as démontré une maîtrise complète des textes fondamentaux de l'Institut National de Formation de la JCI Togo. Tu es désormais un <strong style="color:#FFD700">Formateur Expert</strong> !</p>
-      <button class="expert-share" onclick="shareResult()">📤 Partager mon résultat</button>
-      <button class="expert-home" onclick="resetAll()">🔄 Rejouer depuis le début</button>
-    </div>
-  </div>
-</section>
-
-<!-- ===== MODAL PARTENAIRE ===== -->
-<div class="partner-overlay" id="partnerOverlay" onclick="closePartner(event)">
-  <div class="partner-modal">
-    <div class="modal-handle"></div>
-    <div class="modal-logo-row">
-      <div id="modal-logo-ph" class="modal-logo-ph">🤝</div>
-      <img id="modal-logo-img" class="modal-logo" style="display:none" src="" alt=""/>
-      <div>
-        <div class="modal-pname" id="modal-pname">Partenaire</div>
-        <div class="modal-ptype" id="modal-ptype">Partenaire VIP</div>
-      </div>
-    </div>
-    <p class="modal-desc" id="modal-pdesc"></p>
-    <div class="modal-svcs">
-      <h4>Services &amp; Domaines</h4>
-      <div id="modal-ptags"></div>
-    </div>
-    <button class="modal-close" onclick="closePartnerBtn()">Fermer</button>
   </div>
 </div>
 
-<!-- ===== NAVIGATION ===== -->
+<!-- ══ RAPPORTS ══ -->
+<div class="pg" id="pg-rapports">
+  <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">assignment</span></div><div><div class="inh-title">Envoyer un Rapport</div><div class="inh-sub">Choisissez le type de rapport</div></div></div>
+  <div class="inc">
+    <a class="rcard" href="https://forms.gle/eRFYptc6VPk8m3WMA" target="_blank"><div class="rc-ico"><span class="material-symbols-rounded">bar_chart</span></div><div><div class="rc-title">Rapport de l'Organisation</div><div class="rc-desc">Avoir une photo de la liste de présence et des participants.</div></div><div class="rc-arr"><span class="material-symbols-rounded">chevron_right</span></div></a>
+    <a class="rcard" href="https://forms.gle/Q3JfgMSiDuqifdT66" target="_blank" style="border-left-color:var(--gold)"><div class="rc-ico" style="background:rgba(255,215,0,.1)"><span class="material-symbols-rounded" style="color:var(--gold)">edit_note</span></div><div><div class="rc-title">Rapport du Formateur</div><div class="rc-desc">Avoir une photo de la liste de présence.</div></div><div class="rc-arr"><span class="material-symbols-rounded">chevron_right</span></div></a>
+  </div>
+</div>
+
+<!-- ══ FORMATEURS ══ -->
+<div class="pg" id="pg-formateurs">
+  <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">group</span></div><div><div class="inh-title">Formateurs</div><div class="inh-sub">Base des formateurs INF · JCI Togo</div></div></div>
+  <div class="inc">
+    <div class="sbox">
+      <div class="sb-lbl"><span class="material-symbols-rounded">search</span>Rechercher un formateur</div>
+      <div class="sb-row">
+        <div class="sb-iw"><span class="material-symbols-rounded">search</span><input type="text" id="search-input" placeholder="Nom, NIF, organisation…" onkeydown="if(event.key==='Enter')doSearch()"/></div>
+        <select class="sb-sel" id="search-type"><option value="nom">Par Nom</option><option value="nif">Par NIF</option><option value="locale">Par Organisation</option><option value="grade">Par Grade</option></select>
+      </div>
+      <button class="sb-btn" onclick="doSearch()"><span class="material-symbols-rounded">manage_search</span>Rechercher</button>
+    </div>
+    <div id="fmt-results"></div>
+  </div>
+</div>
+
+<!-- ══ FORMATION ══ -->
+<div class="pg" id="pg-formation">
+  <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">cast_for_education</span></div><div><div class="inh-title">Formation</div><div class="inh-sub">Ressources et formations en ligne</div></div></div>
+  <div class="inc">
+    <a class="bcard live" href="https://meet.google.com/acr-mnya-ksn" target="_blank"><div class="bc-ico"><span class="material-symbols-rounded">videocam</span></div><div class="bc-title">Suivre une formation INF</div><div class="bc-desc">Rejoignez la salle virtuelle et participez en direct aux sessions animées par nos formateurs certifiés.</div><div class="bc-btn"><span class="material-symbols-rounded">play_circle</span>Rejoindre la formation</div></a>
+    <a class="bcard" href="https://drive.google.com/drive/folders/1PdXR-lmTbv_wzRGHvUlIJpYpvtJ9RwZ1?usp=sharing" target="_blank"><div class="bc-ico"><span class="material-symbols-rounded">library_books</span></div><div class="bc-title">Bibliothèque de Ressources</div><div class="bc-desc">Accédez à tous les modules, guides et outils pédagogiques mis à disposition par l'INF.</div><div class="bc-btn"><span class="material-symbols-rounded">open_in_new</span>Consulter les ressources</div></a>
+  </div>
+</div>
+
+<!-- ══ SUGGESTION ══ -->
+<div class="pg" id="pg-suggestion">
+  <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">tips_and_updates</span></div><div><div class="inh-title">Boîte à Suggestions</div><div class="inh-sub">Votre avis compte !</div></div></div>
+  <div class="inc">
+    <a class="bcard" href="https://forms.gle/AjZEvCgHHQ7iYRbw7" target="_blank"><div class="bc-ico"><span class="material-symbols-rounded">forum</span></div><div class="bc-title">Partagez vos idées</div><div class="bc-desc">Vos suggestions nous aident à améliorer l'INF et à mieux servir les formateurs. N'hésitez pas à partager vos idées, remarques et propositions.</div><div class="bc-btn"><span class="material-symbols-rounded">send</span>Ouvrir la Boîte à Suggestions</div></a>
+  </div>
+</div>
+
+<!-- ══ BUREAU ══ -->
+<div class="pg" id="pg-bureau">
+  <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">account_balance</span></div><div><div class="inh-title">Bureau INF</div><div class="inh-sub">Membres du Bureau · Mandat 2026</div></div></div>
+  <div class="inc"><div class="bg-grid" id="bureau-grid"></div></div>
+</div>
+
+<!-- ══ COTISATION ══ -->
+<div class="pg" id="pg-cotisation">
+  <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">credit_score</span></div><div><div class="inh-title">Cotisation</div><div class="inh-sub">Payer ma cotisation INF</div></div></div>
+  <div class="inc">
+    <div class="ccard"><img src="assets/anne-solange-ameganvi.jpeg" onerror="this.style.display='none'"/><div class="cc-name">Anne-Solange AMEGANVI</div><div class="cc-role">Trésorière Générale · INF JCI Togo</div><p class="cc-desc">Pour payer votre cotisation, veuillez contacter directement la Trésorerie Générale. Elle vous guidera pour le paiement et vous fournira votre reçu.</p><a class="cc-btn" href="tel:91593504"><span class="material-symbols-rounded">phone</span>Appeler : 91 59 35 04</a></div>
+  </div>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div class="pg" id="pg-quiz">
+  <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">quiz</span></div><div><div class="inh-title">Quiz INF JCI Togo</div><div class="inh-sub">Teste tes connaissances · Deviens Expert</div></div></div>
+  <div class="inc">
+    <div class="qintro"><div class="qi-troph"><span class="material-symbols-rounded">emoji_events</span></div><div class="qi-title">Défi Formateur INF</div><p class="qi-desc">Réponds aux questions sur le Programme de Formation et le Règlement Intérieur de l'INF JCI Togo.</p><div class="qi-rules"><div class="qr"><span class="material-symbols-rounded">target</span>5 niveaux de difficulté croissante</div><div class="qr"><span class="material-symbols-rounded">help</span>40 questions par niveau (QCM + Vrai/Faux)</div><div class="qr"><span class="material-symbols-rounded">check_circle</span>Score minimum 28/40 (70%) pour débloquer</div><div class="qr"><span class="material-symbols-rounded">star</span>Complète les 5 niveaux pour devenir EXPERT INF</div></div></div>
+    <div class="lv-grid">
+      <div class="lv avail" id="lv-0"><div class="lv-badge bav">Disponible</div><span class="material-symbols-rounded lv-ico">spa</span><div class="lv-name">Niveau 1</div><div class="lv-sub">Débutant</div></div>
+      <div class="lv locked" id="lv-1"><div class="lv-badge blk">Verrouillé</div><span class="material-symbols-rounded lv-ico">menu_book</span><div class="lv-name">Niveau 2</div><div class="lv-sub">Apprenti</div></div>
+      <div class="lv locked" id="lv-2"><div class="lv-badge blk">Verrouillé</div><span class="material-symbols-rounded lv-ico">bolt</span><div class="lv-name">Niveau 3</div><div class="lv-sub">Confirmé</div></div>
+      <div class="lv locked" id="lv-3"><div class="lv-badge blk">Verrouillé</div><span class="material-symbols-rounded lv-ico">local_fire_department</span><div class="lv-name">Niveau 4</div><div class="lv-sub">Avancé</div></div>
+    </div>
+    <div class="lv locked" style="margin-bottom:20px;flex-direction:row;gap:12px;padding:14px 16px"><span class="material-symbols-rounded lv-ico" style="margin:0;font-size:1.4rem">crown</span><div><div class="lv-name">Niveau 5 — Expert</div><div class="lv-sub">Le défi ultime · Maîtrise totale de l'INF</div></div><div class="lv-badge blk" style="position:static;margin-left:auto">Verrouillé</div></div>
+  </div>
+</div>
+
+<!-- ══ PARTNER MODAL ══ -->
+<div class="pm-overlay" id="pm-overlay" onclick="if(event.target===this)closePM()">
+  <div class="pm-modal">
+    <div class="pm-handle"></div>
+    <div class="pm-logo-row">
+      <div id="pm-logo-ph" class="pm-logo-ph">🤝</div>
+      <img id="pm-logo-img" class="pm-logo" style="display:none" src="" alt=""/>
+      <div><div class="pm-name" id="pm-name">Partenaire</div><div class="pm-type" id="pm-type">Partenaire VIP</div></div>
+    </div>
+    <p class="pm-desc" id="pm-desc"></p>
+    <div class="pm-svcs"><h4>Services &amp; Domaines</h4><div id="pm-tags"></div></div>
+    <button class="pm-close" onclick="closePM()">Fermer</button>
+  </div>
+</div>
+
+
+<!-- Quiz sections (quiz-home, quiz-game, quiz-result, quiz-expert) -->
+<div class="pg" id="pg-quiz">
+  <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">quiz</span></div><div><div class="inh-title">Quiz INF JCI Togo</div><div class="inh-sub">Teste tes connaissances · Deviens Expert</div></div></div>
+  <div style="padding:16px">
+
+  </div>
+</div>
+
+<!-- ══ PARTNER MODAL ══ -->
+<div class="pm-overlay" id="pm-overlay" onclick="if(event.target===this)closePM()">
+  <div class="pm-modal">
+    <div class="pm-handle"></div>
+    <div class="pm-logo-row">
+      <div id="pm-logo-ph" class="pm-logo-ph">🤝</div>
+      <img id="pm-logo-img" class="pm-logo" style="display:none" src="" alt=""/>
+      <div><div class="pm-name" id="pm-name">Partenaire</div><div class="pm-type" id="pm-type">Partenaire VIP</div></div>
+    </div>
+    <p class="pm-desc" id="pm-desc"></p>
+    <div class="pm-svcs"><h4>Services &amp; Domaines</h4><div id="pm-tags"></div></div>
+    <button class="pm-close" onclick="closePM()">Fermer</button>
+  </div>
+</div>
+
+<!-- ══ NAVIGATION ══ -->
 <nav>
-  <button class="nav-btn active" onclick="showSection('accueil',this)">
-    <span class="material-symbols-rounded">home</span><span>Accueil</span>
-  </button>
-  <button class="nav-btn" onclick="showSection('rapports',this)">
-    <span class="material-symbols-rounded">assignment</span><span>Rapports</span>
-  </button>
-  <button class="nav-btn" onclick="showSection('formateurs',this)">
-    <span class="material-symbols-rounded">group</span><span>Formateurs</span>
-  </button>
-  <button class="nav-btn" onclick="showSection('formation',this)">
-    <span class="material-symbols-rounded">cast_for_education</span><span>Formation</span>
-  </button>
-  <button class="nav-btn" onclick="showSection('suggestion',this)">
-    <span class="material-symbols-rounded">tips_and_updates</span><span>Suggestion</span>
-  </button>
-  <button class="nav-btn" onclick="showSection('bureau',this)">
-    <span class="material-symbols-rounded">account_balance</span><span>Bureau</span>
-  </button>
-  <button class="nav-btn" onclick="showSection('cotisation',this)">
-    <span class="material-symbols-rounded">credit_score</span><span>Cotis.</span>
-  </button>
-  <button class="nav-btn" onclick="showSection('quiz',this)">
-    <span class="material-symbols-rounded">quiz</span><span>Quiz</span>
-  </button>
+  <button class="nb active" onclick="showPg('accueil',this)"><span class="material-symbols-rounded">home</span>Accueil</button>
+  <button class="nb" onclick="showPg('rapports',this)"><span class="material-symbols-rounded">assignment</span>Rapports</button>
+  <button class="nb" onclick="showPg('formateurs',this)"><span class="material-symbols-rounded">group</span>Formateurs</button>
+  <button class="nb" onclick="showPg('formation',this)"><span class="material-symbols-rounded">cast_for_education</span>Formation</button>
+  <button class="nb" onclick="showPg('suggestion',this)"><span class="material-symbols-rounded">tips_and_updates</span>Suggestion</button>
+  <button class="nb" onclick="showPg('bureau',this)"><span class="material-symbols-rounded">account_balance</span>Bureau</button>
+  <button class="nb" onclick="showPg('cotisation',this)"><span class="material-symbols-rounded">credit_score</span>Cotis.</button>
+  <button class="nb" onclick="showPg('quiz',this)"><span class="material-symbols-rounded">quiz</span>Quiz</button>
 </nav>
 
 <script>
-// ─── NAVIGATION ───────────────────────────────────────────
-function showSection(id, btn) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
-  window.scrollTo(0, 0);
+// ── Navigation
+function showPg(id,btn){
+  document.querySelectorAll('.pg').forEach(p=>p.style.display='none');
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); window.scrollTo(0,0);
+  document.getElementById('pg-'+id).style.display='block';
 }
 
-// ─── BUREAU ───────────────────────────────────────────────
+// ── Thème
+const THEME_KEY='inf-theme';
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  const ic=document.getElementById('theme-icon');
+  if(ic)ic.textContent=t==='dark'?'light_mode':'dark_mode';
+  localStorage.setItem(THEME_KEY,t);
+}
+function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
+
+// ── Bureau
 const bureau = [
   { nom: 'Kokouvi DJIWONOU', poste: 'Directeur', contact: '98678932', photo: 'kokouvi-djiwonou.jpeg' },
   { nom: 'Jean-Pierre AGONGLOVI', poste: 'Secrétaire Général', contact: '90522375', photo: 'jean-pierre-agonglovi.jpeg' },
@@ -847,22 +595,42 @@ const bureau = [
   { nom: 'Hyppolite Komi DJOKA', poste: 'Responsable Juridique', contact: '92195981', photo: 'hyppolite-djoka.jpeg' },
 ];
 
-function buildBureau() {
-  const grid = document.getElementById('bureau-grid');
-  grid.innerHTML = bureau.map(m => `
-    <div class="bureau-card">
-      <img src="assets/${m.photo}" alt="${m.nom}" class="bureau-photo"
-           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-      <div class="b-avatar" style="display:none">👤</div>
-      <div class="b-name">${m.nom}</div>
-      <div class="b-poste">${m.poste}</div>
-      <a href="tel:${m.contact}"><span class="material-symbols-rounded">phone</span></a>
-    </div>
-  `).join('');
+function buildBureau(){
+  const g=document.getElementById('bureau-grid');
+  if(!g)return;
+  g.innerHTML=bureau.map(m=>
+    <div class="bm">
+      <img src="assets/\" onerror="this.style.display='none'" alt="\"/>
+      <div class="bm-name">\</div>
+      <div class="bm-role">\</div>
+      <a href="tel:\"><span class="material-symbols-rounded">phone</span></a>
+    </div>).join('');
 }
 buildBureau();
 
-// ─── FORMATEURS ───────────────────────────────────────────
+// ── Partenaires
+const partnersData={
+  ls:{name:'Light-Service',type:'Structure multiservices',logo:'assets/logo-light-service.png',icon:'💡',desc:'Light-Service est une structure multiservices basée à Lomé. Spécialisée dans la communication visuelle, l\'organisation événementielle et le commerce.',tags:['Communication','Événementiel','Commerce','Design','Marketing']},
+  inf:{name:'INF JCI Togo',type:'Institut de Formation',logo:'assets/logo-inf-officiel.png',icon:'🏆',desc:'L\'Institut National de Formation de la JCI Togo est l\'organe officiel de formation et de certification des formateurs JCI au Togo.',tags:['Formation','Certification','Leadership','Management','Entrepreneuriat']},
+  p3:{name:'Partenaire 3',type:'À compléter',logo:'',icon:'🏢',desc:'Informations à venir.',tags:['Partenaire VIP']},
+  p4:{name:'Partenaire 4',type:'À compléter',logo:'',icon:'🌐',desc:'Informations à venir.',tags:['Partenaire VIP']},
+  p5:{name:'Partenaire 5',type:'À compléter',logo:'',icon:'🤝',desc:'Informations à venir.',tags:['Partenaire VIP']}
+};
+function openPartner(id){
+  const p=partnersData[id];if(!p)return;
+  document.getElementById('pm-name').textContent=p.name;
+  document.getElementById('pm-type').textContent=p.type;
+  document.getElementById('pm-desc').textContent=p.desc;
+  const img=document.getElementById('pm-logo-img'),ph=document.getElementById('pm-logo-ph');
+  if(p.logo){img.src=p.logo;img.style.display='block';ph.style.display='none';img.onerror=()=>{img.style.display='none';ph.style.display='flex';ph.textContent=p.icon;};}
+  else{img.style.display='none';ph.style.display='flex';ph.textContent=p.icon;}
+  document.getElementById('pm-tags').innerHTML=p.tags.map(t=><span class="pm-tag">\</span>).join('');
+  document.getElementById('pm-overlay').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closePM(){document.getElementById('pm-overlay').classList.remove('show');document.body.style.overflow='';}
+
+// ── Formateurs (150 formateurs)
 const formateurs = [
   {"nif":"2026001","nom":"ABBE WOMBE Assiadissa","grade":"ALPHA","locale":"Lomé Prestige","contact":"92284158","mail":"awag0708@gmail.com","statut":"Actif","anniversaire":""},
   {"nif":"2026002","nom":"ABOTCHI Daniel Mola","grade":"INTERNATIONAL JUNIOR","locale":"Lomé Flamboyant","contact":"90878099","mail":"abotchi@gmail.com","statut":"Actif","anniversaire":""},
@@ -1016,88 +784,51 @@ const formateurs = [
   {"nif":"2026150","nom":"SOSSOU KOMLANVI","grade":"ALPHA","locale":"Agoè-Nyivé Pioneer","contact":"92000468","mail":"sokodem@gmail.com","statut":"Actif","anniversaire":"30 Juin"}
 ];
 
-function gradeBadge(g) {
-  const map = {
-    'ALPHA': 'badge-alpha',
-    'LOCAL': 'badge-local',
-    'NATIONAL': 'badge-national',
-    'INTERNATIONAL JUNIOR': 'badge-int-jr',
-    'INTERNATIONAL SENIOR': 'badge-int-sr',
-  };
-  return `<span class="badge ${map[g]||'badge-alpha'}">${g}</span>`;
+const gradeMap={'ALPHA':'badge-alpha','LOCAL':'badge-local','NATIONAL':'badge-national','INTERNATIONAL JUNIOR':'badge-int-jr','INTERNATIONAL SENIOR':'badge-int-sr'};
+function gradeBadge(g){return '<span class="badge '+( gradeMap[g]||'badge-alpha')+'">'+ g+'</span>';}
+
+function ficheHTML(f){
+  const tel=f.contact?<a href="tel:\">\</a>:'<em style="color:var(--text-3)">Non renseigné</em>';
+  const mail=f.mail?<a href="mailto:\">\</a>:'<em style="color:var(--text-3)">Non renseigné</em>';
+  const anniv=f.anniversaire?<div class="fcr"><span class="fcl"><span class="material-symbols-rounded" style="font-size:14px">cake</span> Anniversaire</span>\</div>:'';
+  return <div class="fc-card">
+    <button class="back-btn" onclick="clearSearch()"><span class="material-symbols-rounded" style="font-size:16px">arrow_back</span>Retour</button>
+    <div class="fcn">\</div>\
+    <div style="height:10px"></div>
+    <div class="fcr"><span class="fcl"><span class="material-symbols-rounded" style="font-size:14px">badge</span> NIF</span>\</div>
+    <div class="fcr"><span class="fcl"><span class="material-symbols-rounded" style="font-size:14px">location_city</span> Organisation</span>\</div>
+    <div class="fcr"><span class="fcl"><span class="material-symbols-rounded" style="font-size:14px">phone</span> Contact</span>\</div>
+    <div class="fcr"><span class="fcl"><span class="material-symbols-rounded" style="font-size:14px">mail</span> Email</span>\</div>
+    \
+    <div class="fcr"><span class="fcl"><span class="material-symbols-rounded" style="font-size:14px">verified</span> Statut</span>\</div>
+  </div>;
 }
 
-function ficheHTML(f) {
-  const tel = f.contact ? `<a href="tel:${f.contact.replace(/\s/g,'')}">${f.contact}</a>` : '<em style="color:#aaa">Non renseigné</em>';
-  const mail = f.mail ? `<a href="mailto:${f.mail}">${f.mail}</a>` : '<em style="color:#aaa">Non renseigné</em>';
-  const anniv = f.anniversaire ? `<div class="f-row"><span class="f-label">🎂 Anniversaire</span>${f.anniversaire}</div>` : '';
-  return `
-    <div class="formateur-card">
-      <button class="back-btn" onclick="clearSearch()">← Retour</button>
-      <div class="f-name">${f.nom}</div>
-      ${gradeBadge(f.grade)}
-      <div style="height:12px"></div>
-      <div class="f-row"><span class="f-label">🪪 NIF</span>${f.nif}</div>
-      <div class="f-row"><span class="f-label">🏛️ Organisation</span>${f.locale}</div>
-      <div class="f-row"><span class="f-label">📞 Contact</span>${tel}</div>
-      <div class="f-row"><span class="f-label">✉️ Mail</span>${mail}</div>
-      ${anniv}
-      <div class="f-row"><span class="f-label">✅ Statut</span><span class="badge ${f.statut==='Actif'?'badge-actif':'badge-inactif'}">${f.statut}</span></div>
-    </div>`;
+function doSearch(){
+  const q=document.getElementById('search-input').value.trim().toLowerCase();
+  const type=document.getElementById('search-type').value;
+  const r=document.getElementById('fmt-results');
+  if(!q){r.innerHTML='<p class="no-result">Veuillez saisir un terme de recherche.</p>';return;}
+  let found=[];
+  if(type==='nif') found=[formateurs.find(x=>x.nif===q||x.nif.includes(q))].filter(Boolean);
+  else if(type==='nom') found=formateurs.filter(x=>x.nom.toLowerCase().includes(q));
+  else if(type==='locale') found=formateurs.filter(x=>x.locale.toLowerCase().includes(q));
+  else if(type==='grade') found=formateurs.filter(x=>x.grade.toLowerCase().includes(q));
+  if(!found.length){r.innerHTML='<p class="no-result">Aucun formateur trouvé.</p>';return;}
+  if(found.length===1){r.innerHTML=ficheHTML(found[0]);return;}
+  r.innerHTML=<div style="padding:4px 0 8px;font-size:.78rem;font-weight:700;color:var(--text-3)">\ formateur(s)</div>+
+    found.map(f=><div class="list-item" onclick="showFmt('\')">
+      <div><span style="font-weight:700;color:var(--text-1)">\</span><br/><small style="color:var(--text-3)">\</small></div>
+      \</div>).join('');
 }
+function showFmt(nif){const f=formateurs.find(x=>x.nif===nif);if(f)document.getElementById('fmt-results').innerHTML=ficheHTML(f);}
+function clearSearch(){document.getElementById('search-input').value='';document.getElementById('fmt-results').innerHTML='';}
+document.addEventListener('DOMContentLoaded',function(){
+  const inp=document.getElementById('search-input');
+  if(inp)inp.addEventListener('keydown',e=>{if(e.key==='Enter')doSearch();});
+});
 
-function doSearch() {
-  const q = document.getElementById('search-input').value.trim().toLowerCase();
-  const type = document.getElementById('search-type').value;
-  const results = document.getElementById('search-results');
-  if (!q) { results.innerHTML = '<p class="no-result">Veuillez saisir un terme de recherche.</p>'; return; }
-
-  if (type === 'nif') {
-    const f = formateurs.find(x => x.nif === q || x.nif.includes(q));
-    results.innerHTML = f ? ficheHTML(f) : '<p class="no-result">Aucun formateur trouvé pour ce NIF.</p>';
-  } else if (type === 'nom') {
-    const found = formateurs.filter(x => x.nom.toLowerCase().includes(q));
-    if (found.length === 1) { results.innerHTML = ficheHTML(found[0]); return; }
-    if (found.length === 0) { results.innerHTML = '<p class="no-result">Aucun formateur trouvé pour ce nom.</p>'; return; }
-    results.innerHTML = found.map(f => `
-      <div class="list-item" onclick="showFiche('${f.nif}')">
-        <div><span style="font-weight:600;color:#130F2D">${f.nom}</span><br/><small style="color:#888">${f.locale}</small></div>
-        <span class="l-badge">${gradeBadge(f.grade)}</span>
-      </div>`).join('');
-  } else if (type === 'locale') {
-    const found = formateurs.filter(x => x.locale.toLowerCase().includes(q));
-    if (found.length === 0) { results.innerHTML = '<p class="no-result">Aucune organisation trouvée.</p>'; return; }
-    results.innerHTML = `<div style="padding:8px 0 4px;color:#130F2D;font-weight:600;font-size:.9rem">${found.length} formateur(s) — ${found[0].locale}</div>` +
-      found.map(f => `
-        <div class="list-item" onclick="showFiche('${f.nif}')">
-          <div><span style="font-weight:600;color:#130F2D">${f.nom}</span></div>
-          <span class="l-badge">${gradeBadge(f.grade)}</span>
-        </div>`).join('');
-  } else if (type === 'grade') {
-    const found = formateurs.filter(x => x.grade.toLowerCase().includes(q));
-    if (found.length === 0) { results.innerHTML = '<p class="no-result">Aucun formateur trouvé pour ce grade.</p>'; return; }
-    results.innerHTML = `<div style="padding:8px 0 4px;color:#130F2D;font-weight:600;font-size:.9rem">${found.length} formateur(s) · Grade ${q.toUpperCase()}</div>` +
-      found.map(f => `
-        <div class="list-item" onclick="showFiche('${f.nif}')">
-          <div><span style="font-weight:600;color:#130F2D">${f.nom}</span><br/><small style="color:#888">${f.locale}</small></div>
-        </div>`).join('');
-  }
-}
-
-function showFiche(nif) {
-  const f = formateurs.find(x => x.nif === nif);
-  if (f) document.getElementById('search-results').innerHTML = ficheHTML(f);
-  window.scrollTo(0,0);
-}
-
-function clearSearch() {
-  document.getElementById('search-input').value = '';
-  document.getElementById('search-results').innerHTML = '';
-}
-
-// Recherche on Enter
-document.getElementById('search-input').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
-
+// ── PWA
 // ─── PWA ──────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
@@ -1148,6 +879,17 @@ window.addEventListener('appinstalled', () => {
 });
 
 // ─── QUIZ ─────────────────────────────────────────────────
+
+// ── INSTALL BANNER
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;const b=document.getElementById('install-banner');if(b)b.style.display='block';});
+const installBtn=document.getElementById('install-btn');
+if(installBtn)installBtn.addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();const{outcome}=await deferredPrompt.userChoice;deferredPrompt=null;const b=document.getElementById('install-banner');if(b)b.style.display='none';});
+const dismissBtn=document.getElementById('install-dismiss');
+if(dismissBtn)dismissBtn.addEventListener('click',()=>{const b=document.getElementById('install-banner');if(b)b.style.display='none';});
+window.addEventListener('appinstalled',()=>{const b=document.getElementById('install-banner');if(b)b.style.display='none';deferredPrompt=null;});
+
+// ── QUIZ (PASS_SCORE, LEVELS, jeu)
 const PASS_SCORE = 28; // 70% de 40
 
 const LEVELS = [
@@ -1660,6 +1402,7 @@ function openPartner(id) {
 }
 function closePartner(e) { if (e.target===document.getElementById('partnerOverlay')) closePartnerBtn(); }
 function closePartnerBtn() { document.getElementById('partnerOverlay').classList.remove('show'); document.body.style.overflow=''; }
+
 </script>
 </body>
-</html>         
+</html>
