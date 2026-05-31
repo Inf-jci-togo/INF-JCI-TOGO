@@ -56,6 +56,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text-1);pad
 .theme-toggle{width:34px;height:34px;border-radius:50%;background:rgba(0,151,215,.15);border:1px solid rgba(0,151,215,.3);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:.2s}
 .theme-toggle:hover{background:rgba(0,151,215,.25)}
 .theme-toggle .material-symbols-rounded{font-size:17px;color:var(--blue)}
+#back-btn{display:none;align-items:center;justify-content:center;width:32px;height:32px;background:rgba(255,255,255,.1);border:none;border-radius:8px;color:rgba(255,255,255,.85);cursor:pointer;flex-shrink:0;transition:.2s}
+#back-btn:hover{background:rgba(255,255,255,.2)}
+#back-btn .material-symbols-rounded{font-size:20px}
 /* ══ NAVIGATION ═════════════════════════════════════════════ */
 nav{position:fixed;bottom:0;left:0;right:0;background:var(--nav-bg);height:64px;display:flex;border-top:1px solid rgba(0,151,215,.12);overflow-x:auto;scrollbar-width:none;z-index:999;transition:background .3s}
 nav::-webkit-scrollbar{display:none}
@@ -87,7 +90,7 @@ nav::-webkit-scrollbar{display:none}
 .dir-left{width:118px;flex-shrink:0;padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:7px;background:var(--navy);position:relative;overflow:hidden}
 .dir-left::after{content:'';position:absolute;inset:0;background:url('assets/logo-filigrane.png') center/65% no-repeat;opacity:.10;pointer-events:none}
 .dir-left>*{position:relative;z-index:1}
-.dir-av{width:74px;height:74px;border-radius:50%;border:2.5px solid var(--gold);padding:2px;flex-shrink:0}
+.dir-av{width:90px;height:90px;border-radius:50%;border:3px solid var(--gold);padding:2px;flex-shrink:0}
 .dir-av img{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center top}
 .dir-id-name{font-family:'Playfair Display',serif;font-size:.72rem;font-weight:700;color:var(--gold);text-align:center;line-height:1.3;margin-top:3px}
 .dir-id-role{font-size:.57rem;color:rgba(255,255,255,.5);text-align:center;line-height:1.4;margin-top:2px}
@@ -215,7 +218,7 @@ nav::-webkit-scrollbar{display:none}
 /* ══ BUREAU ═════════════════════════════════════════════════ */
 .bg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .bm{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 10px;text-align:center;transition:background .3s}
-.bm img{width:66px;height:66px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid var(--blue);margin-bottom:8px}
+.bm img{width:82px;height:82px;border-radius:50%;object-fit:cover;object-position:center top;border:2.5px solid var(--blue);margin-bottom:8px}
 .bm-name{font-size:.68rem;font-weight:700;color:var(--text-1);line-height:1.3;margin-bottom:2px}
 .bm-role{font-size:.6rem;color:var(--text-3);margin-bottom:8px;line-height:1.3}
 .bm a{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:rgba(0,151,215,.1);border:1px solid rgba(0,151,215,.25);border-radius:50%;text-decoration:none;transition:.2s}
@@ -224,7 +227,7 @@ nav::-webkit-scrollbar{display:none}
 .bm a .material-symbols-rounded{font-size:13px;color:var(--blue)}
 /* ══ COTISATION ═════════════════════════════════════════════ */
 .ccard{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px 18px;text-align:center;transition:background .3s}
-.ccard img{width:88px;height:88px;border-radius:50%;object-fit:cover;object-position:center top;border:2.5px solid var(--blue);margin-bottom:12px}
+.ccard img{width:100px;height:100px;border-radius:50%;object-fit:cover;object-position:center top;border:3px solid var(--blue);margin-bottom:12px}
 .cc-name{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--text-1);margin-bottom:3px}
 .cc-role{font-size:.72rem;color:var(--text-3);margin-bottom:14px}
 .cc-desc{font-size:.79rem;color:var(--text-2);line-height:1.6;margin-bottom:18px}
@@ -387,10 +390,13 @@ nav::-webkit-scrollbar{display:none}
 <body>
 
 <header class="top-bar">
-  <img src="assets/logo-blanc.png" class="top-logo" alt="INF" onerror="this.style.display='none'"/>
+  <button id="back-btn" onclick="goBackAccueil()" title="Retour Accueil">
+    <span class="material-symbols-rounded">arrow_back</span>
+  </button>
+  <img src="assets/logo-blanc.png" class="top-logo" alt="INF" onerror="this.style.display='none'" id="top-logo"/>
   <div class="top-sep"></div>
   <div class="top-texts">
-    <div class="top-title">Institut National de Formation</div>
+    <div class="top-title" id="top-title">Institut National de Formation</div>
     <div class="top-sub">JCI TOGO · INF</div>
   </div>
   <div class="theme-toggle" onclick="toggleTheme()" title="Changer de thème">
@@ -687,12 +693,45 @@ nav::-webkit-scrollbar{display:none}
 
 <script>
 // ── Navigation
-function showPg(id,btn){
-  document.querySelectorAll('.pg').forEach(p=>p.style.display='none');
-  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active'); window.scrollTo(0,0);
+var _prevSection = 'accueil';
+var sectionTitles = {
+  accueil:'Institut National de Formation',
+  rapports:'Rapports',
+  formateurs:'Formateurs',
+  formation:'Formation',
+  suggestion:'Suggestions',
+  bureau:'Bureau INF',
+  cotisation:'Cotisation',
+  quiz:'Quiz INF'
+};
+
+function showPg(id, btn){
+  document.querySelectorAll('.pg').forEach(function(p){p.style.display='none';});
+  document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('active');});
+  if(btn) btn.classList.add('active');
+  window.scrollTo(0,0);
   document.getElementById('pg-'+id).style.display='block';
+  _prevSection = id;
+  // Bouton retour : visible sur toutes les pages sauf accueil
+  var bb = document.getElementById('back-btn');
+  if(bb) bb.style.display = id === 'accueil' ? 'none' : 'flex';
+  // Titre header
+  var tt = document.getElementById('top-title');
+  if(tt) tt.textContent = sectionTitles[id] || 'Institut National de Formation';
 }
+
+function goBackAccueil(){
+  var btn = document.querySelector('.nb[onclick*="\'accueil\'"]');
+  showPg('accueil', btn);
+}
+
+// Gérer le bouton retour Android/navigateur
+window.addEventListener('popstate', function(){
+  if(_prevSection !== 'accueil') goBackAccueil();
+});
+document.addEventListener('DOMContentLoaded', function(){
+  history.pushState({section:'accueil'}, '', '');
+});
 
 // ── Thème
 const THEME_KEY='inf-theme';
@@ -948,6 +987,8 @@ function showUpdateToast(autoReload) {
   if (b) {
     b.style.display = 'flex';
     if (autoReload) {
+      // Sauvegarde l'état du quiz AVANT le rechargement (protection scores)
+      try { if(typeof saveState === 'function') saveState(); } catch(e){}
       // Affiche la notification 3 secondes puis recharge
       setTimeout(function() { window.location.reload(); }, 3000);
     }
