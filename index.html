@@ -362,6 +362,15 @@ nav::-webkit-scrollbar{display:none}
   </div>
 </header>
 
+<!-- Bannière mise à jour -->
+<div id="update-banner" style="display:none;position:fixed;top:58px;left:0;right:0;z-index:9999;background:var(--gold);color:var(--navy);padding:11px 16px;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 3px 14px rgba(0,0,0,.2);animation:slideDown .35s ease">
+  <span style="font-size:.85rem;font-weight:700;display:flex;align-items:center;gap:7px">
+    <span class="material-symbols-rounded" style="font-size:18px">system_update</span>
+    Mise à jour disponible — rechargement dans 3s…
+  </span>
+  <button id="update-reload-btn" onclick="window.location.reload()" style="background:var(--navy);color:var(--gold);border:none;border-radius:8px;padding:7px 14px;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;white-space:nowrap">Actualiser</button>
+</div>
+
 <!-- ══ ACCUEIL ══ -->
 <div id="pg-accueil" class="pg" style="display:block">
   <div class="hero">
@@ -492,21 +501,6 @@ nav::-webkit-scrollbar{display:none}
   <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">credit_score</span></div><div><div class="inh-title">Cotisation</div><div class="inh-sub">Payer ma cotisation INF</div></div></div>
   <div class="inc">
     <div class="ccard"><img src="assets/anne-solange-ameganvi.jpeg" onerror="this.style.display='none'"/><div class="cc-name">Anne-Solange AMEGANVI</div><div class="cc-role">Trésorière Générale · INF JCI Togo</div><p class="cc-desc">Pour payer votre cotisation, veuillez contacter directement la Trésorerie Générale. Elle vous guidera pour le paiement et vous fournira votre reçu.</p><a class="cc-btn" href="tel:91593504"><span class="material-symbols-rounded">phone</span>Appeler : 91 59 35 04</a></div>
-  </div>
-</div>
-
-<!-- ══ QUIZ ══ -->
-<div class="pg" id="pg-quiz">
-  <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">quiz</span></div><div><div class="inh-title">Quiz INF JCI Togo</div><div class="inh-sub">Teste tes connaissances · Deviens Expert</div></div></div>
-  <div class="inc">
-    <div class="qintro"><div class="qi-troph"><span class="material-symbols-rounded">emoji_events</span></div><div class="qi-title">Défi Formateur INF</div><p class="qi-desc">Réponds aux questions sur le Programme de Formation et le Règlement Intérieur de l'INF JCI Togo.</p><div class="qi-rules"><div class="qr"><span class="material-symbols-rounded">target</span>5 niveaux de difficulté croissante</div><div class="qr"><span class="material-symbols-rounded">help</span>40 questions par niveau (QCM + Vrai/Faux)</div><div class="qr"><span class="material-symbols-rounded">check_circle</span>Score minimum 28/40 (70%) pour débloquer</div><div class="qr"><span class="material-symbols-rounded">star</span>Complète les 5 niveaux pour devenir EXPERT INF</div></div></div>
-    <div class="lv-grid">
-      <div class="lv avail" id="lv-0"><div class="lv-badge bav">Disponible</div><span class="material-symbols-rounded lv-ico">spa</span><div class="lv-name">Niveau 1</div><div class="lv-sub">Débutant</div></div>
-      <div class="lv locked" id="lv-1"><div class="lv-badge blk">Verrouillé</div><span class="material-symbols-rounded lv-ico">menu_book</span><div class="lv-name">Niveau 2</div><div class="lv-sub">Apprenti</div></div>
-      <div class="lv locked" id="lv-2"><div class="lv-badge blk">Verrouillé</div><span class="material-symbols-rounded lv-ico">bolt</span><div class="lv-name">Niveau 3</div><div class="lv-sub">Confirmé</div></div>
-      <div class="lv locked" id="lv-3"><div class="lv-badge blk">Verrouillé</div><span class="material-symbols-rounded lv-ico">local_fire_department</span><div class="lv-name">Niveau 4</div><div class="lv-sub">Avancé</div></div>
-    </div>
-    <div class="lv locked" style="margin-bottom:20px;flex-direction:row;gap:12px;padding:14px 16px"><span class="material-symbols-rounded lv-ico" style="margin:0;font-size:1.4rem">crown</span><div><div class="lv-name">Niveau 5 — Expert</div><div class="lv-sub">Le défi ultime · Maîtrise totale de l'INF</div></div><div class="lv-badge blk" style="position:static;margin-left:auto">Verrouillé</div></div>
   </div>
 </div>
 
@@ -913,18 +907,29 @@ document.addEventListener('DOMContentLoaded',function(){const inp=document.getEl
 
 // ── PWA
 // ─── PWA ──────────────────────────────────────────────────
+function showUpdateToast(autoReload) {
+  var b = document.getElementById('update-banner');
+  if (b) {
+    b.style.display = 'flex';
+    if (autoReload) {
+      // Affiche la notification 3 secondes puis recharge
+      setTimeout(function() { window.location.reload(); }, 3000);
+    }
+  }
+}
+
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
-  // Le SW envoie SW_UPDATED après activation → rechargement automatique
-  navigator.serviceWorker.addEventListener('message', event => {
+  navigator.serviceWorker.register('sw.js').catch(function(){});
+  // Le SW envoie SW_UPDATED → notification + rechargement automatique
+  navigator.serviceWorker.addEventListener('message', function(event) {
     if (event.data && event.data.type === 'SW_UPDATED') {
-      window.location.reload();
+      showUpdateToast(true);
     }
   });
-  // Filet de sécurité : si controllerchange arrive avant le message
-  const hadController = !!navigator.serviceWorker.controller;
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (hadController) document.getElementById('update-banner').style.display = 'flex';
+  // Filet de sécurité : controllerchange
+  var hadController = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener('controllerchange', function() {
+    if (hadController) showUpdateToast(true);
   });
 }
 
