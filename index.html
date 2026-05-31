@@ -290,6 +290,42 @@ nav::-webkit-scrollbar{display:none}
 .badge-int-jr{background:var(--chip-blue-bg);color:var(--chip-blue-text)}
 .badge-int-sr{background:rgba(255,215,0,.15);color:#856404}
 
+/* ── QUIZ HOME CSS ─ */
+#quiz-home{padding:20px}
+.level-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.level-card{background:var(--surface);border:1.5px solid var(--border);border-radius:18px;padding:18px 14px;text-align:center;cursor:pointer;transition:.2s;position:relative}
+.level-card:hover{transform:translateY(-3px);box-shadow:0 6px 22px var(--shadow-md)}
+.level-card.locked{opacity:.5;cursor:not-allowed}
+.level-card.locked:hover{transform:none}
+.level-card.done{border-color:#22c55e}
+.level-card.current{border-color:var(--blue)}
+.level-icon{font-size:1.8rem;margin-bottom:6px;display:block;color:var(--navy)}
+[data-theme="dark"] .level-icon{color:var(--blue)}
+.level-name{font-weight:700;font-size:.88rem;color:var(--text-1);margin-bottom:2px}
+.level-sub{font-size:.72rem;color:var(--text-3)}
+.level-badge{position:absolute;top:8px;right:8px;font-size:.58rem;font-weight:700;padding:2px 7px;border-radius:20px}
+.badge-done{background:#d4edda;color:#155724}
+.badge-current{background:var(--blue);color:#fff}
+.badge-locked{background:var(--border);color:var(--text-3)}
+.quiz-intro{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:22px;margin-bottom:16px;text-align:center;transition:background .3s}
+.quiz-intro .trophy{margin-bottom:8px}
+.quiz-intro .trophy .material-symbols-rounded{font-size:3rem;color:var(--gold)}
+.quiz-intro h2{color:var(--text-1);font-size:1.1rem;font-weight:700;margin-bottom:6px}
+.quiz-intro p{color:var(--text-2);font-size:.85rem;line-height:1.6}
+.quiz-rules{background:var(--surface-2);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:14px;text-align:left}
+.quiz-rules li{font-size:.8rem;color:var(--text-2);margin:5px 0;display:flex;align-items:center;gap:8px}
+.quiz-rules li .material-symbols-rounded{font-size:15px;color:var(--blue);flex-shrink:0}
+.score-mini{display:inline-block;background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:4px 12px;font-size:.72rem;font-weight:600;color:var(--text-2);margin-top:4px}
+/* ── QUIZ TOPBAR ─ */
+#quiz-game{display:none;padding:16px}
+.quiz-topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.quiz-level-tag{background:var(--navy);color:var(--blue);font-size:.75rem;font-weight:700;padding:5px 14px;border-radius:20px;border:1px solid var(--blue)}
+.quiz-progress-wrap{flex:1;margin:0 12px;height:8px;background:var(--border);border-radius:10px;overflow:hidden}
+.quiz-progress-bar{height:100%;background:linear-gradient(90deg,var(--navy),var(--blue));border-radius:10px;transition:width .4s ease}
+.quiz-counter{font-size:.75rem;color:var(--text-3);font-weight:600;white-space:nowrap}
+#quiz-result{display:none;padding:20px}
+.result-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:32px 24px;text-align:center;transition:background .3s}
+#quiz-expert{display:none;padding:20px}
 /* ── QUIZ GAME CSS ─ */
 .question-card{background:#fff;border-radius:20px;padding:24px 20px;box-shadow:0 4px 20px rgba(19,15,45,.1);margin-bottom:16px}
     .q-type-tag{display:inline-block;font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px}
