@@ -721,13 +721,24 @@ function showPg(id, btn){
 }
 
 function goBackAccueil(){
+  // Si on est dans le quiz et qu'une partie est en cours → retour quiz home
+  if(_prevSection === 'quiz'){
+    var inGame = document.getElementById('quiz-game') && document.getElementById('quiz-game').style.display !== 'none';
+    var inResult = document.getElementById('quiz-result') && document.getElementById('quiz-result').style.display !== 'none';
+    var inExpert = document.getElementById('quiz-expert') && document.getElementById('quiz-expert').style.display !== 'none';
+    if(inGame || inResult || inExpert){
+      goHome(); // retour page d'accueil du quiz (liste des niveaux)
+      return;
+    }
+  }
+  // Sinon → retour accueil principal
   var btn = document.querySelector('.nb[onclick*="\'accueil\'"]');
   showPg('accueil', btn);
 }
 
 // Gérer le bouton retour Android/navigateur
 window.addEventListener('popstate', function(){
-  if(_prevSection !== 'accueil') goBackAccueil();
+  goBackAccueil();
 });
 document.addEventListener('DOMContentLoaded', function(){
   history.pushState({section:'accueil'}, '', '');
@@ -1322,6 +1333,14 @@ function show(id) {
   });
   document.getElementById(id).style.display='block';
   window.scrollTo(0,0);
+  // Mettre à jour le titre du header selon l'écran quiz
+  var tt = document.getElementById('top-title');
+  if(tt){
+    if(id === 'quiz-home') tt.textContent = 'Quiz INF JCI Togo';
+    else if(id === 'quiz-game') tt.textContent = 'Question en cours';
+    else if(id === 'quiz-result') tt.textContent = 'Résultats';
+    else if(id === 'quiz-expert') tt.textContent = 'Expert INF 🏆';
+  }
 }
 
 function goHome(){ updateHomeCards(); show('quiz-home'); }
