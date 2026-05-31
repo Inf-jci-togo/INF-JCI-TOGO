@@ -688,7 +688,14 @@ const bureau = [
 ];
 function buildBureau(){
   const g=document.getElementById('bureau-grid');if(!g)return;
-  g.innerHTML=bureau.map(m=><div class="bm"><img src="assets/\" onerror="this.style.display='none'" alt="\"/><div class="bm-name">\</div><div class="bm-role">\</div><a href="tel:\"><span class="material-symbols-rounded">phone</span></a></div>).join('');
+  g.innerHTML=bureau.map(function(m){
+    return '<div class="bm">'+
+      '<img src="assets/'+m.photo+'" onerror="this.style.display=\'none\'" alt="'+m.nom+'"/>'+
+      '<div class="bm-name">'+m.nom+'</div>'+
+      '<div class="bm-role">'+m.poste+'</div>'+
+      '<a href="tel:'+m.contact+'"><span class="material-symbols-rounded">phone</span></a>'+
+    '</div>';
+  }).join('');
 }
 buildBureau();
 
@@ -706,7 +713,7 @@ function openPartner(id){
   const img=document.getElementById('pm-logo-img'),ph=document.getElementById('pm-logo-ph');
   if(p.logo){img.src=p.logo;img.style.display='block';ph.style.display='none';img.onerror=()=>{img.style.display='none';ph.style.display='flex';ph.textContent=p.icon;};}
   else{img.style.display='none';ph.style.display='flex';ph.textContent=p.icon;}
-  document.getElementById('pm-tags').innerHTML=p.tags.map(t=><span class="pm-tag">\</span>).join('');
+  document.getElementById('pm-tags').innerHTML=p.tags.map(function(t){return '<span class="pm-tag">'+t+'</span>';}).join('');
   document.getElementById('pm-overlay').classList.add('show');document.body.style.overflow='hidden';
 }
 function closePM(){document.getElementById('pm-overlay').classList.remove('show');document.body.style.overflow='';}
@@ -869,10 +876,20 @@ const gradeMap={'ALPHA':'badge-alpha','LOCAL':'badge-local','NATIONAL':'badge-na
 function gradeBadge(g){return '<span class="badge '+(gradeMap[g]||'badge-alpha')+'">'+g+'</span>';}
 
 function ficheHTML(f){
-  const tel=f.contact?<a href="tel:\">\</a>:'<em style="color:var(--text-3)">Non renseigné</em>';
-  const mail=f.mail?<a href="mailto:\">\</a>:'<em style="color:var(--text-3)">Non renseigné</em>';
-  const anniv=f.anniversaire?<div class="fcr"><span class="fcl"><span class="material-symbols-rounded" style="font-size:14px">cake</span></span>\</div>:'';
-  return <div class="fc-card"><button class="back-btn" onclick="clearSearch()"><span class="material-symbols-rounded" style="font-size:16px">arrow_back</span>Retour</button><div class="fcn">\</div>\<div style="height:10px"></div><div class="fcr"><span class="fcl">NIF</span>\</div><div class="fcr"><span class="fcl">Organisation</span>\</div><div class="fcr"><span class="fcl">Téléphone</span>\</div><div class="fcr"><span class="fcl">Email</span>\</div>\<div class="fcr"><span class="fcl">Statut</span>\</div></div>;
+  var tel=f.contact?'<a href="tel:'+f.contact.replace(/\s/g,'')+'">'+f.contact+'</a>':'<em style="color:var(--text-3)">Non renseigné</em>';
+  var mail=f.mail?'<a href="mailto:'+f.mail+'">'+f.mail+'</a>':'<em style="color:var(--text-3)">Non renseigné</em>';
+  var anniv=f.anniversaire?'<div class="fcr"><span class="fcl">Anniversaire</span>'+f.anniversaire+'</div>':'';
+  return '<div class="fc-card">'+
+    '<button class="back-btn" onclick="clearSearch()"><span class="material-symbols-rounded" style="font-size:16px">arrow_back</span>Retour</button>'+
+    '<div class="fcn">'+f.nom+'</div>'+gradeBadge(f.grade)+
+    '<div style="height:10px"></div>'+
+    '<div class="fcr"><span class="fcl">NIF</span>'+f.nif+'</div>'+
+    '<div class="fcr"><span class="fcl">Organisation</span>'+f.locale+'</div>'+
+    '<div class="fcr"><span class="fcl">Téléphone</span>'+tel+'</div>'+
+    '<div class="fcr"><span class="fcl">Email</span>'+mail+'</div>'+
+    anniv+
+    '<div class="fcr"><span class="fcl">Statut</span>'+f.statut+'</div>'+
+  '</div>';
 }
 
 function doSearch(){
@@ -888,7 +905,7 @@ function doSearch(){
   if(!found.length){r.innerHTML='<p class="no-result">Aucun formateur trouvé.</p>';return;}
   if(found.length===1){r.innerHTML=ficheHTML(found[0]);return;}
   r.innerHTML='<div style="padding:4px 0 8px;font-size:.78rem;color:var(--text-3)">'+found.length+' formateur(s)</div>'+
-    found.map(f=><div class="list-item" onclick="showFmt('\')"><div><span style="font-weight:700;color:var(--text-1)">\</span><br/><small style="color:var(--text-3)">\</small></div>\</div>).join('');
+    found.map(function(f){return '<div class="list-item" onclick="showFmt(\''+f.nif+'\')"><div><span style="font-weight:700;color:var(--text-1)">'+f.nom+'</span><br/><small style="color:var(--text-3)">'+f.locale+'</small></div>'+gradeBadge(f.grade)+'</div>';}).join('');
 }
 function showFmt(nif){const f=formateurs.find(x=>x.nif===nif);if(f)document.getElementById('fmt-results').innerHTML=ficheHTML(f);}
 function clearSearch(){document.getElementById('search-input').value='';document.getElementById('fmt-results').innerHTML='';}
