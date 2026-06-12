@@ -215,6 +215,33 @@ nav::-webkit-scrollbar{display:none}
 .bc-btn{display:inline-flex;align-items:center;gap:6px;background:var(--blue);color:#fff;padding:10px 20px;border-radius:9px;font-size:.78rem;font-weight:700;font-family:'Inter',sans-serif;transition:.2s}
 .bc-btn:hover{background:var(--blue-d)}
 .bc-btn .material-symbols-rounded{font-size:14px}
+/* ══ PROGRAMME DE LA SEMAINE ═══════════════════════════════════ */
+.prog-head{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 18px;text-align:center;cursor:pointer;transition:.2s;display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:13px;color:inherit;user-select:none}
+.prog-head:hover{box-shadow:0 6px 24px var(--shadow-md);transform:translateY(-2px)}
+.prog-head-ico{width:52px;height:52px;border-radius:13px;background:rgba(0,151,215,.1);display:flex;align-items:center;justify-content:center}
+.prog-head-ico .material-symbols-rounded{font-size:26px;color:var(--blue)}
+.prog-head-title{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--text-1)}
+.prog-chevron{color:var(--text-3);font-size:20px !important}
+.prog-list{margin-top:6px}
+.prog-date-grp{margin-bottom:20px}
+.prog-date{font-size:.72rem;font-weight:700;color:#fff;background:var(--blue);text-transform:uppercase;letter-spacing:.03em;padding:8px 14px;border-radius:10px 10px 0 0}
+.prog-type{font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:20px;background:rgba(0,151,215,.1);color:var(--blue);white-space:nowrap;display:inline-block;margin-top:4px}
+.prog-code{font-size:.62rem;color:var(--text-3);font-weight:600}
+.prog-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:0 0 12px 12px;box-shadow:0 2px 10px var(--shadow-md)}
+.prog-table{width:100%;border-collapse:collapse;font-size:.74rem;table-layout:fixed}
+.prog-table th{background:var(--surface-2,var(--surface));color:var(--text-2);text-align:left;padding:10px 10px;font-weight:700;font-size:.64rem;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;border-bottom:2px solid var(--border)}
+.prog-table td{padding:11px 10px;border-top:1px solid var(--border);color:var(--text-1);vertical-align:top;word-break:break-word;overflow-wrap:break-word;background:var(--bg)}
+.prog-table tbody tr:nth-child(even) td{background:var(--surface)}
+.prog-table tbody tr:hover td{background:rgba(0,151,215,.06)}
+.prog-table th:nth-child(1),.prog-table td:nth-child(1){width:24%}
+.prog-table th:nth-child(2),.prog-table td:nth-child(2){width:16%}
+.prog-table th:nth-child(3),.prog-table td:nth-child(3){width:12%}
+.prog-table th:nth-child(4),.prog-table td:nth-child(4){width:14%}
+.prog-table th:nth-child(5),.prog-table td:nth-child(5){width:15%}
+.prog-table th:nth-child(6),.prog-table td:nth-child(6){width:9%}
+.prog-table th:nth-child(7),.prog-table td:nth-child(7){width:10%}
+.prog-call{display:inline-flex;align-items:center;gap:5px;color:var(--blue);font-weight:700;text-decoration:none}
+.prog-call .material-symbols-rounded{font-size:15px}
 /* ══ BUREAU ═════════════════════════════════════════════════ */
 .bg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .bm{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 10px;text-align:center;transition:background .3s}
@@ -523,6 +550,12 @@ nav::-webkit-scrollbar{display:none}
   <div class="inc">
     <a class="bcard live" href="https://meet.google.com/acr-mnya-ksn" target="_blank"><div class="bc-ico"><span class="material-symbols-rounded">videocam</span></div><div class="bc-title">Suivre une formation INF</div><div class="bc-desc">Rejoignez la salle virtuelle et participez en direct aux sessions animées par nos formateurs certifiés.</div><div class="bc-btn"><span class="material-symbols-rounded">play_circle</span>Rejoindre la formation</div></a>
     <a class="bcard" href="https://drive.google.com/drive/folders/1PdXR-lmTbv_wzRGHvUlIJpYpvtJ9RwZ1?usp=sharing" target="_blank"><div class="bc-ico"><span class="material-symbols-rounded">library_books</span></div><div class="bc-title">Bibliothèque de Ressources</div><div class="bc-desc">Accédez à tous les modules, guides et outils pédagogiques mis à disposition par l'INF.</div><div class="bc-btn"><span class="material-symbols-rounded">open_in_new</span>Consulter les ressources</div></a>
+    <div class="prog-head" id="prog-head" onclick="toggleProgramme()">
+      <div class="prog-head-ico"><span class="material-symbols-rounded">event_note</span></div>
+      <div class="prog-head-title">Programme de la semaine</div>
+      <span class="material-symbols-rounded prog-chevron" id="prog-chevron">expand_more</span>
+    </div>
+    <div id="prog-list" class="prog-list" style="display:none"><div class="no-result">Chargement du programme…</div></div>
   </div>
 </div>
 
@@ -756,6 +789,93 @@ function applyTheme(t){
 }
 function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
 
+// ── Programme de la semaine (Google Sheet)
+const PROG_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1jOyI3mgk2OFU8iM78rTHuo0IaVr4kXJxU-Tocqne1QY/gviz/tq?tqx=out:csv';
+function parseCSV(text){
+  const rows=[]; let row=[]; let field=''; let inQ=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(inQ){
+      if(c==='"'){ if(text[i+1]==='"'){field+='"';i++;} else inQ=false; }
+      else field+=c;
+    }else{
+      if(c==='"') inQ=true;
+      else if(c===','){ row.push(field); field=''; }
+      else if(c==='\r'){ }
+      else if(c==='\n'){ row.push(field); rows.push(row); row=[]; field=''; }
+      else field+=c;
+    }
+  }
+  if(field!==''||row.length){ row.push(field); rows.push(row); }
+  return rows.filter(r=>r.some(c=>c.trim()!==''));
+}
+function toggleProgramme(){
+  const el=document.getElementById('prog-list');
+  const ch=document.getElementById('prog-chevron');
+  if(!el) return;
+  const open=el.style.display!=='none';
+  el.style.display=open?'none':'block';
+  if(ch) ch.textContent=open?'expand_more':'expand_less';
+}
+function loadProgramme(){
+  const el=document.getElementById('prog-list');
+  if(!el) return;
+  fetch(PROG_SHEET_URL).then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+  .then(function(text){
+    const rows=parseCSV(text);
+    if(rows.length<2){ el.innerHTML='<div class="no-result">Aucune formation programmée cette semaine.</div>'; return; }
+    const header=rows[0].map(h=>h.trim().toLowerCase());
+    const idx=name=>header.findIndex(h=>h.indexOf(name)!==-1);
+    const iDate=idx('date'), iOl=idx('organisation'), iTheme=idx('thème')>=0?idx('thème'):idx('theme'),
+          iType=idx('type'), iLieu=idx('lieu'), iHeure=idx('heure'), iFormateur=idx('formateur'), iContact=idx('contact'), iCode=idx('code');
+    const data=rows.slice(1);
+    if(!data.length){ el.innerHTML='<div class="no-result">Aucune formation programmée cette semaine.</div>'; return; }
+    const JOURS=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+    const MOIS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+    function parseDate(s){
+      const m=(s||'').trim().match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
+      if(!m) return null;
+      let y=+m[3]; if(y<100) y+=2000;
+      return new Date(y, +m[2]-1, +m[1]);
+    }
+    const groups={};
+    data.forEach(function(c){
+      const dateRaw=(c[iDate]||'').trim();
+      (groups[dateRaw]=groups[dateRaw]||[]).push(c);
+    });
+    const dateKeys=Object.keys(groups).filter(k=>k!=='');
+    dateKeys.sort(function(a,b){
+      const da=parseDate(a), db=parseDate(b);
+      if(da&&db) return da-db;
+      return a.localeCompare(b);
+    });
+    if(!dateKeys.length){ el.innerHTML='<div class="no-result">Aucune formation programmée cette semaine.</div>'; return; }
+    el.innerHTML=dateKeys.map(function(dateRaw){
+      const d=parseDate(dateRaw);
+      const label=d?JOURS[d.getDay()]+' '+d.getDate()+' '+MOIS[d.getMonth()]+' '+d.getFullYear():dateRaw;
+      const rowsHtml=groups[dateRaw].map(function(c){
+        const ol=c[iOl]||'', theme=c[iTheme]||'', type=c[iType]||'', lieu=c[iLieu]||'', heure=c[iHeure]||'', form=c[iFormateur]||'', contact=(iContact>=0?c[iContact]:'')||'', code=(iCode>=0?c[iCode]:'')||'';
+        const tel=contact.replace(/[^0-9+]/g,'');
+        return '<tr>'+
+          '<td>'+(theme||'')+(type?'<br/><span class="prog-type">'+type+'</span>':'')+'</td>'+
+          '<td>'+ol+'</td>'+
+          '<td>'+(heure||'')+'</td>'+
+          '<td>'+(lieu||'')+'</td>'+
+          '<td>'+(form||'')+'</td>'+
+          '<td><span class="prog-code">'+code+'</span></td>'+
+          '<td>'+(tel?'<a class="prog-call" href="tel:'+tel+'"><span class="material-symbols-rounded">call</span>'+contact+'</a>':'')+'</td>'+
+        '</tr>';
+      }).join('');
+      return '<div class="prog-date-grp"><div class="prog-date">'+label+'</div>'+
+        '<div class="prog-table-wrap"><table class="prog-table"><thead><tr>'+
+        '<th>Thème</th><th>OL</th><th>Heure</th><th>Lieu</th><th>Formateur(s)</th><th>Code</th><th>Contact</th>'+
+        '</tr></thead><tbody>'+rowsHtml+'</tbody></table></div></div>';
+    }).join('');
+  }).catch(function(){
+    el.innerHTML='<div class="no-result">Impossible de charger le programme pour le moment.</div>';
+  });
+}
+
 // ── Bureau
 const bureau = [
   { nom: 'Kokouvi DJIWONOU', poste: 'Directeur', contact: '98678932', photo: 'kokouvi-djiwonou.jpeg' },
@@ -780,6 +900,7 @@ function buildBureau(){
   }).join('');
 }
 buildBureau();
+loadProgramme();
 
 // ── Partenaires
 const partnersData={
