@@ -1000,9 +1000,11 @@ function fetchAndRenderPartners() {
     .catch(function(err){
       console.warn('Sheet partenaires inaccessible:',err);
       _partners=[
-        {numero:'1',nom:'Light-Service',description:'Structure multiservices spécialisée dans la communication.',logo:'assets/logo-light-service.png',contact:'98678932'},
-        {numero:'2',nom:'INF JCI Togo',description:'Institut National de Formation.',logo:'assets/logo-inf-officiel.png'},
-        {numero:'3',nom:'Partenaire 3',description:''},{numero:'4',nom:'Partenaire 4',description:''},{numero:'5',nom:'Partenaire 5',description:''}
+        {numero:'1',nom:'LightService',description:"Structure multi services spécialisés dans la communication, prestation de service, commerce et d'autres.",logo:'https://drive.google.com/thumbnail?id=19ExsrCfq6RhYvBz2afGt5jX2RwNMdI72&sz=w200',contact:'98678932',mail:'tdjikomo@gmail.com',site_web:'https://JCI.cc',facebook:'https://www.facebook.com/kdjiwonou',tiktok:'https://www.tiktok.com/@djikomo',whatsapp:'https://wa.me/22898678932'},
+        {numero:'2',nom:'DEMA.service',description:'',logo:'https://drive.google.com/thumbnail?id=1EbZYCyEaCVq7C7LruVEa6cXBL27oXlRe&sz=w200',contact:'92862574'},
+        {numero:'3',nom:'AKAKPO groupe',description:'',logo:'https://drive.google.com/thumbnail?id=1qXvlhkyKGbmHIJkatA7DXuM53pClX_Oq&sz=w200'},
+        {numero:'4',nom:'INF JCI TOGO',description:'Institut National de Formation JCI Togo.',logo:'https://drive.google.com/thumbnail?id=1pkFmTFfomZcaQlJgeCJizBnOq0Mo7xdi&sz=w200'},
+        {numero:'5',nom:'DJIKOMO Empire',description:'',logo:'https://drive.google.com/thumbnail?id=1wGwNDC8_ueQzAeMgLX9zTd5LTsLlDC6q&sz=w200'}
       ];
       _renderPartnersRow(_partners);
     });
