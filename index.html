@@ -333,6 +333,18 @@ nav::-webkit-scrollbar{display:none}
 .pm-tag{display:inline-block;background:rgba(0,151,215,.1);border:1px solid rgba(0,151,215,.2);color:var(--blue);font-size:.7rem;font-weight:600;border-radius:20px;padding:3px 10px;margin:3px 3px 3px 0}
 .pm-close{width:100%;background:var(--blue);color:#fff;border:none;border-radius:12px;padding:12px;font-family:'Inter',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;margin-top:12px;transition:.2s}
 .pm-close:hover{background:var(--blue-d)}
+/* ══ PARTNER SOCIAL BUTTONS ════════════════════════════════════ */
+.pm-social{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.pm-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:10px;font-size:.78rem;font-weight:600;text-decoration:none;transition:.2s;white-space:nowrap;flex-shrink:0}
+.pm-btn:hover{transform:translateY(-1px);filter:brightness(1.05)}
+.pm-btn .material-symbols-rounded{font-size:16px}
+.pm-btn-phone{background:rgba(34,197,94,.12);color:#15803d;border:1.5px solid rgba(34,197,94,.3)}
+.pm-btn-mail{background:rgba(0,151,215,.1);color:var(--blue);border:1.5px solid rgba(0,151,215,.25)}
+.pm-btn-web{background:rgba(99,102,241,.1);color:#4f46e5;border:1.5px solid rgba(99,102,241,.25)}
+.pm-btn-wa{background:rgba(37,211,102,.1);color:#128c7e;border:1.5px solid rgba(37,211,102,.3)}
+.pm-btn-fb{background:rgba(24,119,242,.1);color:#1877f2;border:1.5px solid rgba(24,119,242,.25)}
+.pm-btn-tiktok{background:rgba(0,0,0,.07);color:var(--text-1);border:1.5px solid var(--border)}
+.pm-btn-ig{background:rgba(228,64,95,.1);color:#e4405f;border:1.5px solid rgba(228,64,95,.25)}
 /* ══ UPDATE BANNER ══════════════════════════════════════════ */
 #update-banner{display:none;position:fixed;top:58px;left:0;right:0;z-index:9999;background:var(--gold);color:var(--navy);padding:12px 16px;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 3px 14px rgba(0,0,0,.25);animation:slideDown .35s ease}
 @keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
@@ -507,19 +519,8 @@ nav::-webkit-scrollbar{display:none}
       <div class="sh-left"><div class="sh-ico"><span class="material-symbols-rounded">handshake</span></div><div class="sh-title">Nos Partenaires VIP</div></div>
       <div class="sh-hint"><span class="material-symbols-rounded">swipe_left</span>Glisser</div>
     </div>
-    <div class="partners-row">
-      <div class="pc gold-pc" onclick="openPartner('ls')">
-        <div class="pc-vip">VIP</div>
-        <img src="assets/logo-light-service.png" class="pc-logo" alt="LS" onerror="this.outerHTML='<div class=\'pc-logo-ph\'><span class=\'material-symbols-rounded\'>lightbulb</span></div>'"/>
-        <div class="pc-name">Light-Service</div><div class="pc-tag">Communication</div>
-      </div>
-      <div class="pc" onclick="openPartner('inf')">
-        <img src="assets/logo-inf-officiel.png" class="pc-logo" alt="INF"/>
-        <div class="pc-name">INF JCI Togo</div><div class="pc-tag">Formation</div>
-      </div>
-      <div class="pc" onclick="openPartner('p3')"><div class="pc-logo-ph"><span class="material-symbols-rounded">apartment</span></div><div class="pc-name">Partenaire 3</div><div class="pc-tag">À définir</div></div>
-      <div class="pc" onclick="openPartner('p4')"><div class="pc-logo-ph"><span class="material-symbols-rounded">language</span></div><div class="pc-name">Partenaire 4</div><div class="pc-tag">À définir</div></div>
-      <div class="pc" onclick="openPartner('p5')"><div class="pc-logo-ph"><span class="material-symbols-rounded">diversity_3</span></div><div class="pc-name">Partenaire 5</div><div class="pc-tag">À définir</div></div>
+    <div class="partners-row" id="partners-row">
+      <div style="padding:14px 4px;color:var(--text-3);font-size:.8rem;display:flex;align-items:center;gap:6px;white-space:nowrap"><span class="material-symbols-rounded" style="font-size:14px">sync</span>Chargement…</div>
     </div>
   </div>
 
@@ -596,22 +597,6 @@ nav::-webkit-scrollbar{display:none}
     <div class="ccard"><img src="assets/anne-solange-ameganvi.jpeg" onerror="this.style.display='none'"/><div class="cc-name">Anne-Solange AMEGANVI</div><div class="cc-role">Trésorière Générale · INF JCI Togo</div><p class="cc-desc">Pour payer votre cotisation, veuillez contacter directement la Trésorerie Générale. Elle vous guidera pour le paiement et vous fournira votre reçu.</p><a class="cc-btn" href="tel:91593504"><span class="material-symbols-rounded">phone</span>Appeler : 91 59 35 04</a></div>
   </div>
 </div>
-
-<!-- ══ PARTNER MODAL ══ -->
-<div class="pm-overlay" id="pm-overlay" onclick="if(event.target===this)closePM()">
-  <div class="pm-modal">
-    <div class="pm-handle"></div>
-    <div class="pm-logo-row">
-      <div id="pm-logo-ph" class="pm-logo-ph">🤝</div>
-      <img id="pm-logo-img" class="pm-logo" style="display:none" src="" alt=""/>
-      <div><div class="pm-name" id="pm-name">Partenaire</div><div class="pm-type" id="pm-type">Partenaire VIP</div></div>
-    </div>
-    <p class="pm-desc" id="pm-desc"></p>
-    <div class="pm-svcs"><h4>Services &amp; Domaines</h4><div id="pm-tags"></div></div>
-    <button class="pm-close" onclick="closePM()">Fermer</button>
-  </div>
-</div>
-
 
 <div class="pg" id="pg-quiz">
   <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">quiz</span></div><div><div class="inh-title">Quiz INF JCI Togo</div><div class="inh-sub">Teste tes connaissances · Deviens Expert</div></div></div>
@@ -726,8 +711,8 @@ nav::-webkit-scrollbar{display:none}
       <div><div class="pm-name" id="pm-name">Partenaire</div><div class="pm-type" id="pm-type">Partenaire VIP</div></div>
     </div>
     <p class="pm-desc" id="pm-desc"></p>
-    <div class="pm-svcs"><h4>Services &amp; Domaines</h4><div id="pm-tags"></div></div>
-    <button class="pm-close" onclick="closePM()">Fermer</button>
+    <div id="pm-social" class="pm-social"></div>
+    <button class="pm-close" onclick="closePM()" style="margin-top:16px">Fermer</button>
   </div>
 </div>
 
@@ -804,6 +789,7 @@ window.addEventListener('popstate', function(){
 });
 document.addEventListener('DOMContentLoaded', function(){
   history.pushState({section:'accueil'}, '', '');
+  fetchAndRenderPartners();
 });
 
 // ── Thème
@@ -930,21 +916,95 @@ buildBureau();
 loadProgramme();
 
 // ── Partenaires
-const partnersData={
-  ls:{name:'Light-Service',type:'Structure multiservices',logo:'assets/logo-light-service.png',icon:'💡',desc:'Light-Service est une structure multiservices basée à Lomé. Spécialisée dans la communication visuelle, l\'organisation événementielle et le commerce.',tags:['Communication','Événementiel','Commerce','Design','Marketing']},
-  inf:{name:'INF JCI Togo',type:'Institut de Formation',logo:'assets/logo-inf-officiel.png',icon:'🏆',desc:'L\'Institut National de Formation de la JCI Togo est l\'organe officiel de formation et de certification des formateurs JCI au Togo.',tags:['Formation','Certification','Leadership','Management','Entrepreneuriat']},
-  p3:{name:'Partenaire 3',type:'À compléter',logo:'',icon:'🏢',desc:'Informations à venir.',tags:['Partenaire VIP']},
-  p4:{name:'Partenaire 4',type:'À compléter',logo:'',icon:'🌐',desc:'Informations à venir.',tags:['Partenaire VIP']},
-  p5:{name:'Partenaire 5',type:'À compléter',logo:'',icon:'🤝',desc:'Informations à venir.',tags:['Partenaire VIP']}
-};
-function openPartner(id){
-  const p=partnersData[id];if(!p)return;
-  document.getElementById('pm-name').textContent=p.name;document.getElementById('pm-type').textContent=p.type;document.getElementById('pm-desc').textContent=p.desc;
-  const img=document.getElementById('pm-logo-img'),ph=document.getElementById('pm-logo-ph');
-  if(p.logo){img.src=p.logo;img.style.display='block';ph.style.display='none';img.onerror=()=>{img.style.display='none';ph.style.display='flex';ph.textContent=p.icon;};}
-  else{img.style.display='none';ph.style.display='flex';ph.textContent=p.icon;}
-  document.getElementById('pm-tags').innerHTML=p.tags.map(function(t){return '<span class="pm-tag">'+t+'</span>';}).join('');
+// ── Partenaires dynamiques — Google Sheets
+var _partners = [];
+const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/1giQKfj-OGxs1JiSppB5t8PxFWtRX5AOXVOqe1BcHG-o/export?format=csv&gid=0';
+
+function _parseCSVLine(line) {
+  var res=[], cur='', inQ=false;
+  for(var i=0;i<line.length;i++){
+    var c=line[i];
+    if(c==='"'){if(inQ&&line[i+1]==='"'){cur+='"';i++;}else inQ=!inQ;}
+    else if(c===','&&!inQ){res.push(cur);cur='';}
+    else cur+=c;
+  }
+  res.push(cur); return res;
+}
+function _parseCSV(text) {
+  var lines=text.trim().split('\n'); if(!lines.length)return[];
+  var hdrs=_parseCSVLine(lines[0]).map(function(h){
+    return h.replace(/^"|"$/g,'').trim().toLowerCase()
+      .replace(/\s+/g,'_').replace(/[éèê]/g,'e').replace(/[àâ]/g,'a')
+      .replace(/[ùû]/g,'u').replace(/[îï]/g,'i').replace(/[ôö]/g,'o');
+  });
+  return lines.slice(1).filter(function(l){return l.trim();}).map(function(line){
+    var v=_parseCSVLine(line), obj={};
+    hdrs.forEach(function(h,i){obj[h]=(v[i]||'').replace(/^"|"$/g,'').trim();});
+    return obj;
+  });
+}
+function _normUrl(url) {
+  if(!url)return''; url=url.trim(); if(!url||url==='-')return'';
+  if(url.startsWith('http://')||url.startsWith('https://'))return url;
+  return 'https://'+url;
+}
+function _driveImg(url) {
+  if(!url)return''; var m=url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if(m)return 'https://drive.google.com/uc?export=view&id='+m[1];
+  return url;
+}
+function _renderPartnersRow(partners) {
+  var row=document.getElementById('partners-row'); if(!row)return;
+  if(!partners.length){row.innerHTML='<div style="padding:14px;color:var(--text-3);font-size:.8rem">Aucun partenaire.</div>';return;}
+  row.innerHTML=partners.map(function(p,i){
+    var logo=_driveImg(p.logo||'');
+    var imgH=logo
+      ?'<img src="'+logo+'" class="pc-logo" alt="'+(p.nom||'')+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"/><div class="pc-logo-ph" style="display:none"><span class="material-symbols-rounded">business</span></div>'
+      :'<div class="pc-logo-ph"><span class="material-symbols-rounded">business</span></div>';
+    var tag=p.description?(p.description.length>22?p.description.substring(0,22)+'…':p.description):'Partenaire VIP';
+    return '<div class="pc'+(i===0?' gold-pc':'')+'" onclick="openPartnerDyn('+i+')">'
+      +(i===0?'<div class="pc-vip">VIP</div>':'')
+      +imgH+'<div class="pc-name">'+(p.nom||'Partenaire')+'</div>'
+      +'<div class="pc-tag">'+tag+'</div></div>';
+  }).join('');
+}
+function openPartnerDyn(index) {
+  var p=_partners[index]; if(!p)return;
+  var logo=_driveImg(p.logo||'');
+  var img=document.getElementById('pm-logo-img'),ph=document.getElementById('pm-logo-ph');
+  if(logo){img.src=logo;img.style.display='block';ph.style.display='none';img.onerror=function(){img.style.display='none';ph.style.display='flex';};}
+  else{img.style.display='none';ph.style.display='flex';ph.textContent='🤝';}
+  document.getElementById('pm-name').textContent=p.nom||'Partenaire';
+  document.getElementById('pm-type').textContent='Partenaire VIP';
+  document.getElementById('pm-desc').textContent=p.description||'';
+  var s='';
+  if(p.contact) s+='<a class="pm-btn pm-btn-phone" href="tel:+228'+p.contact.replace(/\D/g,'').replace(/^228/,'')+'"><span class="material-symbols-rounded">call</span>'+p.contact+'</a>';
+  if(p.mail) s+='<a class="pm-btn pm-btn-mail" href="mailto:'+p.mail+'"><span class="material-symbols-rounded">mail</span>'+p.mail+'</a>';
+  if(p.site_web) s+='<a class="pm-btn pm-btn-web" href="'+_normUrl(p.site_web)+'" target="_blank" rel="noopener"><span class="material-symbols-rounded">language</span>Site web</a>';
+  if(p.whatsapp) s+='<a class="pm-btn pm-btn-wa" href="'+_normUrl(p.whatsapp)+'" target="_blank" rel="noopener"><span class="material-symbols-rounded">chat</span>WhatsApp</a>';
+  if(p.facebook) s+='<a class="pm-btn pm-btn-fb" href="'+_normUrl(p.facebook)+'" target="_blank" rel="noopener"><span class="material-symbols-rounded">thumb_up</span>Facebook</a>';
+  if(p.tiktok) s+='<a class="pm-btn pm-btn-tiktok" href="'+_normUrl(p.tiktok)+'" target="_blank" rel="noopener"><span class="material-symbols-rounded">music_note</span>TikTok</a>';
+  if(p.instagram) s+='<a class="pm-btn pm-btn-ig" href="'+_normUrl(p.instagram)+'" target="_blank" rel="noopener"><span class="material-symbols-rounded">photo_camera</span>Instagram</a>';
+  document.getElementById('pm-social').innerHTML=s;
   document.getElementById('pm-overlay').classList.add('show');document.body.style.overflow='hidden';
+}
+function fetchAndRenderPartners() {
+  fetch(SHEET_CSV)
+    .then(function(r){return r.ok?r.text():Promise.reject(r.status);})
+    .then(function(csv){
+      var data=_parseCSV(csv);
+      _partners=data.filter(function(p){return p.numero||p.nom;});
+      _renderPartnersRow(_partners);
+    })
+    .catch(function(err){
+      console.warn('Sheet partenaires inaccessible:',err);
+      _partners=[
+        {numero:'1',nom:'Light-Service',description:'Structure multiservices spécialisée dans la communication.',logo:'assets/logo-light-service.png',contact:'98678932'},
+        {numero:'2',nom:'INF JCI Togo',description:'Institut National de Formation.',logo:'assets/logo-inf-officiel.png'},
+        {numero:'3',nom:'Partenaire 3',description:''},{numero:'4',nom:'Partenaire 4',description:''},{numero:'5',nom:'Partenaire 5',description:''}
+      ];
+      _renderPartnersRow(_partners);
+    });
 }
 function closePM(){document.getElementById('pm-overlay').classList.remove('show');document.body.style.overflow='';}
 
