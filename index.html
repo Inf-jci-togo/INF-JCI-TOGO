@@ -918,30 +918,27 @@ loadProgramme();
 // ── Partenaires
 // ── Partenaires dynamiques — Google Sheets
 var _partners = [];
-const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/1giQKfj-OGxs1JiSppB5t8PxFWtRX5AOXVOqe1BcHG-o/pub?output=csv&gid=0';
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1giQKfj-OGxs1JiSppB5t8PxFWtRX5AOXVOqe1BcHG-o/gviz/tq?tqx=out:json';
 
-function _parseCSVLine(line) {
-  var res=[], cur='', inQ=false;
-  for(var i=0;i<line.length;i++){
-    var c=line[i];
-    if(c==='"'){if(inQ&&line[i+1]==='"'){cur+='"';i++;}else inQ=!inQ;}
-    else if(c===','&&!inQ){res.push(cur);cur='';}
-    else cur+=c;
-  }
-  res.push(cur); return res;
-}
-function _parseCSV(text) {
-  var lines=text.trim().split('\n'); if(!lines.length)return[];
-  var hdrs=_parseCSVLine(lines[0]).map(function(h){
-    return h.replace(/^"|"$/g,'').trim().toLowerCase()
-      .replace(/\s+/g,'_').replace(/[éèê]/g,'e').replace(/[àâ]/g,'a')
-      .replace(/[ùû]/g,'u').replace(/[îï]/g,'i').replace(/[ôö]/g,'o');
-  });
-  return lines.slice(1).filter(function(l){return l.trim();}).map(function(line){
-    var v=_parseCSVLine(line), obj={};
-    hdrs.forEach(function(h,i){obj[h]=(v[i]||'').replace(/^"|"$/g,'').trim();});
-    return obj;
-  });
+function _parseGviz(text) {
+  var m = text.match(/setResponse\(([\s\S]*)\)\s*;?\s*$/);
+  if (!m) return [];
+  try {
+    var data = JSON.parse(m[1]);
+    var cols = data.table.cols.map(function(c) {
+      return (c.label || c.id || '').trim().toLowerCase()
+        .replace(/[éèê]/g,'e').replace(/[àâ]/g,'a').replace(/[ùû]/g,'u')
+        .replace(/[îï]/g,'i').replace(/[ôö]/g,'o')
+        .replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+    });
+    return data.table.rows.map(function(row) {
+      var obj = {};
+      (row.c || []).forEach(function(cell, i) {
+        obj[cols[i] || 'col'+i] = cell && cell.v != null ? String(cell.v) : '';
+      });
+      return obj;
+    });
+  } catch(e) { return []; }
 }
 function _normUrl(url) {
   if(!url)return''; url=url.trim(); if(!url||url==='-')return'';
@@ -990,12 +987,13 @@ function openPartnerDyn(index) {
   document.getElementById('pm-overlay').classList.add('show');document.body.style.overflow='hidden';
 }
 function fetchAndRenderPartners() {
-  fetch(SHEET_CSV)
+  fetch(SHEET_URL)
     .then(function(r){return r.ok?r.text():Promise.reject(r.status);})
-    .then(function(csv){
-      var data=_parseCSV(csv);
+    .then(function(text){
+      var data=_parseGviz(text);
       _partners=data.filter(function(p){return p.numero||p.nom;});
-      _renderPartnersRow(_partners);
+      if(_partners.length) _renderPartnersRow(_partners);
+      else return Promise.reject('empty');
     })
     .catch(function(err){
       console.warn('Sheet partenaires inaccessible:',err);
