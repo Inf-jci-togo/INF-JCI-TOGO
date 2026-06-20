@@ -74,7 +74,7 @@ nav::-webkit-scrollbar{display:none}
 .hero{background:var(--hero-bg);padding:24px 20px 38px;position:relative;overflow:hidden;transition:background .3s}
 .hero::before{content:'';position:absolute;top:-40px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(0,151,215,.15) 0%,transparent 65%);pointer-events:none}
 .hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:30px;background:var(--bg);border-radius:50% 50% 0 0;transition:background .3s}
-.hero-eye{display:flex;align-items:center;gap:6px;margin-bottom:10px}
+.hero-eye{display:flex;align-items:center;gap:6px}
 .hero-dot{width:5px;height:5px;border-radius:50%;background:var(--blue)}
 .hero-eye-txt{font-size:.6rem;font-weight:600;color:rgba(255,255,255,.45);letter-spacing:2px;text-transform:uppercase}
 .hero-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--hero-text);line-height:1.2;margin-bottom:6px}
@@ -83,6 +83,40 @@ nav::-webkit-scrollbar{display:none}
 .hero-chips{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
 .hchip{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:4px 10px;font-size:.6rem;color:rgba(255,255,255,.65);font-weight:500}
 .hchip .material-symbols-rounded{font-size:12px;color:var(--blue)}
+/* ══ HERO TOP ROW ════════════════════════════════════════════ */
+.hero-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.dir-btn{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,215,0,.25);border-radius:24px;padding:5px 11px 5px 5px;cursor:pointer;transition:.2s;-webkit-tap-highlight-color:transparent;font-family:'Inter',sans-serif}
+.dir-btn:hover,.dir-btn:active{background:rgba(255,215,0,.12);border-color:rgba(255,215,0,.5)}
+.dir-btn-av{width:28px;height:28px;border-radius:50%;border:2px solid var(--gold);overflow:hidden;flex-shrink:0}
+.dir-btn-av img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.dir-btn-txt{font-size:.57rem;font-weight:700;color:rgba(255,255,255,.8);letter-spacing:.3px;line-height:1.25}
+/* ══ MOT DU DIRECTEUR PANEL ════════════════════════════════════ */
+.dir-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1500;opacity:0;pointer-events:none;transition:opacity .3s}
+.dir-overlay.open{opacity:1;pointer-events:auto}
+.dir-scroll-panel{position:fixed;bottom:0;left:0;right:0;z-index:1501;transform:translateY(100%);transition:transform .4s cubic-bezier(.22,.68,0,1.15)}
+.dir-scroll-panel.open{transform:translateY(0)}
+.dir-scroll-inner{background:var(--surface);border-radius:20px 20px 0 0;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;transition:background .3s}
+.dsp-drag{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,.2);margin:10px auto 0;flex-shrink:0}
+.dsp-header{background:var(--navy);padding:16px 16px 15px;display:flex;align-items:center;gap:12px;flex-shrink:0;position:relative}
+.dsp-header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--navy),var(--blue),var(--navy))}
+.dsp-av{width:52px;height:52px;border-radius:50%;border:2.5px solid var(--gold);padding:2px;flex-shrink:0}
+.dsp-av img{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center top}
+.dsp-info{flex:1}
+.dsp-name{font-family:'Playfair Display',serif;font-size:.82rem;font-weight:700;color:var(--gold)}
+.dsp-role{font-size:.6rem;color:rgba(255,255,255,.5);margin-top:2px}
+.dsp-yr{background:rgba(0,151,215,.2);border:1px solid rgba(0,151,215,.35);border-radius:5px;padding:2px 7px;font-size:.55rem;font-weight:700;color:var(--blue);letter-spacing:.8px;display:inline-block;margin-top:5px}
+.dsp-close{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:.2s}
+.dsp-close:hover{background:rgba(255,255,255,.2)}
+.dsp-close .material-symbols-rounded{font-size:18px;color:rgba(255,255,255,.7)}
+.dsp-body{overflow-y:auto;padding:20px 18px 32px;flex:1}
+.dsp-lbl{display:flex;align-items:center;gap:5px;font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);margin-bottom:8px}
+.dsp-lbl .material-symbols-rounded{font-size:13px;color:var(--blue)}
+.dsp-line{height:1.5px;background:linear-gradient(90deg,var(--blue) 0%,transparent 80%);width:40px;margin-bottom:16px}
+.dsp-txt{font-family:'Cormorant Garamond',serif;font-size:1rem;line-height:1.85;color:var(--text-2);font-style:italic;clip-path:inset(0 0 100% 0);transition:clip-path .7s .2s ease-out}
+.dir-scroll-panel.open .dsp-txt{clip-path:inset(0 0 0% 0)}
+.dsp-txt strong{font-style:normal;font-family:'Inter',sans-serif;font-size:.85rem;font-weight:700;color:var(--text-1)}
+.dsp-sig{font-family:'Playfair Display',serif;font-size:.78rem;font-weight:700;color:var(--blue);text-align:right;padding-top:12px;margin-top:12px;border-top:1px solid var(--border);opacity:0;transition:opacity .4s .65s,border-color .3s}
+.dir-scroll-panel.open .dsp-sig{opacity:1}
 /* ══ DIRECTEUR ══════════════════════════════════════════════ */
 .dir-card{margin:28px 14px 0;background:var(--surface);border-radius:18px;box-shadow:0 3px 20px var(--shadow);overflow:hidden;position:relative;transition:background .3s,box-shadow .3s}
 .dir-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--navy),var(--blue),var(--navy))}
@@ -445,7 +479,13 @@ nav::-webkit-scrollbar{display:none}
 <!-- ══ ACCUEIL ══ -->
 <div id="pg-accueil" class="pg" style="display:block">
   <div class="hero">
-    <div class="hero-eye"><div class="hero-dot"></div><span class="hero-eye-txt">Espace officiel</span></div>
+    <div class="hero-top">
+      <div class="hero-eye"><div class="hero-dot"></div><span class="hero-eye-txt">Espace officiel</span></div>
+      <button class="dir-btn" onclick="openDirMsg()">
+        <div class="dir-btn-av"><img src="assets/kokouvi-djiwonou.jpeg" alt="Dir" onerror="this.style.display='none'"/></div>
+        <span class="dir-btn-txt">Mot du<br/>Directeur</span>
+      </button>
+    </div>
     <div class="hero-title">Bienvenue sur<br/><span class="ht-blue">l'INF JCI Togo</span></div>
     <div class="hero-sub">Institut National de Formation · Mandat 2026</div>
     <div class="hero-chips">
@@ -461,29 +501,6 @@ nav::-webkit-scrollbar{display:none}
     </div>
     <button id="install-btn"><span class="material-symbols-rounded" style="font-size:18px">download</span>Installer sur mon téléphone</button>
     <button id="install-dismiss">Plus tard</button>
-  </div>
-
-  <div class="dir-card">
-    <div class="dir-inner">
-      <div class="dir-left">
-        <div class="dir-av"><img src="assets/kokouvi-djiwonou.jpeg" alt="Dir" onerror="this.style.display='none'"/></div>
-        <div class="dir-id-name">Kokouvi<br/>DJIWONOU</div>
-        <div class="dir-id-role">Directeur de l'INF<br/>JCI Togo</div>
-        <div class="dir-id-yr">2026</div>
-      </div>
-      <div class="dir-right">
-        <div class="dir-lbl"><span class="material-symbols-rounded">mail</span>Mot du Directeur</div>
-        <div class="dir-line"></div>
-        <div class="dir-txt">
-          Chers Formateurs,<br/><br/>
-          Notre vision est claire : <strong>être l'organe de la JCI Togo qui garantit la qualité et l'excellence.</strong><br/><br/>
-          Pour y parvenir, notre mission est de <strong>garantir, à travers la formation, la qualité et l'excellence des membres pour la performance de nos organisations.</strong><br/><br/>
-          Vous êtes les artisans de cette excellence. Chaque formation que vous dispensez est un acte de transformation — pour nos membres, pour nos organisations, pour la JCI Togo tout entière.<br/><br/>
-          Restez engagés, restez excellents. L'INF compte sur vous.
-        </div>
-        <div class="dir-sig">— Kokouvi DJIWONOU<small>Directeur de l'INF · Mandat 2026</small></div>
-      </div>
-    </div>
   </div>
 
   <div class="sec-wrap">
@@ -739,6 +756,17 @@ var sectionTitles = {
   cotisation:'Cotisation',
   quiz:'Quiz INF'
 };
+
+function openDirMsg(){
+  document.getElementById('dir-overlay').classList.add('open');
+  document.getElementById('dir-scroll-panel').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeDirMsg(){
+  document.getElementById('dir-overlay').classList.remove('open');
+  document.getElementById('dir-scroll-panel').classList.remove('open');
+  document.body.style.overflow='';
+}
 
 function showPg(id, btn){
   document.querySelectorAll('.pg').forEach(function(p){p.style.display='none';});
@@ -1652,5 +1680,34 @@ function resetAll(){
 }
 updateHomeCards();
 </script>
+
+<!-- ══ MOT DU DIRECTEUR PANEL ══ -->
+<div class="dir-overlay" id="dir-overlay" onclick="closeDirMsg()"></div>
+<div class="dir-scroll-panel" id="dir-scroll-panel">
+  <div class="dir-scroll-inner">
+    <div class="dsp-drag"></div>
+    <div class="dsp-header">
+      <div class="dsp-av"><img src="assets/kokouvi-djiwonou.jpeg" alt="Dir" onerror="this.style.display='none'"/></div>
+      <div class="dsp-info">
+        <div class="dsp-name">Kokouvi DJIWONOU</div>
+        <div class="dsp-role">Directeur de l'INF · JCI Togo</div>
+        <div class="dsp-yr">2026</div>
+      </div>
+      <div class="dsp-close" onclick="closeDirMsg()"><span class="material-symbols-rounded">close</span></div>
+    </div>
+    <div class="dsp-body">
+      <div class="dsp-lbl"><span class="material-symbols-rounded">mail</span>Mot du Directeur</div>
+      <div class="dsp-line"></div>
+      <div class="dsp-txt">
+        Chers Formateurs,<br/><br/>
+        Notre vision est claire : <strong>être l'organe de la JCI Togo qui garantit la qualité et l'excellence.</strong><br/><br/>
+        Pour y parvenir, notre mission est de <strong>garantir, à travers la formation, la qualité et l'excellence des membres pour la performance de nos organisations.</strong><br/><br/>
+        Vous êtes les artisans de cette excellence. Chaque formation que vous dispensez est un acte de transformation — pour nos membres, pour nos organisations, pour la JCI Togo tout entière.<br/><br/>
+        Restez engagés, restez excellents. L'INF compte sur vous.
+      </div>
+      <div class="dsp-sig">— Kokouvi DJIWONOU<small>Directeur de l'INF · Mandat 2026</small></div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
