@@ -1039,15 +1039,15 @@ function _startCarousel(row,numReal,cardStep) {
       if(idx>=numReal*2){idx=0;snapTo(0,true);}
       else{snapTo(idx*cardStep,false);}
     }
-    row._carTimer=setTimeout(tick,3400);
+    row._carTimer=setTimeout(tick,4500);
   }
-  row._carTimer=setTimeout(tick,3400);
+  row._carTimer=setTimeout(tick,4500);
   row.addEventListener('touchstart',function(){paused=true;clearTimeout(row._carTimer);},{passive:true});
   row.addEventListener('touchend',function(){
-    setTimeout(function(){paused=false;idx=Math.min(Math.round(row.scrollLeft/cardStep),numReal*2-1);row._carTimer=setTimeout(tick,3000);},2500);
+    setTimeout(function(){paused=false;idx=Math.min(Math.round(row.scrollLeft/cardStep),numReal*2-1);row._carTimer=setTimeout(tick,4000);},2500);
   },{passive:true});
   row.addEventListener('mouseenter',function(){paused=true;clearTimeout(row._carTimer);});
-  row.addEventListener('mouseleave',function(){paused=false;row._carTimer=setTimeout(tick,1500);});
+  row.addEventListener('mouseleave',function(){paused=false;row._carTimer=setTimeout(tick,4000);});
 }
 // ── Actualités dynamiques — Google Sheets
 var _news=[];
