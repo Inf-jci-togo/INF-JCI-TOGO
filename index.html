@@ -159,6 +159,12 @@ nav::-webkit-scrollbar{display:none}
 .nc{flex:0 0 calc(88vw);max-width:400px;scroll-snap-align:center;border-radius:16px;overflow:hidden;cursor:pointer;position:relative;background:var(--surface);border:1.5px solid var(--border);box-shadow:4px 6px 14px rgba(0,0,0,.11);transition:.15s}
 [data-theme="dark"] .nc{box-shadow:4px 6px 14px rgba(0,0,0,.3)}
 .nc:active{transform:scale(.98)}
+/* Wrapper avec flèches (PC) */
+.news-wrap{position:relative}
+.nc-arrow{display:none;position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:36px;height:36px;border-radius:50%;background:var(--surface);border:1.5px solid var(--border);box-shadow:0 2px 10px rgba(0,0,0,.15);cursor:pointer;align-items:center;justify-content:center;color:var(--text-1);font-size:1rem;transition:.2s;padding:0}
+.nc-arrow:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.nc-arrow-l{left:4px}.nc-arrow-r{right:4px}
+@media(min-width:600px){.nc-arrow{display:flex}}
 .nc-img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
 .nc-img-ph{width:100%;aspect-ratio:1/1;background:var(--surface-2);display:flex;align-items:center;justify-content:center}
 .nc-img-ph .material-symbols-rounded{font-size:44px;color:var(--text-3)}
@@ -192,7 +198,13 @@ nav::-webkit-scrollbar{display:none}
   0%,100%{transform:rotate(20deg) translateY(0);box-shadow:4px 10px 28px rgba(0,151,215,.22),0 6px 18px rgba(0,0,0,.22),inset 0 1px 8px rgba(0,151,215,.1),inset 0 -1px 8px rgba(0,0,0,.12)}
   50%{transform:rotate(20deg) translateY(-6px);box-shadow:4px 16px 36px rgba(0,151,215,.34),0 10px 24px rgba(0,0,0,.28),inset 0 1px 8px rgba(0,151,215,.15),inset 0 -1px 8px rgba(0,0,0,.16)}
 }
-.mdj-diam{width:148px;height:148px;transform:rotate(20deg);background:var(--surface);border:2px solid var(--gold);border-radius:26px;animation:mdjFloat 3.2s ease-in-out infinite;position:relative;transition:border-color .3s}
+.mdj-diam{width:148px;height:148px;transform:rotate(20deg);background:var(--surface);border:2px solid var(--gold);border-radius:26px;animation:mdjFloat 3.2s ease-in-out infinite;position:relative;z-index:1;transition:border-color .3s}
+@media(min-width:600px){
+  .mdj-ring{width:280px;height:280px;margin-bottom:-52px}
+  .mdj-diam{width:210px;height:210px;border-radius:36px}
+  .mdj-word{font-size:clamp(1.25rem,3vw,1.7rem);max-width:140px}
+  .mdj-by{bottom:24px}.mdj-author{bottom:9px}
+}
 .mdj-ring:hover .mdj-diam,.mdj-ring.active .mdj-diam{animation-play-state:paused;border-color:var(--gold)}
 /* Contenu centré (contre-rotation) */
 .mdj-cnt{position:absolute;inset:0;transform:rotate(-20deg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;pointer-events:none;text-align:center}
@@ -629,8 +641,12 @@ nav::-webkit-scrollbar{display:none}
       <div class="sh-left"><div class="sh-ico"><span class="material-symbols-rounded">campaign</span></div><div class="sh-title">Actualités</div></div>
       <div class="sh-hint"><span class="material-symbols-rounded">swipe_left</span>Glisser</div>
     </div>
-    <div class="news-row" id="news-row">
-      <div style="padding:14px 4px;color:var(--text-3);font-size:.8rem;display:flex;align-items:center;gap:6px;white-space:nowrap"><span class="material-symbols-rounded" style="font-size:14px">sync</span>Chargement…</div>
+    <div class="news-wrap">
+      <button class="nc-arrow nc-arrow-l" onclick="newsScroll(-1)" aria-label="Précédent"><span class="material-symbols-rounded">chevron_left</span></button>
+      <div class="news-row" id="news-row">
+        <div style="padding:14px 4px;color:var(--text-3);font-size:.8rem;display:flex;align-items:center;gap:6px;white-space:nowrap"><span class="material-symbols-rounded" style="font-size:14px">sync</span>Chargement…</div>
+      </div>
+      <button class="nc-arrow nc-arrow-r" onclick="newsScroll(1)" aria-label="Suivant"><span class="material-symbols-rounded">chevron_right</span></button>
     </div>
   </div>
 
@@ -1092,7 +1108,15 @@ function _renderPartnersRow(partners) {
       +imgH+'<div class="pc-name">'+(p.nom||'Partenaire')+'</div>'
       +'<div class="pc-tag">'+tag+'</div></div>';
   }).join('');
-  _startCarousel(row,partners.length,125);
+  requestAnimationFrame(function(){
+    if(row.scrollWidth<=row.offsetWidth+20){
+      // Tout tient à l'écran : retirer les doublons
+      var cards=row.querySelectorAll('.pc');
+      for(var i=partners.length;i<cards.length;i++)cards[i].remove();
+    } else {
+      _startCarousel(row,partners.length,125);
+    }
+  });
 }
 function _startCarousel(row,numReal,cardStep,delay) {
   if(!row)return;
@@ -1183,7 +1207,7 @@ function _renderNewsRow(news){
     return '<div class="nc" onclick="openNewsDyn('+ri+')">'
       +imgH+'<div class="nc-foot"><div class="nc-title">'+(n.nom||'Actualité')+'</div></div></div>';
   }).join('');
-  var step=Math.round(window.innerWidth*0.88)+12;
+  var step=Math.min(Math.round(window.innerWidth*0.88),400)+12;
   _startCarousel(row,news.length,step,7000);
 }
 function openNewsDyn(index){
@@ -1194,9 +1218,15 @@ function openNewsDyn(index){
   document.getElementById('nm-title').textContent=n.nom||'Actualité';
   document.getElementById('nm-desc').textContent=n.description||'';
   var c='';
-  if(n.contact) c='<a class="nm-contact" href="tel:+228'+n.contact.replace(/\D/g,'').replace(/^228/,'')+'"><span class="material-symbols-rounded">call</span>'+n.contact+'</a>';
+  if(n.contact) c='<a class="nm-contact" href="tel:+228'+n.contact.replace(/\D/g,'').replace(/^228/,'')+'"><span class="material-symbols-rounded">call</span>Contactez-nous</a>';
   document.getElementById('nm-contact').innerHTML=c;
   document.getElementById('nm-overlay').classList.add('show');document.body.style.overflow='hidden';
+}
+function newsScroll(dir){
+  var row=document.getElementById('news-row');if(!row)return;
+  var card=row.querySelector('.nc');
+  var step=card?card.offsetWidth+12:412;
+  row.scrollBy({left:dir*step,behavior:'smooth'});
 }
 function closeNM(){
   var m=document.getElementById('nm-modal'); if(m)m.style.transform='';
