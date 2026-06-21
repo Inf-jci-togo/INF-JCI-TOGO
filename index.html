@@ -1024,10 +1024,11 @@ function _renderPartnersRow(partners) {
   }).join('');
   _startCarousel(row,partners.length,125);
 }
-function _startCarousel(row,numReal,cardStep) {
+function _startCarousel(row,numReal,cardStep,delay) {
   if(!row)return;
   if(row._carTimer){clearTimeout(row._carTimer);row._carTimer=null;}
   if(!cardStep)cardStep=125;
+  if(!delay)delay=4500;
   var paused=false,idx=0;
   function snapTo(pos,instant){
     if(instant){row.style.scrollSnapType='none';row.scrollLeft=pos;row.getBoundingClientRect();row.style.scrollSnapType='';}
@@ -1039,15 +1040,15 @@ function _startCarousel(row,numReal,cardStep) {
       if(idx>=numReal*2){idx=0;snapTo(0,true);}
       else{snapTo(idx*cardStep,false);}
     }
-    row._carTimer=setTimeout(tick,4500);
+    row._carTimer=setTimeout(tick,delay);
   }
-  row._carTimer=setTimeout(tick,4500);
+  row._carTimer=setTimeout(tick,delay);
   row.addEventListener('touchstart',function(){paused=true;clearTimeout(row._carTimer);},{passive:true});
   row.addEventListener('touchend',function(){
-    setTimeout(function(){paused=false;idx=Math.min(Math.round(row.scrollLeft/cardStep),numReal*2-1);row._carTimer=setTimeout(tick,4000);},2500);
+    setTimeout(function(){paused=false;idx=Math.min(Math.round(row.scrollLeft/cardStep),numReal*2-1);row._carTimer=setTimeout(tick,delay);},2500);
   },{passive:true});
   row.addEventListener('mouseenter',function(){paused=true;clearTimeout(row._carTimer);});
-  row.addEventListener('mouseleave',function(){paused=false;row._carTimer=setTimeout(tick,4000);});
+  row.addEventListener('mouseleave',function(){paused=false;row._carTimer=setTimeout(tick,delay);});
 }
 // ── Actualités dynamiques — Google Sheets
 var _news=[];
@@ -1071,7 +1072,7 @@ function _renderNewsRow(news){
       +imgH+'<div class="nc-foot"><div class="nc-title">'+(n.nom||'Actualité')+'</div></div></div>';
   }).join('');
   var step=Math.round(window.innerWidth*0.88)+12;
-  _startCarousel(row,news.length,step);
+  _startCarousel(row,news.length,step,7000);
 }
 function openNewsDyn(index){
   var n=_news[index]; if(!n)return;
