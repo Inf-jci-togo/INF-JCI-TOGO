@@ -69,7 +69,7 @@ nav::-webkit-scrollbar{display:none}
 .nb.active .material-symbols-rounded{font-size:22px}
 .nb.active::before{content:'';position:absolute;top:0;left:22%;right:22%;height:2px;background:var(--nav-line);border-radius:0 0 3px 3px;box-shadow:0 0 6px rgba(0,151,215,.5)}
 /* ══ SECTIONS ═══════════════════════════════════════════════ */
-.pg{min-height:calc(100vh - 64px - 58px);display:none}
+.pg{min-height:calc(100vh - 64px - 58px);display:none;max-width:560px;margin:0 auto}
 /* ══ HERO ═══════════════════════════════════════════════════ */
 .hero{background:var(--hero-bg);padding:24px 20px 38px;position:relative;overflow:hidden;transition:background .3s}
 .hero::before{content:'';position:absolute;top:-40px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(0,151,215,.15) 0%,transparent 65%);pointer-events:none}
@@ -184,21 +184,21 @@ nav::-webkit-scrollbar{display:none}
 .mdj-wrap{display:flex;flex-direction:column;align-items:center;padding:8px 16px 20px}
 /* Cercle lumineux */
 .mdj-ring{position:relative;width:216px;height:216px;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;z-index:2;margin-bottom:-40px}
-.mdj-ring::before{content:'';position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50%,rgba(255,215,0,.42) 0%,transparent 65%);transition:.3s;pointer-events:none}
-.mdj-ring::after{content:'';position:absolute;inset:20px;border-radius:50%;border:1.5px solid rgba(255,215,0,.5);pointer-events:none}
-.mdj-ring:hover::before,.mdj-ring.active::before{background:radial-gradient(circle at 50%,rgba(255,215,0,.58) 0%,transparent 65%)}
+.mdj-ring::before{content:'';position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 50%,rgba(0,151,215,.42) 0%,transparent 65%);transition:.3s;pointer-events:none}
+.mdj-ring::after{content:'';position:absolute;inset:20px;border-radius:50%;border:1.5px solid rgba(0,151,215,.5);pointer-events:none}
+.mdj-ring:hover::before,.mdj-ring.active::before{background:radial-gradient(circle at 50%,rgba(0,151,215,.58) 0%,transparent 65%)}
 /* Losange flottant */
 @keyframes mdjFloat{
-  0%,100%{transform:rotate(20deg) translateY(0);box-shadow:4px 10px 28px rgba(255,215,0,.18),0 6px 18px rgba(0,0,0,.22),inset 0 1px 8px rgba(255,215,0,.1),inset 0 -1px 8px rgba(0,0,0,.12)}
-  50%{transform:rotate(20deg) translateY(-6px);box-shadow:4px 16px 36px rgba(255,215,0,.28),0 10px 24px rgba(0,0,0,.28),inset 0 1px 8px rgba(255,215,0,.15),inset 0 -1px 8px rgba(0,0,0,.16)}
+  0%,100%{transform:rotate(20deg) translateY(0);box-shadow:4px 10px 28px rgba(0,151,215,.22),0 6px 18px rgba(0,0,0,.22),inset 0 1px 8px rgba(0,151,215,.1),inset 0 -1px 8px rgba(0,0,0,.12)}
+  50%{transform:rotate(20deg) translateY(-6px);box-shadow:4px 16px 36px rgba(0,151,215,.34),0 10px 24px rgba(0,0,0,.28),inset 0 1px 8px rgba(0,151,215,.15),inset 0 -1px 8px rgba(0,0,0,.16)}
 }
 .mdj-diam{width:148px;height:148px;transform:rotate(20deg);background:var(--surface);border:2px solid var(--gold);border-radius:26px;animation:mdjFloat 3.2s ease-in-out infinite;position:relative;transition:border-color .3s}
 .mdj-ring:hover .mdj-diam,.mdj-ring.active .mdj-diam{animation-play-state:paused;border-color:var(--gold)}
 /* Contenu centré (contre-rotation) */
-.mdj-cnt{position:absolute;inset:0;transform:rotate(-20deg);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:16px 10px 14px;pointer-events:none;text-align:center}
+.mdj-cnt{position:absolute;inset:0;transform:rotate(-20deg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;pointer-events:none;text-align:center}
 .mdj-word{font-family:'Playfair Display',serif;font-size:clamp(1.1rem,4.5vw,1.45rem);font-weight:700;color:var(--text-1);letter-spacing:.4px;line-height:1.2;max-width:96px;word-break:break-word}
-.mdj-by{font-size:.52rem;color:var(--text-3);margin-top:auto;line-height:1.2}
-.mdj-author{font-size:.54rem;font-weight:600;color:rgba(255,215,0,.85);line-height:1.3;max-width:96px}
+.mdj-by{position:absolute;bottom:20px;left:0;right:0;font-size:.52rem;color:var(--text-3);line-height:1.2}
+.mdj-author{position:absolute;bottom:7px;left:0;right:0;font-size:.54rem;font-weight:600;color:rgba(255,215,0,.85);line-height:1.3}
 /* Panel coulissant */
 .mdj-panel{width:100%;max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.4,0,.2,1);position:relative;z-index:1}
 .mdj-panel.open{max-height:900px}
