@@ -203,7 +203,7 @@ nav::-webkit-scrollbar{display:none}
 @media(min-width:600px){
   .mdj-ring{width:280px;height:280px;margin-bottom:-52px}
   .mdj-diam{width:210px;height:210px;border-radius:36px}
-  .mdj-word{font-size:clamp(1.15rem,2.5vw,1.5rem);max-width:175px;word-break:normal}
+  .mdj-word{font-size:clamp(1.15rem,2.5vw,1.5rem);max-width:none;word-break:normal;white-space:nowrap}
   .mdj-by{bottom:24px}.mdj-author{bottom:9px}
 }
 .mdj-ring:hover .mdj-diam,.mdj-ring.active .mdj-diam{animation-play-state:paused;border-color:var(--gold)}
@@ -286,7 +286,8 @@ nav::-webkit-scrollbar{display:none}
 .sb-iw .material-symbols-rounded{font-size:16px;color:var(--text-3)}
 .sb-iw input{border:none;background:none;font-family:'Inter',sans-serif;font-size:.83rem;width:100%;outline:none;padding:9px 0;color:var(--text-1)}
 .sb-iw input::placeholder{color:var(--text-3)}
-.sb-sel{background:var(--surface-2);border:1.5px solid var(--border);border-radius:8px;padding:9px 10px;font-family:'Inter',sans-serif;font-size:.78rem;color:var(--text-1);outline:none;transition:.2s}
+.sb-sel{background:var(--surface-2);border:1.5px solid var(--border);border-radius:8px;padding:9px 10px;font-family:'Inter',sans-serif;font-size:.78rem;color:var(--text-1);outline:none;transition:.2s;color-scheme:light}
+[data-theme="dark"] .sb-sel{color-scheme:dark}
 .sb-btn{width:100%;background:var(--blue);color:#fff;border:none;border-radius:9px;padding:10px;font-family:'Inter',sans-serif;font-size:.83rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:.2s}
 .sb-btn:hover{background:var(--blue-d)}
 .sb-btn .material-symbols-rounded{font-size:16px}
@@ -1528,7 +1529,7 @@ function doSearch(){
   if(type==='nif')found=[formateurs.find(x=>x.nif===q||x.nif.includes(q))].filter(Boolean);
   else if(type==='nom')found=formateurs.filter(x=>x.nom.toLowerCase().includes(q));
   else if(type==='locale')found=formateurs.filter(x=>x.locale.toLowerCase().includes(q));
-  else if(type==='grade')found=formateurs.filter(x=>x.grade.toLowerCase().includes(q));
+  else if(type==='grade')found=formateurs.filter(x=>x.grade.toLowerCase().startsWith(q));
   if(!found.length){r.innerHTML='<p class="no-result">Aucun formateur trouvé.</p>';return;}
   if(found.length===1){r.innerHTML=ficheHTML(found[0]);return;}
   r.innerHTML='<div style="padding:4px 0 8px;font-size:.78rem;color:var(--text-3)">'+found.length+' formateur(s)</div>'+
