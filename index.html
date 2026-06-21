@@ -153,6 +153,33 @@ nav::-webkit-scrollbar{display:none}
 .pc:active{transform:scale(.97)}
 .pc.gold-pc{border-color:rgba(255,215,0,.35)}
 [data-theme="dark"] .pc{box-shadow:4px 6px 14px rgba(0,0,0,.3)}
+/* ══ ACTUALITÉS ═══════════════════════════════════════════════ */
+.news-row{display:flex;gap:12px;padding:2px 22px 14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.news-row::-webkit-scrollbar{display:none}
+.nc{flex:0 0 calc(88vw);max-width:400px;scroll-snap-align:center;border-radius:16px;overflow:hidden;cursor:pointer;position:relative;background:var(--surface);border:1.5px solid var(--border);box-shadow:4px 6px 14px rgba(0,0,0,.11);transition:.15s}
+[data-theme="dark"] .nc{box-shadow:4px 6px 14px rgba(0,0,0,.3)}
+.nc:active{transform:scale(.98)}
+.nc-img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block}
+.nc-img-ph{width:100%;aspect-ratio:3/4;background:var(--surface-2);display:flex;align-items:center;justify-content:center}
+.nc-img-ph .material-symbols-rounded{font-size:44px;color:var(--text-3)}
+.nc-foot{position:absolute;bottom:0;left:0;right:0;padding:28px 14px 12px;background:linear-gradient(transparent,rgba(0,0,0,.72));color:#fff}
+.nc-title{font-size:.8rem;font-weight:700;line-height:1.3;text-shadow:0 1px 3px rgba(0,0,0,.4)}
+/* ══ NEWS MODAL ════════════════════════════════════════════════ */
+.nm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9999;align-items:flex-end;justify-content:center}
+.nm-overlay.show{display:flex;animation:pmFade .2s ease}
+.nm-modal{background:#fff;border-radius:24px 24px 0 0;width:100%;max-width:430px;max-height:92vh;overflow-y:auto;animation:pmUp .3s ease;transition:background .3s,transform .15s ease;position:relative;will-change:transform}
+[data-theme="dark"] .nm-modal{background:#1A1D2E}
+.nm-handle{width:40px;height:4px;border-radius:2px;background:#d0d0d0;margin:14px auto 0;cursor:grab}
+[data-theme="dark"] .nm-handle{background:rgba(255,255,255,.25)}
+.nm-img{width:100%;max-height:60vh;object-fit:contain;display:block}
+.nm-body{padding:18px 20px 40px}
+.nm-title{font-family:'Playfair Display',serif;font-size:1.08rem;font-weight:700;color:var(--text-1);margin-bottom:12px;line-height:1.4}
+.nm-desc{font-size:.85rem;color:var(--text-2);line-height:1.75;white-space:pre-wrap}
+.nm-x{position:absolute;top:16px;right:16px;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.06);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-1);opacity:.4;transition:.2s;padding:0;z-index:2}
+.nm-x:hover,.nm-x:active{opacity:.85;background:rgba(0,0,0,.1)}
+.nm-x .material-symbols-rounded{font-size:16px}
+[data-theme="dark"] .nm-x{background:rgba(255,255,255,.08)}
+.nm-contact{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:10px;background:rgba(34,197,94,.12);color:#15803d;border:1.5px solid rgba(34,197,94,.3);font-size:.82rem;font-weight:600;text-decoration:none;margin-top:16px}
 .pc-vip{position:absolute;top:7px;right:7px;background:var(--gold);color:var(--navy);font-size:.48rem;font-weight:800;padding:1px 5px;border-radius:3px;letter-spacing:.5px}
 .pc-logo{width:54px;height:54px;object-fit:contain;border-radius:8px}
 .pc-logo-ph{width:54px;height:54px;border-radius:8px;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
@@ -528,6 +555,16 @@ nav::-webkit-scrollbar{display:none}
     </div>
   </div>
 
+  <div class="sec-wrap">
+    <div class="sh">
+      <div class="sh-left"><div class="sh-ico"><span class="material-symbols-rounded">campaign</span></div><div class="sh-title">Actualités</div></div>
+      <div class="sh-hint"><span class="material-symbols-rounded">swipe_left</span>Glisser</div>
+    </div>
+    <div class="news-row" id="news-row">
+      <div style="padding:14px 4px;color:var(--text-3);font-size:.8rem;display:flex;align-items:center;gap:6px;white-space:nowrap"><span class="material-symbols-rounded" style="font-size:14px">sync</span>Chargement…</div>
+    </div>
+  </div>
+
   <div class="sec-wrap" style="margin-bottom:20px">
     <div class="sh"><div class="sh-left"><div class="sh-ico"><span class="material-symbols-rounded">calendar_month</span></div><div class="sh-title">Activités à Venir</div></div></div>
     <div class="act-list">
@@ -705,6 +742,19 @@ nav::-webkit-scrollbar{display:none}
   </div>
 </div>
 
+<!-- ══ NEWS MODAL ══ -->
+<div class="nm-overlay" id="nm-overlay" onclick="if(event.target===this)closeNM()">
+  <div class="nm-modal" id="nm-modal">
+    <div class="nm-handle"></div>
+    <button class="nm-x" onclick="closeNM()" aria-label="Fermer"><span class="material-symbols-rounded">close</span></button>
+    <img id="nm-img" class="nm-img" style="display:none" src="" alt=""/>
+    <div class="nm-body">
+      <div class="nm-title" id="nm-title"></div>
+      <div class="nm-desc" id="nm-desc"></div>
+      <div id="nm-contact"></div>
+    </div>
+  </div>
+</div>
 <!-- ══ PARTNER MODAL ══ -->
 <div class="pm-overlay" id="pm-overlay" onclick="if(event.target===this)closePM()">
   <div class="pm-modal" id="pm-modal">
@@ -794,6 +844,7 @@ window.addEventListener('popstate', function(){
 document.addEventListener('DOMContentLoaded', function(){
   history.pushState({section:'accueil'}, '', '');
   fetchAndRenderPartners();
+  fetchAndRenderNews();
 });
 
 // ── Thème
@@ -958,40 +1009,105 @@ function _driveImg(url) {
 function _renderPartnersRow(partners) {
   var row=document.getElementById('partners-row'); if(!row)return;
   if(!partners.length){row.innerHTML='<div style="padding:14px;color:var(--text-3);font-size:.8rem">Aucun partenaire.</div>';return;}
-  row.innerHTML=partners.map(function(p,i){
+  var doubled=partners.concat(partners);
+  row.innerHTML=doubled.map(function(p,i){
+    var ri=i%partners.length;
     var logo=_driveImg(p.logo||'');
     var imgH=logo
       ?'<img src="'+logo+'" class="pc-logo" alt="'+(p.nom||'')+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"/><div class="pc-logo-ph" style="display:none"><span class="material-symbols-rounded">business</span></div>'
       :'<div class="pc-logo-ph"><span class="material-symbols-rounded">business</span></div>';
     var tag=p.description?(p.description.length>22?p.description.substring(0,22)+'…':p.description):'Partenaire VIP';
-    return '<div class="pc'+(i===0?' gold-pc':'')+'" onclick="openPartnerDyn('+i+')">'
-      +(i===0?'<div class="pc-vip">VIP</div>':'')
+    return '<div class="pc'+(ri===0?' gold-pc':'')+'" onclick="openPartnerDyn('+ri+')">'
+      +'<div class="pc-vip">VIP</div>'
       +imgH+'<div class="pc-name">'+(p.nom||'Partenaire')+'</div>'
       +'<div class="pc-tag">'+tag+'</div></div>';
   }).join('');
-  _startCarousel(row);
+  _startCarousel(row,partners.length,125);
 }
-function _startCarousel(row) {
-  if (!row || row._carTimer) return;
-  var paused = false;
-  function tick() {
-    if (!paused) {
-      var max = row.scrollWidth - row.clientWidth;
-      if (max > 0) {
-        if (row.scrollLeft >= max - 5) {
-          row.scrollTo({left:0, behavior:'instant'});
-        } else {
-          row.scrollTo({left: row.scrollLeft + 120, behavior:'smooth'});
-        }
-      }
-    }
-    row._carTimer = setTimeout(tick, 3400);
+function _startCarousel(row,numReal,cardStep) {
+  if(!row)return;
+  if(row._carTimer){clearTimeout(row._carTimer);row._carTimer=null;}
+  if(!cardStep)cardStep=125;
+  var paused=false,idx=0;
+  function snapTo(pos,instant){
+    if(instant){row.style.scrollSnapType='none';row.scrollLeft=pos;row.getBoundingClientRect();row.style.scrollSnapType='';}
+    else{row.scrollTo({left:pos,behavior:'smooth'});}
   }
-  row._carTimer = setTimeout(tick, 3400);
-  row.addEventListener('touchstart', function(){paused=true;}, {passive:true});
-  row.addEventListener('touchend', function(){setTimeout(function(){paused=false;},2500);}, {passive:true});
-  row.addEventListener('mouseenter', function(){paused=true;});
-  row.addEventListener('mouseleave', function(){paused=false;});
+  function tick(){
+    if(!paused){
+      idx++;
+      if(idx>=numReal*2){idx=0;snapTo(0,true);}
+      else{snapTo(idx*cardStep,false);}
+    }
+    row._carTimer=setTimeout(tick,3400);
+  }
+  row._carTimer=setTimeout(tick,3400);
+  row.addEventListener('touchstart',function(){paused=true;clearTimeout(row._carTimer);},{passive:true});
+  row.addEventListener('touchend',function(){
+    setTimeout(function(){paused=false;idx=Math.min(Math.round(row.scrollLeft/cardStep),numReal*2-1);row._carTimer=setTimeout(tick,3000);},2500);
+  },{passive:true});
+  row.addEventListener('mouseenter',function(){paused=true;clearTimeout(row._carTimer);});
+  row.addEventListener('mouseleave',function(){paused=false;row._carTimer=setTimeout(tick,1500);});
+}
+// ── Actualités dynamiques — Google Sheets
+var _news=[];
+const NEWS_SHEET_URL='https://docs.google.com/spreadsheets/d/1rh9a_HRAbX_U2Q1adtgFHwExV8r3j6jpzcT_RG_T-bk/gviz/tq?tqx=out:json';
+function _driveImgHQ(url){
+  if(!url)return''; var m=url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if(m)return 'https://drive.google.com/thumbnail?id='+m[1]+'&sz=w400';
+  if(url.includes('id='))return url; return url;
+}
+function _renderNewsRow(news){
+  var row=document.getElementById('news-row'); if(!row)return;
+  if(!news.length){row.innerHTML='<div style="padding:14px;color:var(--text-3);font-size:.8rem">Aucune actualité.</div>';return;}
+  var doubled=news.concat(news);
+  row.innerHTML=doubled.map(function(n,i){
+    var ri=i%news.length;
+    var img=_driveImgHQ(n.affiche||'');
+    var imgH=img
+      ?'<img src="'+img+'" class="nc-img" alt="'+(n.nom||'')+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"/><div class="nc-img-ph" style="display:none"><span class="material-symbols-rounded">newspaper</span></div>'
+      :'<div class="nc-img-ph"><span class="material-symbols-rounded">newspaper</span></div>';
+    return '<div class="nc" onclick="openNewsDyn('+ri+')">'
+      +imgH+'<div class="nc-foot"><div class="nc-title">'+(n.nom||'Actualité')+'</div></div></div>';
+  }).join('');
+  var step=Math.round(window.innerWidth*0.88)+12;
+  _startCarousel(row,news.length,step);
+}
+function openNewsDyn(index){
+  var n=_news[index]; if(!n)return;
+  var img=document.getElementById('nm-img');
+  var src=_driveImgHQ(n.affiche||'');
+  if(src){img.src=src;img.style.display='block';}else{img.style.display='none';}
+  document.getElementById('nm-title').textContent=n.nom||'Actualité';
+  document.getElementById('nm-desc').textContent=n.description||'';
+  var c='';
+  if(n.contact) c='<a class="nm-contact" href="tel:+228'+n.contact.replace(/\D/g,'').replace(/^228/,'')+'"><span class="material-symbols-rounded">call</span>'+n.contact+'</a>';
+  document.getElementById('nm-contact').innerHTML=c;
+  document.getElementById('nm-overlay').classList.add('show');document.body.style.overflow='hidden';
+}
+function closeNM(){
+  var m=document.getElementById('nm-modal'); if(m)m.style.transform='';
+  document.getElementById('nm-overlay').classList.remove('show');document.body.style.overflow='';
+}
+function fetchAndRenderNews(){
+  fetch(NEWS_SHEET_URL)
+    .then(function(r){return r.ok?r.text():Promise.reject(r.status);})
+    .then(function(text){
+      var data=_parseGviz(text);
+      _news=data.filter(function(n){return n.numero||n.nom;});
+      if(_news.length)_renderNewsRow(_news);
+      else return Promise.reject('empty');
+    })
+    .catch(function(err){
+      console.warn('News sheet inaccessible:',err);
+      _news=[
+        {numero:'1',nom:'T-shirt Polo INF',description:"Tshirt Polo VIP conçu uniquement pour les formateurs de l'INF. Disponible sur commande à 4000 FCFA, personnalisé avec votre grade. Contactez la Trésorerie Générale pour commander.",contact:'91593504',affiche:'https://drive.google.com/file/d/1MxOxyI8SNNJCmaJBIfr7hUdI-KaQhmP9/view'},
+        {numero:'2',nom:'Casquette INF',description:"Casquette conçue uniquement pour les formateurs de l'INF. Disponible sur commande à 2500 FCFA. Contactez la Trésorerie Générale pour commander.",contact:'91593504',affiche:'https://drive.google.com/file/d/1zEhZU6Lv11KJtpcMWZVuyIu2zk5IxPAW/view'},
+        {numero:'3',nom:'Report CCM',description:"Le Cours de Conception de Module est reporté à une date ultérieure pour une meilleure organisation avec la prise en compte du nouveau système de certification JCI. La nouvelle date sera bientôt disponible.",contact:'91593504',affiche:'https://drive.google.com/file/d/1AxHNh-QTbnbz9rqZCbm95Xt66De-Eof1/view'},
+        {numero:'4',nom:'JCI CNT',description:"L'INF JCI TOGO organise le JCI Certified National Trainer — nouveau cours de formation des formateurs remplaçant le CFF. Pré-requis : PRESENTER et FACILITATOR. Participation 50 000 FCFA. Date à venir.",contact:'91593504',affiche:'https://drive.google.com/file/d/1scNMJoPO-QN1rG87-klIqxC9Bf6SAqMT/view'}
+      ];
+      _renderNewsRow(_news);
+    });
 }
 function openPartnerDyn(index) {
   var p=_partners[index]; if(!p)return;
@@ -1063,6 +1179,28 @@ function closePM(){
   },{passive:true});
 })();
 
+// Swipe-down pour fermer la modal actualités
+(function(){
+  var startY=0,dragging=false,modal=null;
+  document.addEventListener('touchstart',function(e){
+    modal=document.getElementById('nm-modal');
+    if(!modal||!document.getElementById('nm-overlay').classList.contains('show'))return;
+    startY=e.touches[0].clientY;dragging=true;
+  },{passive:true});
+  document.addEventListener('touchmove',function(e){
+    if(!dragging||!modal)return;
+    var dy=e.touches[0].clientY-startY;
+    if(dy>0){modal.style.transition='none';modal.style.transform='translateY('+dy+'px)';}
+  },{passive:true});
+  document.addEventListener('touchend',function(e){
+    if(!dragging||!modal){dragging=false;return;}
+    dragging=false;
+    var dy=e.changedTouches[0].clientY-startY;
+    modal.style.transition='';
+    if(dy>90){closeNM();}else{modal.style.transform='';}
+    modal=null;
+  },{passive:true});
+})();
 // ── Formateurs (150)
 const formateurs = [
   {"nif":"2026001","nom":"ABBE WOMBE Assiadissa","grade":"ALPHA","locale":"Lomé Prestige","contact":"92284158","mail":"awag0708@gmail.com","statut":"Actif","anniversaire":""},
