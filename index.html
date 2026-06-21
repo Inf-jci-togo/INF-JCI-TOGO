@@ -145,7 +145,8 @@ nav::-webkit-scrollbar{display:none}
 .sh-hint{font-size:.6rem;color:var(--text-3);display:flex;align-items:center;gap:2px}
 .sh-hint .material-symbols-rounded{font-size:12px}
 /* ══ PARTENAIRES ════════════════════════════════════════════ */
-.sec-wrap{margin:24px 0 0}
+.sec-wrap{margin:0;padding-top:16px;border-top:8px solid rgba(0,0,0,.06)}
+[data-theme="dark"] .sec-wrap{border-top-color:rgba(255,255,255,.055)}
 .partners-row{display:flex;gap:10px;padding:2px 14px 14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
 .partners-row::-webkit-scrollbar{display:none}
 .pc{flex:0 0 115px;background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:14px 8px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;scroll-snap-align:start;transition:.2s;position:relative;overflow:hidden;box-shadow:4px 6px 14px rgba(0,0,0,.11)}
@@ -202,7 +203,7 @@ nav::-webkit-scrollbar{display:none}
 @media(min-width:600px){
   .mdj-ring{width:280px;height:280px;margin-bottom:-52px}
   .mdj-diam{width:210px;height:210px;border-radius:36px}
-  .mdj-word{font-size:clamp(1.25rem,3vw,1.7rem);max-width:140px}
+  .mdj-word{font-size:clamp(1.15rem,2.5vw,1.5rem);max-width:175px;word-break:normal}
   .mdj-by{bottom:24px}.mdj-author{bottom:9px}
 }
 .mdj-ring:hover .mdj-diam,.mdj-ring.active .mdj-diam{animation-play-state:paused;border-color:var(--gold)}
