@@ -1148,7 +1148,7 @@ function _startCarousel(row,numReal,cardStep,delay) {
 }
 // ── Mot de la Journée — Google Sheets
 var _mdj=null;
-const MDJ_SHEET_URL='https://docs.google.com/spreadsheets/d/1yKnzNSNbSTgdUT9IG8pEYYuh6DdgcfV9jsZITRSMEXg/gviz/tq?tqx=out:json&sheet=mot%20du%20jour';
+const MDJ_SHEET_URL='https://docs.google.com/spreadsheets/d/1yKnzNSNbSTgdUT9IG8pEYYuh6DdgcfV9jsZITRSMEXg/gviz/tq?tqx=out:csv&sheet=mot%20du%20jour';
 function _renderMDJ(d){
   var wEl=document.getElementById('mdj-word');
   var aEl=document.getElementById('mdj-author');
@@ -1179,14 +1179,27 @@ function fetchAndRenderMDJ(){
   var fallback={mot:'Longanime',explication:"Longanime est un adjectif qui désigne une personne qui fait preuve de patience, de tolérance et de maîtrise de soi face aux difficultés, aux provocations ou aux souffrances. C'est quelqu'un qui supporte les épreuves sans se mettre facilement en colère ni perdre courage.",exemple:"1- Malgré les nombreuses critiques dont il faisait l'objet, le président est resté longanime et a continué son travail avec sérénité.\n2- Une mère longanime sait pardonner les erreurs de ses enfants tout en les guidant vers le bon chemin.\n3- Face aux retards répétés de son collaborateur, elle a fait preuve d'une attitude longanime avant de prendre une décision.",synonime:'Patient Tolérant Endurant Clément Persévérant',propose_par:'Bachiratou SAM',lien_proposition:'https://docs.google.com/forms/d/e/1FAIpQLScc1pQZH96U6OGBgZeAiR1WD8LXI2_sWUv3PdWpQuWVqhJqrg/viewform',lien_tiktok:'https://www.tiktok.com/@inf.jcitogo'};
   _mdj=fallback;
   _renderMDJ(_mdj);
-  fetch(MDJ_SHEET_URL, {cache:'no-cache'})
-    .then(function(r){return r.ok?r.text():Promise.reject(r.status);})
+  fetch(MDJ_SHEET_URL,{cache:'no-cache'})
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})
     .then(function(text){
-      var data=_parseGviz(text);
-      var live=data.filter(function(d){return d.mot&&d.mot.trim();})[0];
-      if(live){_mdj=live;_renderMDJ(_mdj);}
+      var rows=parseCSV(text);
+      if(rows.length<2)return;
+      var header=rows[0].map(function(h){return h.trim().toLowerCase()
+        .replace(/[éèê]/g,'e').replace(/[àâ]/g,'a').replace(/[ùû]/g,'u')
+        .replace(/[îï]/g,'i').replace(/[ôö]/g,'o')
+        .replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');});
+      var idx=function(n){return header.findIndex(function(h){return h.indexOf(n)!==-1;});};
+      var iMot=idx('mot'),iExp=idx('explication'),iEx=idx('exemple'),iSyn=idx('syno'),iProp=idx('propose'),iTT=idx('tiktok'),iForm=idx('form');
+      for(var i=1;i<rows.length;i++){
+        var c=rows[i];
+        var mot=iMot>=0?(c[iMot]||'').trim():'';
+        if(!mot)continue;
+        _mdj={mot:mot,propose_par:iProp>=0?c[iProp]||'':'',explication:iExp>=0?c[iExp]||'':'',exemple:iEx>=0?c[iEx]||'':'',synonime:iSyn>=0?c[iSyn]||'':'',lien_tiktok:iTT>=0?c[iTT]||'':'',lien_proposition:iForm>=0?c[iForm]||'':''};
+        _renderMDJ(_mdj);
+        break;
+      }
     })
-    .catch(function(){});
+    .catch(function(err){console.warn('MDJ sheet:',err);});
 }
 // ── Actualités dynamiques — Google Sheets
 var _news=[];
