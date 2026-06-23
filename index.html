@@ -1179,7 +1179,7 @@ function fetchAndRenderMDJ(){
   var fallback={mot:'Longanime',explication:"Longanime est un adjectif qui désigne une personne qui fait preuve de patience, de tolérance et de maîtrise de soi face aux difficultés, aux provocations ou aux souffrances. C'est quelqu'un qui supporte les épreuves sans se mettre facilement en colère ni perdre courage.",exemple:"1- Malgré les nombreuses critiques dont il faisait l'objet, le président est resté longanime et a continué son travail avec sérénité.\n2- Une mère longanime sait pardonner les erreurs de ses enfants tout en les guidant vers le bon chemin.\n3- Face aux retards répétés de son collaborateur, elle a fait preuve d'une attitude longanime avant de prendre une décision.",synonime:'Patient Tolérant Endurant Clément Persévérant',propose_par:'Bachiratou SAM',lien_proposition:'https://docs.google.com/forms/d/e/1FAIpQLScc1pQZH96U6OGBgZeAiR1WD8LXI2_sWUv3PdWpQuWVqhJqrg/viewform',lien_tiktok:'https://www.tiktok.com/@inf.jcitogo'};
   _mdj=fallback;
   _renderMDJ(_mdj);
-  fetch(MDJ_SHEET_URL)
+  fetch(MDJ_SHEET_URL, {cache:'no-cache'})
     .then(function(r){return r.ok?r.text():Promise.reject(r.status);})
     .then(function(text){
       var data=_parseGviz(text);
@@ -1235,7 +1235,7 @@ function closeNM(){
   document.getElementById('nm-overlay').classList.remove('show');document.body.style.overflow='';
 }
 function fetchAndRenderNews(){
-  fetch(NEWS_SHEET_URL)
+  fetch(NEWS_SHEET_URL, {cache:'no-cache'})
     .then(function(r){return r.ok?r.text():Promise.reject(r.status);})
     .then(function(text){
       var data=_parseGviz(text);
@@ -1275,7 +1275,7 @@ function openPartnerDyn(index) {
   document.getElementById('pm-overlay').classList.add('show');document.body.style.overflow='hidden';
 }
 function fetchAndRenderPartners() {
-  fetch(SHEET_URL)
+  fetch(SHEET_URL, {cache:'no-cache'})
     .then(function(r){return r.ok?r.text():Promise.reject(r.status);})
     .then(function(text){
       var data=_parseGviz(text);
