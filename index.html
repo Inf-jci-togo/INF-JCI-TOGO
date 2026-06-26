@@ -430,7 +430,6 @@ nav::-webkit-scrollbar{display:none}
 /* ══ PARTNER PAGE ═══════════════════════════════════════════ */
 .pp-hero{background:var(--hero-bg);padding:28px 20px 24px;position:relative;overflow:hidden;display:flex;align-items:center;gap:16px;transition:background .3s}
 .pp-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 75% 50%,rgba(0,151,215,.22) 0%,transparent 60%);pointer-events:none}
-.pp-hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:28px;background:var(--bg);border-radius:50% 50% 0 0;transition:background .3s}
 .pp-logo-wrap{width:90px;height:90px;border-radius:20px;background:rgba(255,255,255,.14);border:2px solid rgba(255,215,0,.4);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 8px 24px rgba(0,0,0,.3)}
 .pp-logo-wrap img{width:100%;height:100%;object-fit:contain}
 .pp-logo-ph{font-size:2.6rem;display:flex;align-items:center;justify-content:center;width:100%;height:100%}
@@ -463,6 +462,36 @@ nav::-webkit-scrollbar{display:none}
 .pp-empty{text-align:center;padding:28px 16px;color:var(--text-3);font-size:.82rem;background:var(--surface);border:1px dashed var(--border);border-radius:14px}
 .pp-empty .material-symbols-rounded{font-size:2.5rem;display:block;margin-bottom:8px;color:var(--border)}
 .pp-loading{text-align:center;padding:24px;color:var(--text-3);font-size:.8rem;display:flex;align-items:center;justify-content:center;gap:6px}
+/* ══ ARTICLE MODAL ══ */
+.am-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9998;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}
+.am-overlay.show{display:flex}
+@keyframes artSwirl{
+  0%{transform:rotate(-120deg) scale(0.2);opacity:0}
+  55%{transform:rotate(10deg) scale(1.05);opacity:1}
+  75%{transform:rotate(-4deg) scale(0.97)}
+  100%{transform:rotate(0deg) scale(1);opacity:1}
+}
+.am-modal{background:var(--surface);border-radius:24px 24px 0 0;padding:0 0 36px;width:100%;max-width:480px;animation:artSwirl .45s cubic-bezier(.22,1,.36,1);transform-origin:center bottom;position:relative;overflow:hidden;transition:background .3s}
+[data-theme="dark"] .am-modal{background:#1A1D2E}
+.am-img{width:100%;height:190px;object-fit:cover;display:block}
+.am-img-ph{width:100%;height:190px;background:var(--surface-2);display:flex;align-items:center;justify-content:center}
+.am-img-ph .material-symbols-rounded{font-size:3.5rem;color:var(--text-3)}
+.am-body{padding:18px 20px 0}
+.am-handle{width:40px;height:4px;border-radius:2px;background:var(--border);margin:0 auto 16px;position:absolute;top:12px;left:0;right:0}
+.am-x{position:absolute;top:12px;right:14px;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.25);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;transition:.2s;padding:0;z-index:2}
+.am-x:hover{background:rgba(0,0,0,.45)}
+.am-x .material-symbols-rounded{font-size:16px}
+.am-name{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text-1);margin-bottom:6px;line-height:1.3}
+.am-price{display:inline-flex;align-items:center;gap:5px;background:rgba(0,151,215,.1);border:1px solid rgba(0,151,215,.25);border-radius:20px;padding:3px 10px;font-size:.78rem;font-weight:700;color:var(--blue);margin-bottom:12px}
+.am-price .material-symbols-rounded{font-size:13px}
+.am-desc{font-size:.85rem;color:var(--text-2);line-height:1.75;white-space:pre-wrap;margin-bottom:18px;max-height:180px;overflow-y:auto}
+.am-actions{display:flex;flex-wrap:wrap;gap:8px}
+.am-btn-wa{display:inline-flex;align-items:center;gap:7px;padding:11px 18px;border-radius:12px;font-size:.82rem;font-weight:700;text-decoration:none;transition:.2s;background:rgba(37,211,102,.12);color:#128c7e;border:1.5px solid rgba(37,211,102,.3)}
+.am-btn-wa:hover{background:rgba(37,211,102,.22);transform:translateY(-1px)}
+.am-btn-wa .material-symbols-rounded{font-size:18px}
+.am-btn-lien{display:inline-flex;align-items:center;gap:7px;padding:11px 18px;border-radius:12px;font-size:.82rem;font-weight:700;text-decoration:none;transition:.2s;background:rgba(0,151,215,.1);color:var(--blue);border:1.5px solid rgba(0,151,215,.25)}
+.am-btn-lien:hover{background:rgba(0,151,215,.2);transform:translateY(-1px)}
+.am-btn-lien .material-symbols-rounded{font-size:18px}
 .pp-art-arrows{display:none;position:absolute;top:50%;transform:translateY(-50%);z-index:5}
 .pp-art-arrow{width:34px;height:34px;border-radius:50%;background:var(--surface);border:1.5px solid var(--border);box-shadow:0 2px 10px rgba(0,0,0,.15);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-1);font-size:1rem;transition:.2s;padding:0}
 .pp-art-arrow:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
@@ -906,6 +935,22 @@ nav::-webkit-scrollbar{display:none}
     <div class="pp-section">
       <div class="pp-sec-lbl"><span class="material-symbols-rounded">connect_without_contact</span>Contact &amp; réseaux</div>
       <div class="pp-contacts" id="pp-contacts"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ARTICLE MODAL ══ -->
+<div class="am-overlay" id="am-overlay" onclick="if(event.target===this)closeAM()">
+  <div class="am-modal" id="am-modal">
+    <button class="am-x" onclick="closeAM()" aria-label="Fermer"><span class="material-symbols-rounded">close</span></button>
+    <div class="am-handle"></div>
+    <img id="am-img" class="am-img" style="display:none" src="" alt=""/>
+    <div id="am-img-ph" class="am-img-ph" style="display:none"><span class="material-symbols-rounded">image</span></div>
+    <div class="am-body">
+      <div class="am-name" id="am-name"></div>
+      <div id="am-price-wrap" style="display:none"><div class="am-price"><span class="material-symbols-rounded">payments</span><span id="am-price"></span></div></div>
+      <div class="am-desc" id="am-desc"></div>
+      <div class="am-actions" id="am-actions"></div>
     </div>
   </div>
 </div>
@@ -1433,29 +1478,69 @@ function fetchPartnerArticles(sheetInput, container) {
         .replace(/[îï]/g,'i').replace(/[ôö]/g,'o')
         .replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');});
       var idx=function(n){return header.findIndex(function(h){return h.indexOf(n)!==-1;});};
-      var iNom=idx('nom'),iDesc=idx('desc'),iPhoto=idx('photo'),iPrix=idx('prix'),iLien=idx('lien');
+      var iNom=idx('nom'),iDesc=idx('desc'),iPhoto=idx('photo'),iPrix=idx('prix'),iLien=idx('lien'),iWa=idx('whatsapp');
       var articles=[];
       for(var i=1;i<rows.length;i++){
         var c=rows[i];
         var nom=iNom>=0?(c[iNom]||'').trim():'';
         if(!nom)continue;
-        articles.push({nom:nom,description:iDesc>=0?(c[iDesc]||'').trim():'',photo:iPhoto>=0?(c[iPhoto]||'').trim():'',prix:iPrix>=0?(c[iPrix]||'').trim():'',lien:iLien>=0?(c[iLien]||'').trim():''});
+        articles.push({
+          nom:nom,
+          description:iDesc>=0?(c[iDesc]||'').trim():'',
+          photo:iPhoto>=0?(c[iPhoto]||'').trim():'',
+          prix:iPrix>=0?(c[iPrix]||'').trim():'',
+          lien:iLien>=0?(c[iLien]||'').trim():'',
+          whatsapp:iWa>=0?(c[iWa]||'').trim():''
+        });
       }
       if(!articles.length){container.innerHTML='<div class="pp-empty"><span class="material-symbols-rounded">storefront</span>Aucun article disponible pour le moment.</div>';return;}
-      container.innerHTML='<div class="pp-art-row" id="pp-art-row">'+articles.map(function(a){
+      // Stocker pour la modal
+      container._articles=articles;
+      container.innerHTML='<div class="pp-art-row" id="pp-art-row">'+articles.map(function(a,i){
         var imgSrc=_driveImg(a.photo);
         var imgH=imgSrc
           ?'<img class="pp-art-img" src="'+imgSrc+'" alt="'+a.nom+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"/><div class="pp-art-img-ph" style="display:none"><span class="material-symbols-rounded">image</span></div>'
           :'<div class="pp-art-img-ph"><span class="material-symbols-rounded">image</span></div>';
         var priceH=a.prix?'<div class="pp-art-price">'+a.prix+'</div>':'';
-        var btnH=a.lien?'<a class="pp-art-btn" href="'+_normUrl(a.lien)+'" target="_blank" rel="noopener">En savoir plus</a>':'';
-        return '<div class="pp-art-card">'+imgH+'<div class="pp-art-body"><div class="pp-art-name">'+a.nom+'</div>'+(a.description?'<div class="pp-art-desc">'+a.description+'</div>':'')+priceH+btnH+'</div></div>';
+        return '<div class="pp-art-card" onclick="openArtModal('+i+')" style="cursor:pointer">'+imgH
+          +'<div class="pp-art-body"><div class="pp-art-name">'+a.nom+'</div>'
+          +(a.description?'<div class="pp-art-desc">'+a.description+'</div>':'')
+          +priceH+'</div></div>';
       }).join('')+'</div>';
+      // Référence globale pour la modal
+      window._currentArticles=articles;
     })
     .catch(function(err){
       console.warn('Articles partenaire:',err);
       container.innerHTML='<div class="pp-empty"><span class="material-symbols-rounded">storefront</span>Articles et services disponibles prochainement.</div>';
     });
+}
+function openArtModal(index){
+  var a=window._currentArticles&&window._currentArticles[index]; if(!a)return;
+  // Image
+  var imgEl=document.getElementById('am-img'),phEl=document.getElementById('am-img-ph');
+  var imgSrc=_driveImg(a.photo);
+  if(imgSrc){imgEl.src=imgSrc;imgEl.style.display='block';phEl.style.display='none';imgEl.onerror=function(){imgEl.style.display='none';phEl.style.display='flex';};}
+  else{imgEl.style.display='none';phEl.style.display='flex';}
+  // Nom
+  document.getElementById('am-name').textContent=a.nom;
+  // Prix
+  var pw=document.getElementById('am-price-wrap');
+  if(a.prix){document.getElementById('am-price').textContent=a.prix;pw.style.display='block';}
+  else{pw.style.display='none';}
+  // Description
+  document.getElementById('am-desc').textContent=a.description||'';
+  // Actions
+  var act='';
+  if(a.whatsapp) act+='<a class="am-btn-wa" href="'+_normUrl(a.whatsapp)+'" target="_blank" rel="noopener"><span class="material-symbols-rounded">chat</span>Commander via WhatsApp</a>';
+  if(a.lien) act+='<a class="am-btn-lien" href="'+_normUrl(a.lien)+'" target="_blank" rel="noopener"><span class="material-symbols-rounded">open_in_new</span>En savoir plus</a>';
+  document.getElementById('am-actions').innerHTML=act;
+  document.getElementById('am-overlay').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeArtModal(){
+  document.getElementById('am-overlay').classList.remove('show');
+  document.body.style.overflow='';
 }
 function ppArtScroll(dir){
   var row=document.getElementById('pp-art-row');if(!row)return;
