@@ -1151,7 +1151,7 @@ loadProgramme();
 // ── Partenaires
 // ── Partenaires dynamiques — Google Sheets
 var _partners = [];
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1giQKfj-OGxs1JiSppB5t8PxFWtRX5AOXVOqe1BcHG-o/gviz/tq?tqx=out:json';
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1giQKfj-OGxs1JiSppB5t8PxFWtRX5AOXVOqe1BcHG-o/gviz/tq?tqx=out:csv';
 
 function _parseGviz(text) {
   var m = text.match(/setResponse\(([\s\S]*)\)\s*;?\s*$/);
@@ -1467,19 +1467,50 @@ function fetchAndRenderPartners() {
   fetch(SHEET_URL, {cache:'no-cache'})
     .then(function(r){return r.ok?r.text():Promise.reject(r.status);})
     .then(function(text){
-      var data=_parseGviz(text);
-      _partners=data.filter(function(p){return p.numero||p.nom;});
+      var rows=parseCSV(text);
+      if(rows.length<2) return Promise.reject('empty');
+      var header=rows[0].map(function(h){return h.trim().toLowerCase()
+        .replace(/[éèê]/g,'e').replace(/[àâ]/g,'a').replace(/[ùû]/g,'u')
+        .replace(/[îï]/g,'i').replace(/[ôö]/g,'o')
+        .replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');});
+      var idx=function(n){return header.findIndex(function(h){return h.indexOf(n)!==-1;});};
+      var iNum=idx('numero'),iNom=idx('nom'),iDesc=idx('desc'),iLogo=idx('logo');
+      var iContact=idx('contact'),iMail=idx('mail'),iSite=idx('site');
+      var iWa=idx('whatsapp'),iFb=idx('facebook'),iTT=idx('tiktok'),iIg=idx('instagram');
+      // Détection flexible : "sheet_articles", "articles", "lien_articles", "sheet", etc.
+      var iSheet=idx('article'); if(iSheet===-1) iSheet=idx('sheet');
+      var data=[];
+      for(var i=1;i<rows.length;i++){
+        var c=rows[i];
+        var nom=iNom>=0?(c[iNom]||'').trim():'';
+        var num=iNum>=0?(c[iNum]||'').trim():'';
+        if(!nom&&!num) continue;
+        data.push({
+          numero:num, nom:nom,
+          description:iDesc>=0?(c[iDesc]||'').trim():'',
+          logo:iLogo>=0?(c[iLogo]||'').trim():'',
+          contact:iContact>=0?(c[iContact]||'').trim():'',
+          mail:iMail>=0?(c[iMail]||'').trim():'',
+          site_web:iSite>=0?(c[iSite]||'').trim():'',
+          whatsapp:iWa>=0?(c[iWa]||'').trim():'',
+          facebook:iFb>=0?(c[iFb]||'').trim():'',
+          tiktok:iTT>=0?(c[iTT]||'').trim():'',
+          instagram:iIg>=0?(c[iIg]||'').trim():'',
+          sheet_articles:iSheet>=0?(c[iSheet]||'').trim():''
+        });
+      }
+      _partners=data;
       if(_partners.length) _renderPartnersRow(_partners);
       else return Promise.reject('empty');
     })
     .catch(function(err){
       console.warn('Sheet partenaires inaccessible:',err);
       _partners=[
-        {numero:'1',nom:'LightService',description:"Structure multi services spécialisés dans la communication, prestation de service, commerce et d'autres.",logo:'https://drive.google.com/thumbnail?id=19ExsrCfq6RhYvBz2afGt5jX2RwNMdI72&sz=w200',contact:'98678932',mail:'tdjikomo@gmail.com',site_web:'https://JCI.cc',facebook:'https://www.facebook.com/kdjiwonou',tiktok:'https://www.tiktok.com/@djikomo',whatsapp:'https://wa.me/22898678932'},
-        {numero:'2',nom:'DEMA.service',description:'',logo:'https://drive.google.com/thumbnail?id=1EbZYCyEaCVq7C7LruVEa6cXBL27oXlRe&sz=w200',contact:'92862574'},
-        {numero:'3',nom:'AKAKPO groupe',description:'',logo:'https://drive.google.com/thumbnail?id=1qXvlhkyKGbmHIJkatA7DXuM53pClX_Oq&sz=w200'},
-        {numero:'4',nom:'INF JCI TOGO',description:'Institut National de Formation JCI Togo.',logo:'https://drive.google.com/thumbnail?id=1pkFmTFfomZcaQlJgeCJizBnOq0Mo7xdi&sz=w200'},
-        {numero:'5',nom:'DJIKOMO Empire',description:'',logo:'https://drive.google.com/thumbnail?id=1wGwNDC8_ueQzAeMgLX9zTd5LTsLlDC6q&sz=w200'}
+        {numero:'1',nom:'LightService',description:"Structure multi services spécialisés dans la communication, prestation de service, commerce et d'autres.",logo:'https://drive.google.com/thumbnail?id=19ExsrCfq6RhYvBz2afGt5jX2RwNMdI72&sz=w200',contact:'98678932',mail:'tdjikomo@gmail.com',site_web:'https://JCI.cc',facebook:'https://www.facebook.com/kdjiwonou',tiktok:'https://www.tiktok.com/@djikomo',whatsapp:'https://wa.me/22898678932',sheet_articles:''},
+        {numero:'2',nom:'DEMA.service',description:'',logo:'https://drive.google.com/thumbnail?id=1EbZYCyEaCVq7C7LruVEa6cXBL27oXlRe&sz=w200',contact:'92862574',sheet_articles:''},
+        {numero:'3',nom:'AKAKPO groupe',description:'',logo:'https://drive.google.com/thumbnail?id=1qXvlhkyKGbmHIJkatA7DXuM53pClX_Oq&sz=w200',sheet_articles:''},
+        {numero:'4',nom:'INF JCI TOGO',description:'Institut National de Formation JCI Togo.',logo:'https://drive.google.com/thumbnail?id=1pkFmTFfomZcaQlJgeCJizBnOq0Mo7xdi&sz=w200',sheet_articles:''},
+        {numero:'5',nom:'DJIKOMO Empire',description:'',logo:'https://drive.google.com/thumbnail?id=1wGwNDC8_ueQzAeMgLX9zTd5LTsLlDC6q&sz=w200',sheet_articles:''}
       ];
       _renderPartnersRow(_partners);
     });
