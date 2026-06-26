@@ -427,6 +427,52 @@ nav::-webkit-scrollbar{display:none}
 .pm-btn-fb{background:rgba(24,119,242,.1);color:#1877f2;border:1.5px solid rgba(24,119,242,.25)}
 .pm-btn-tiktok{background:rgba(0,0,0,.07);color:var(--text-1);border:1.5px solid var(--border)}
 .pm-btn-ig{background:rgba(228,64,95,.1);color:#e4405f;border:1.5px solid rgba(228,64,95,.25)}
+/* ══ PARTNER PAGE ═══════════════════════════════════════════ */
+.pp-hero{background:var(--hero-bg);padding:28px 20px 24px;position:relative;overflow:hidden;display:flex;align-items:center;gap:16px;transition:background .3s}
+.pp-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 75% 50%,rgba(0,151,215,.22) 0%,transparent 60%);pointer-events:none}
+.pp-hero::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:28px;background:var(--bg);border-radius:50% 50% 0 0;transition:background .3s}
+.pp-logo-wrap{width:90px;height:90px;border-radius:20px;background:rgba(255,255,255,.14);border:2px solid rgba(255,215,0,.4);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.pp-logo-wrap img{width:100%;height:100%;object-fit:contain}
+.pp-logo-ph{font-size:2.6rem;display:flex;align-items:center;justify-content:center;width:100%;height:100%}
+.pp-hero-info{flex:1;min-width:0;position:relative;z-index:1}
+.pp-hero-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(255,215,0,.18);border:1px solid rgba(255,215,0,.4);border-radius:20px;padding:3px 9px;font-size:.55rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.pp-hero-badge .material-symbols-rounded{font-size:11px}
+.pp-hero-name{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;color:#fff;line-height:1.2}
+.pp-hero-type{font-size:.72rem;color:rgba(255,255,255,.5);margin-top:4px}
+.pp-body{padding:0 16px 32px}
+.pp-section{margin-top:22px}
+.pp-sec-lbl{font-size:.6rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.pp-sec-lbl .material-symbols-rounded{font-size:14px;color:var(--blue)}
+.pp-desc{font-size:.87rem;color:var(--text-2);line-height:1.75;white-space:pre-wrap;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;transition:background .3s,border-color .3s}
+.pp-contacts{display:flex;flex-wrap:wrap;gap:8px}
+.pp-art-wrap{position:relative}
+.pp-art-row{display:flex;gap:12px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:none;scroll-snap-type:x mandatory}
+.pp-art-row::-webkit-scrollbar{display:none}
+.pp-art-card{flex:0 0 210px;background:var(--surface);border:1.5px solid var(--border);border-radius:18px;overflow:hidden;transition:transform .2s,box-shadow .2s;scroll-snap-align:start;display:flex;flex-direction:column}
+.pp-art-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px var(--shadow-md)}
+.pp-art-img{width:100%;height:128px;object-fit:cover;background:var(--surface-2);display:block;flex-shrink:0}
+.pp-art-img-ph{width:100%;height:128px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pp-art-img-ph .material-symbols-rounded{font-size:2.5rem;color:var(--text-3)}
+.pp-art-body{padding:12px;display:flex;flex-direction:column;flex:1}
+.pp-art-name{font-weight:700;font-size:.88rem;color:var(--text-1);margin-bottom:4px;line-height:1.3}
+.pp-art-desc{font-size:.75rem;color:var(--text-2);line-height:1.5;margin-bottom:8px;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.pp-art-footer{margin-top:auto}
+.pp-art-price{font-size:.8rem;font-weight:700;color:var(--blue);margin-bottom:6px}
+.pp-art-btn{display:block;text-align:center;background:var(--blue);color:#fff;border-radius:9px;padding:8px;font-size:.78rem;font-weight:600;text-decoration:none;transition:.2s}
+.pp-art-btn:hover{background:var(--blue-d)}
+.pp-empty{text-align:center;padding:28px 16px;color:var(--text-3);font-size:.82rem;background:var(--surface);border:1px dashed var(--border);border-radius:14px}
+.pp-empty .material-symbols-rounded{font-size:2.5rem;display:block;margin-bottom:8px;color:var(--border)}
+.pp-loading{text-align:center;padding:24px;color:var(--text-3);font-size:.8rem;display:flex;align-items:center;justify-content:center;gap:6px}
+.pp-art-arrows{display:none;position:absolute;top:50%;transform:translateY(-50%);z-index:5}
+.pp-art-arrow{width:34px;height:34px;border-radius:50%;background:var(--surface);border:1.5px solid var(--border);box-shadow:0 2px 10px rgba(0,0,0,.15);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-1);font-size:1rem;transition:.2s;padding:0}
+.pp-art-arrow:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.pp-art-arrow-l{left:0}.pp-art-arrow-r{right:0}
+@media(min-width:600px){
+  .pp-art-card{flex:0 0 250px}
+  .pp-art-img,.pp-art-img-ph{height:155px}
+  .pp-art-arrows{display:flex}
+  .pp-art-arrows-l{left:0}.pp-art-arrows-r{right:0}
+}
 /* ══ UPDATE BANNER ══════════════════════════════════════════ */
 #update-banner{display:none;position:fixed;top:58px;left:0;right:0;z-index:9999;background:var(--gold);color:var(--navy);padding:12px 16px;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 3px 14px rgba(0,0,0,.25);animation:slideDown .35s ease}
 @keyframes slideDown{from{transform:translateY(-100%)}to{transform:translateY(0)}}
@@ -829,6 +875,41 @@ nav::-webkit-scrollbar{display:none}
   </div>
 </div>
 
+<!-- ══ PARTNER PAGE ══ -->
+<div class="pg" id="pg-partner">
+  <div class="pp-hero">
+    <div class="pp-logo-wrap">
+      <img id="pp-logo-img" src="" alt="" style="display:none" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <div id="pp-logo-ph" class="pp-logo-ph">🤝</div>
+    </div>
+    <div class="pp-hero-info">
+      <div class="pp-hero-badge"><span class="material-symbols-rounded">workspace_premium</span>Partenaire VIP</div>
+      <div class="pp-hero-name" id="pp-name">Partenaire</div>
+      <div class="pp-hero-type" id="pp-type">Entreprise partenaire · INF JCI Togo</div>
+    </div>
+  </div>
+  <div class="pp-body">
+    <div class="pp-section" id="pp-desc-sec" style="display:none">
+      <div class="pp-sec-lbl"><span class="material-symbols-rounded">info</span>À propos</div>
+      <div class="pp-desc" id="pp-desc"></div>
+    </div>
+    <div class="pp-section">
+      <div class="pp-sec-lbl"><span class="material-symbols-rounded">storefront</span>Nos articles &amp; services</div>
+      <div class="pp-art-wrap">
+        <button class="pp-art-arrow pp-art-arrows pp-art-arrows-l" style="left:0" onclick="ppArtScroll(-1)" aria-label="Précédent"><span class="material-symbols-rounded">chevron_left</span></button>
+        <div id="pp-art-list">
+          <div class="pp-loading"><span class="material-symbols-rounded" style="font-size:14px">sync</span>Chargement…</div>
+        </div>
+        <button class="pp-art-arrow pp-art-arrows pp-art-arrows-r" style="right:0" onclick="ppArtScroll(1)" aria-label="Suivant"><span class="material-symbols-rounded">chevron_right</span></button>
+      </div>
+    </div>
+    <div class="pp-section">
+      <div class="pp-sec-lbl"><span class="material-symbols-rounded">connect_without_contact</span>Contact &amp; réseaux</div>
+      <div class="pp-contacts" id="pp-contacts"></div>
+    </div>
+  </div>
+</div>
+
 <!-- ══ NEWS MODAL ══ -->
 <div class="nm-overlay" id="nm-overlay" onclick="if(event.target===this)closeNM()">
   <div class="nm-modal" id="nm-modal">
@@ -871,6 +952,7 @@ nav::-webkit-scrollbar{display:none}
 <script>
 // ── Navigation
 var _prevSection = 'accueil';
+var _partnerFromSection = 'accueil';
 var sectionTitles = {
   accueil:'Institut National de Formation',
   rapports:'Rapports',
@@ -879,7 +961,8 @@ var sectionTitles = {
   suggestion:'Suggestions',
   bureau:'Bureau INF',
   cotisation:'Cotisation',
-  quiz:'Quiz INF'
+  quiz:'Quiz INF',
+  partner:'Partenaire VIP'
 };
 
 function openDirMsg(){
@@ -909,6 +992,13 @@ function showPg(id, btn){
 }
 
 function goBackAccueil(){
+  // Retour depuis la page partenaire → section d'origine
+  if(_prevSection === 'partner'){
+    var fromId = _partnerFromSection || 'accueil';
+    var btn = document.querySelector('.nb[onclick*="\''+fromId+'\'"]');
+    showPg(fromId, btn);
+    return;
+  }
   // Si on est dans le quiz et qu'une partie est en cours → retour quiz home
   if(_prevSection === 'quiz'){
     var inGame = document.getElementById('quiz-game') && document.getElementById('quiz-game').style.display !== 'none';
@@ -1105,7 +1195,7 @@ function _renderPartnersRow(partners) {
       ?'<img src="'+logo+'" class="pc-logo" alt="'+(p.nom||'')+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"/><div class="pc-logo-ph" style="display:none"><span class="material-symbols-rounded">business</span></div>'
       :'<div class="pc-logo-ph"><span class="material-symbols-rounded">business</span></div>';
     var tag=p.description?(p.description.length>22?p.description.substring(0,22)+'…':p.description):'Partenaire VIP';
-    return '<div class="pc'+(ri===0?' gold-pc':'')+'" onclick="openPartnerDyn('+ri+')">'
+    return '<div class="pc'+(ri===0?' gold-pc':'')+'" onclick="openPartnerPage('+ri+')">'
       +'<div class="pc-vip">VIP</div>'
       +imgH+'<div class="pc-name">'+(p.nom||'Partenaire')+'</div>'
       +'<div class="pc-tag">'+tag+'</div></div>';
@@ -1286,6 +1376,92 @@ function openPartnerDyn(index) {
   if(p.instagram) s+='<a class="pm-btn pm-btn-ig" href="'+_normUrl(p.instagram)+'" target="_blank" rel="noopener"><span class="material-symbols-rounded">photo_camera</span>Instagram</a>';
   document.getElementById('pm-social').innerHTML=s;
   document.getElementById('pm-overlay').classList.add('show');document.body.style.overflow='hidden';
+}
+function openPartnerPage(index) {
+  var p=_partners[index]; if(!p) return;
+  _partnerFromSection=_prevSection;
+  // Logo
+  var logo=_driveImg(p.logo||'');
+  var img=document.getElementById('pp-logo-img'),ph=document.getElementById('pp-logo-ph');
+  if(logo){img.src=logo;img.style.display='block';ph.style.display='none';img.onerror=function(){img.style.display='none';ph.style.display='flex';};}
+  else{img.style.display='none';ph.style.display='flex';ph.textContent='🤝';}
+  // Infos
+  document.getElementById('pp-name').textContent=p.nom||'Partenaire';
+  document.getElementById('pp-type').textContent='Entreprise partenaire · INF JCI Togo';
+  // Description
+  var descSec=document.getElementById('pp-desc-sec'),descEl=document.getElementById('pp-desc');
+  if(p.description&&p.description.trim()){descEl.textContent=p.description;descSec.style.display='block';}
+  else{descSec.style.display='none';}
+  // Contacts
+  var s='';
+  if(p.contact) s+='<a class="pm-btn pm-btn-phone" href="tel:+228'+p.contact.replace(/\D/g,'').replace(/^228/,'')+'"><span class="material-symbols-rounded">call</span>'+p.contact+'</a>';
+  if(p.mail) s+='<a class="pm-btn pm-btn-mail" href="mailto:'+p.mail+'"><span class="material-symbols-rounded">mail</span>'+p.mail+'</a>';
+  if(p.site_web) s+='<a class="pm-btn pm-btn-web" href="'+_normUrl(p.site_web)+'" target="_blank" rel="noopener"><span class="material-symbols-rounded">language</span>Site web</a>';
+  if(p.whatsapp) s+='<a class="pm-btn pm-btn-wa" href="'+_normUrl(p.whatsapp)+'" target="_blank" rel="noopener"><span class="material-symbols-rounded">chat</span>WhatsApp</a>';
+  if(p.facebook) s+='<a class="pm-btn pm-btn-fb" href="'+_normUrl(p.facebook)+'" target="_blank" rel="noopener"><span class="material-symbols-rounded">thumb_up</span>Facebook</a>';
+  if(p.tiktok) s+='<a class="pm-btn pm-btn-tiktok" href="'+_normUrl(p.tiktok)+'" target="_blank" rel="noopener"><span class="material-symbols-rounded">music_note</span>TikTok</a>';
+  if(p.instagram) s+='<a class="pm-btn pm-btn-ig" href="'+_normUrl(p.instagram)+'" target="_blank" rel="noopener"><span class="material-symbols-rounded">photo_camera</span>Instagram</a>';
+  document.getElementById('pp-contacts').innerHTML=s||'<span style="color:var(--text-3);font-size:.82rem">Aucune coordonnée disponible.</span>';
+  // Articles placeholder
+  var artList=document.getElementById('pp-art-list');
+  artList.innerHTML='<div class="pp-loading"><span class="material-symbols-rounded" style="font-size:14px">sync</span>Chargement…</div>';
+  // Navigate
+  sectionTitles['partner']=p.nom||'Partenaire VIP';
+  showPg('partner',null);
+  // Fetch articles
+  if(p.sheet_articles&&p.sheet_articles.trim()){
+    fetchPartnerArticles(p.sheet_articles.trim(),artList);
+  } else {
+    artList.innerHTML='<div class="pp-empty"><span class="material-symbols-rounded">storefront</span>Articles et services disponibles prochainement.</div>';
+  }
+}
+function fetchPartnerArticles(sheetInput, container) {
+  var csvUrl=sheetInput;
+  var idM=sheetInput.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
+  if(idM) csvUrl='https://docs.google.com/spreadsheets/d/'+idM[1]+'/gviz/tq?tqx=out:csv';
+  else if(!/^https?:\/\//.test(sheetInput)){
+    container.innerHTML='<div class="pp-empty"><span class="material-symbols-rounded">storefront</span>Articles et services disponibles prochainement.</div>';
+    return;
+  }
+  fetch(csvUrl,{cache:'no-cache'})
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})
+    .then(function(text){
+      var rows=parseCSV(text);
+      if(rows.length<2){container.innerHTML='<div class="pp-empty"><span class="material-symbols-rounded">storefront</span>Aucun article disponible pour le moment.</div>';return;}
+      var header=rows[0].map(function(h){return h.trim().toLowerCase()
+        .replace(/[éèê]/g,'e').replace(/[àâ]/g,'a').replace(/[ùû]/g,'u')
+        .replace(/[îï]/g,'i').replace(/[ôö]/g,'o')
+        .replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');});
+      var idx=function(n){return header.findIndex(function(h){return h.indexOf(n)!==-1;});};
+      var iNom=idx('nom'),iDesc=idx('desc'),iPhoto=idx('photo'),iPrix=idx('prix'),iLien=idx('lien');
+      var articles=[];
+      for(var i=1;i<rows.length;i++){
+        var c=rows[i];
+        var nom=iNom>=0?(c[iNom]||'').trim():'';
+        if(!nom)continue;
+        articles.push({nom:nom,description:iDesc>=0?(c[iDesc]||'').trim():'',photo:iPhoto>=0?(c[iPhoto]||'').trim():'',prix:iPrix>=0?(c[iPrix]||'').trim():'',lien:iLien>=0?(c[iLien]||'').trim():''});
+      }
+      if(!articles.length){container.innerHTML='<div class="pp-empty"><span class="material-symbols-rounded">storefront</span>Aucun article disponible pour le moment.</div>';return;}
+      container.innerHTML='<div class="pp-art-row" id="pp-art-row">'+articles.map(function(a){
+        var imgSrc=_driveImg(a.photo);
+        var imgH=imgSrc
+          ?'<img class="pp-art-img" src="'+imgSrc+'" alt="'+a.nom+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"/><div class="pp-art-img-ph" style="display:none"><span class="material-symbols-rounded">image</span></div>'
+          :'<div class="pp-art-img-ph"><span class="material-symbols-rounded">image</span></div>';
+        var priceH=a.prix?'<div class="pp-art-price">'+a.prix+'</div>':'';
+        var btnH=a.lien?'<a class="pp-art-btn" href="'+_normUrl(a.lien)+'" target="_blank" rel="noopener">En savoir plus</a>':'';
+        return '<div class="pp-art-card">'+imgH+'<div class="pp-art-body"><div class="pp-art-name">'+a.nom+'</div>'+(a.description?'<div class="pp-art-desc">'+a.description+'</div>':'')+priceH+btnH+'</div></div>';
+      }).join('')+'</div>';
+    })
+    .catch(function(err){
+      console.warn('Articles partenaire:',err);
+      container.innerHTML='<div class="pp-empty"><span class="material-symbols-rounded">storefront</span>Articles et services disponibles prochainement.</div>';
+    });
+}
+function ppArtScroll(dir){
+  var row=document.getElementById('pp-art-row');if(!row)return;
+  var card=row.querySelector('.pp-art-card');
+  var step=card?card.offsetWidth+12:222;
+  row.scrollBy({left:dir*step,behavior:'smooth'});
 }
 function fetchAndRenderPartners() {
   fetch(SHEET_URL, {cache:'no-cache'})
