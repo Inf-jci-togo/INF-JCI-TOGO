@@ -615,7 +615,69 @@ nav::-webkit-scrollbar{display:none}
     .expert-share{background:#FFD700;color:#130F2D;border:none;border-radius:14px;padding:14px 28px;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;width:100%;margin-bottom:10px}
     .expert-home{background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:14px;padding:12px 28px;font-family:'Poppins',sans-serif;font-size:.88rem;cursor:pointer;width:100%}
     .score-mini{display:inline-block;background:#f0f4f8;border-radius:10px;padding:4px 12px;font-size:.7
+/* ══ TEXTES TAB ══════════════════════════════════════════════ */
+.tx-page{display:flex;flex-direction:column;height:100%;position:relative;overflow:hidden}
+.tx-topbar{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--navy);color:#fff;flex-shrink:0}
+.tx-topbar-title{flex:1;font-size:.88rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tx-topbar button{background:none;border:none;color:#fff;cursor:pointer;padding:4px;border-radius:6px;display:flex;align-items:center;transition:.15s}
+.tx-topbar button:hover{background:rgba(255,255,255,.15)}
+.tx-searchbar{padding:8px 12px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
+.tx-searchbar input{width:100%;padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Inter',sans-serif;font-size:.83rem;background:var(--bg);color:var(--text-1);outline:none;box-sizing:border-box;transition:.2s}
+.tx-searchbar input:focus{border-color:var(--blue)}
+.tx-body{display:flex;flex:1;overflow:hidden;position:relative}
+.tx-drawer{position:absolute;left:0;top:0;bottom:0;width:272px;background:var(--surface);z-index:50;transform:translateX(-100%);transition:transform .25s cubic-bezier(.4,0,.2,1);box-shadow:4px 0 20px var(--shadow-md);overflow-y:auto;display:flex;flex-direction:column}
+.tx-drawer.open{transform:translateX(0)}
+.tx-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.4);z-index:49;display:none;opacity:0;transition:opacity .25s}
+.tx-backdrop.open{display:block;opacity:1}
+.tx-drawer-head{padding:16px 18px 12px;border-bottom:1px solid var(--border)}
+.tx-drawer-logo{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.tx-drawer-logo .material-symbols-rounded{font-size:22px;color:var(--blue)}
+.tx-drawer-title{font-size:.95rem;font-weight:700;color:var(--text-1)}
+.tx-drawer-sub{font-size:.65rem;color:var(--text-3);margin-top:2px}
+.tx-menu{padding:6px 0;flex:1}
+.tx-mi{display:flex;align-items:center;gap:10px;padding:11px 16px;cursor:pointer;transition:.15s;color:var(--text-2);font-size:.82rem;position:relative;text-decoration:none;border:none;background:none;width:100%;text-align:left;font-family:'Inter',sans-serif}
+.tx-mi:hover{background:rgba(0,151,215,.06);color:var(--text-1)}
+.tx-mi.active{background:rgba(0,151,215,.1);color:var(--blue);font-weight:600}
+.tx-mi.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--blue);border-radius:0 3px 3px 0}
+.tx-mi .material-symbols-rounded{font-size:20px;flex-shrink:0}
+.tx-mi-sep{height:1px;background:var(--border);margin:5px 14px}
+.tx-reader{flex:1;overflow-y:auto}
+.tx-doc-header{padding:14px 16px;background:var(--navy);color:#fff}
+.tx-doc-title{font-size:.95rem;font-weight:700;line-height:1.3}
+.tx-doc-sub{font-size:.68rem;color:rgba(255,255,255,.6);margin-top:3px}
+.tx-home{padding:14px 14px 24px}
+.tx-home-title{font-size:1rem;font-weight:700;color:var(--text-1);margin-bottom:4px}
+.tx-home-sub{font-size:.78rem;color:var(--text-2);line-height:1.5;margin-bottom:14px}
+.tx-doc-card{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:.2s;color:inherit}
+.tx-doc-card:hover{border-left-color:var(--blue);box-shadow:0 3px 12px var(--shadow);transform:translateX(2px)}
+.tx-doc-card .material-symbols-rounded{font-size:22px;color:var(--blue);flex-shrink:0}
+.tx-doc-card-title{font-size:.84rem;font-weight:600;color:var(--text-1);margin-bottom:2px}
+.tx-doc-card-sub{font-size:.67rem;color:var(--text-3)}
+.tx-article{padding:13px 14px;border-bottom:1px solid var(--border)}
+.tx-ch-header{padding:8px 14px;background:rgba(0,151,215,.07);border-bottom:1px solid rgba(0,151,215,.15);position:sticky;top:0;z-index:5;border-top:1px solid rgba(0,151,215,.1)}
+.tx-ch-title{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--blue)}
+.tx-art-num{font-size:.64rem;font-weight:700;color:var(--blue);margin-bottom:3px;letter-spacing:.02em}
+.tx-art-title{font-size:.86rem;font-weight:600;color:var(--text-1);margin-bottom:6px;line-height:1.4}
+.tx-art-body{font-size:.78rem;color:var(--text-2);line-height:1.7;white-space:pre-wrap}
+.tx-art-actions{display:flex;align-items:center;gap:6px;margin-top:8px}
+.tx-star{background:none;border:none;cursor:pointer;color:var(--text-3);padding:2px;display:flex;align-items:center;transition:.2s;border-radius:4px}
+.tx-star.active{color:#f59e0b}
+.tx-star:hover{color:#f59e0b}
+.tx-star .material-symbols-rounded{font-size:18px}
+.tx-no-result{text-align:center;padding:40px 20px;color:var(--text-3);font-size:.84rem}
+.tx-search-count{font-size:.7rem;color:var(--text-3);padding:7px 14px;background:var(--bg);border-bottom:1px solid var(--border)}
+.tx-scan-wrap{padding:28px 20px;text-align:center}
+.tx-scan-ico{font-size:3rem;margin-bottom:16px}
+.tx-scan-title{font-size:1rem;font-weight:700;color:var(--text-1);margin-bottom:8px}
+.tx-scan-text{font-size:.8rem;color:var(--text-2);line-height:1.65}
+.tx-fav-empty{padding:48px 20px;text-align:center}
+.tx-fav-empty .material-symbols-rounded{font-size:44px;color:var(--text-3);display:block;margin-bottom:12px}
+.tx-go-art{background:none;border:none;color:var(--blue);font-family:'Inter',sans-serif;font-size:.74rem;font-weight:600;cursor:pointer;padding:2px 6px;border-radius:4px}
+.tx-go-art:hover{background:rgba(0,151,215,.1)}
+[data-theme="dark"] .tx-ch-header{background:rgba(0,151,215,.1)}
+[data-theme="dark"] .tx-doc-header{background:#0e0c22}
 </style>
+<script src="textes-raw.js"></script>
 </head>
 <body>
 
@@ -903,6 +965,44 @@ nav::-webkit-scrollbar{display:none}
   </div>
 </div>
 
+<!-- ══ TEXTES PAGE ══ -->
+<div class="pg tx-page" id="pg-textes">
+  <div class="tx-topbar">
+    <button onclick="txToggleDrawer()" aria-label="Menu"><span class="material-symbols-rounded">menu</span></button>
+    <span class="tx-topbar-title" id="tx-topbar-title">Textes &amp; Documents</span>
+    <button onclick="txToggleSearch()" aria-label="Rechercher"><span class="material-symbols-rounded">search</span></button>
+  </div>
+  <div class="tx-searchbar" id="tx-searchbar" style="display:none">
+    <input type="search" id="tx-search-input" placeholder="Rechercher dans le document…" oninput="txSearch(this.value)"/>
+  </div>
+  <div class="tx-body">
+    <div class="tx-backdrop" id="tx-backdrop" onclick="txCloseDrawer()"></div>
+    <div class="tx-drawer" id="tx-drawer">
+      <div class="tx-drawer-head">
+        <div class="tx-drawer-logo"><span class="material-symbols-rounded">menu_book</span><span class="tx-drawer-title">Textes INF</span></div>
+        <div class="tx-drawer-sub">JCI Togo · Institut National de Formation</div>
+      </div>
+      <div class="tx-menu">
+        <button class="tx-mi" id="txmi-ri_inf" onclick="txOpenDoc('ri_inf')"><span class="material-symbols-rounded">gavel</span>Règlement Intérieur INF</button>
+        <button class="tx-mi" id="txmi-prog_cert" onclick="txOpenDoc('prog_cert')"><span class="material-symbols-rounded">workspace_premium</span>Programme de Certification INF</button>
+        <button class="tx-mi" id="txmi-code_conduite" onclick="txOpenDoc('code_conduite')"><span class="material-symbols-rounded">handshake</span>Code de Conduite Formateurs</button>
+        <button class="tx-mi" id="txmi-manuel_rec" onclick="txOpenDoc('manuel_rec')"><span class="material-symbols-rounded">emoji_events</span>Manuel de Récompense INF</button>
+        <button class="tx-mi" id="txmi-jci_training" onclick="txOpenDoc('jci_training')"><span class="material-symbols-rounded">public</span>Nouveau Programme JCI</button>
+        <div class="tx-mi-sep"></div>
+        <button class="tx-mi" id="txmi-statuts_jci" onclick="txOpenDoc('statuts_jci')"><span class="material-symbols-rounded">account_balance</span>Statuts JCI Togo</button>
+        <button class="tx-mi" id="txmi-ri_jci" onclick="txOpenDoc('ri_jci')"><span class="material-symbols-rounded">article</span>Règlement Intérieur JCI Togo</button>
+        <div class="tx-mi-sep"></div>
+        <button class="tx-mi" id="txmi-favoris" onclick="txShowFavorites()"><span class="material-symbols-rounded">star</span>Mes Favoris</button>
+        <button class="tx-mi" id="txmi-quiz" onclick="txShowQuiz()"><span class="material-symbols-rounded">quiz</span>Quiz INF</button>
+        <a class="tx-mi" href="https://forms.gle/bPRffXDrBBw5Qu6h7" target="_blank" rel="noopener"><span class="material-symbols-rounded">edit_document</span>Amendement<span class="material-symbols-rounded" style="font-size:13px;margin-left:auto;color:var(--text-3)">open_in_new</span></a>
+      </div>
+    </div>
+    <div class="tx-reader" id="tx-reader">
+      <div class="tx-home" id="tx-home-view"></div>
+    </div>
+  </div>
+</div>
+
 <!-- ══ PARTNER PAGE ══ -->
 <div class="pg" id="pg-partner">
   <div class="pp-hero">
@@ -990,7 +1090,7 @@ nav::-webkit-scrollbar{display:none}
   <button class="nb" onclick="showPg('suggestion',this)"><span class="material-symbols-rounded">tips_and_updates</span>Suggestion</button>
   <button class="nb" onclick="showPg('bureau',this)"><span class="material-symbols-rounded">account_balance</span>Bureau</button>
   <button class="nb" onclick="showPg('cotisation',this)"><span class="material-symbols-rounded">credit_score</span>Cotis.</button>
-  <button class="nb" onclick="showPg('quiz',this)"><span class="material-symbols-rounded">quiz</span>Quiz</button>
+  <button class="nb" onclick="showPg('textes',this)"><span class="material-symbols-rounded">menu_book</span>Textes</button>
 </nav>
 
 <script>
@@ -1006,6 +1106,7 @@ var sectionTitles = {
   bureau:'Bureau INF',
   cotisation:'Cotisation',
   quiz:'Quiz INF',
+  textes:'Textes & Documents',
   partner:'Partenaire VIP'
 };
 
@@ -2424,6 +2525,245 @@ function resetAll(){
   goHome();
 }
 updateHomeCards();
+
+// ── TEXTES TAB ────────────────────────────────────────────────────────
+const TX_DOCS = {
+  ri_inf:        {title:'Règlement Intérieur INF',          icon:'gavel',             sub:'INF JCI Togo · Articles 1–55'},
+  prog_cert:     {title:'Programme de Certification INF',   icon:'workspace_premium', sub:'INF JCI Togo · 4 niveaux de certification'},
+  code_conduite: {title:'Code de Conduite Formateurs',      icon:'handshake',         sub:'INF JCI Togo · Document scanné', scanned:true},
+  manuel_rec:    {title:'Manuel de Récompense INF',         icon:'emoji_events',      sub:'INF JCI Togo · Critères et distinctions'},
+  jci_training:  {title:'Nouveau Programme JCI',            icon:'public',            sub:'JCI International · 4 niveaux'},
+  statuts_jci:   {title:'Statuts JCI Togo',                 icon:'account_balance',   sub:'JCI Togo · Version Vogan 2025'},
+  ri_jci:        {title:'Règlement Intérieur JCI Togo',     icon:'article',           sub:'JCI Togo · Version Vogan 2025'},
+};
+var _txDoc=null, _txSections=[], _txFavKey='inf-tx-fav', _txFavDataKey='inf-tx-fav-data';
+
+function txToggleDrawer(){
+  var d=document.getElementById('tx-drawer'),b=document.getElementById('tx-backdrop');
+  if(d.classList.contains('open')){txCloseDrawer();}else{d.classList.add('open');b.classList.add('open');}
+}
+function txCloseDrawer(){
+  document.getElementById('tx-drawer').classList.remove('open');
+  document.getElementById('tx-backdrop').classList.remove('open');
+}
+function txToggleSearch(){
+  var sb=document.getElementById('tx-searchbar'),inp=document.getElementById('tx-search-input');
+  if(sb.style.display==='none'){sb.style.display='';inp.focus();}
+  else{sb.style.display='none';inp.value='';txSearch('');}
+}
+function txSetActive(id){
+  document.querySelectorAll('.tx-mi').forEach(function(e){e.classList.remove('active');});
+  var el=document.getElementById('txmi-'+id);
+  if(el)el.classList.add('active');
+}
+function _txEsc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function _txEscAttr(s){if(!s)return'';return String(s).replace(/'/g,'&#39;').replace(/\n/g,' ');}
+function txGetFavs(){try{return JSON.parse(localStorage.getItem(_txFavKey)||'[]');}catch(e){return[];}}
+function txGetFavData(){try{return JSON.parse(localStorage.getItem(_txFavDataKey)||'{}');}catch(e){return{};}}
+
+function txOpenDoc(docId){
+  txCloseDrawer();
+  txSetActive(docId);
+  _txDoc=docId;
+  var meta=TX_DOCS[docId]||{};
+  document.getElementById('tx-topbar-title').textContent=meta.title||'Document';
+  var reader=document.getElementById('tx-reader');
+  if(meta.scanned){
+    reader.innerHTML='<div class="tx-doc-header"><div class="tx-doc-title">'+_txEsc(meta.title)+'</div><div class="tx-doc-sub">'+_txEsc(meta.sub)+'</div></div>'
+      +'<div class="tx-scan-wrap"><div class="tx-scan-ico">📄</div><div class="tx-scan-title">Document numérisé (image)</div>'
+      +'<div class="tx-scan-text">Ce document est un PDF scanné. Son contenu textuel n\'est pas extractible automatiquement.<br><br>Pour le consulter, contactez le bureau de l\'INF JCI Togo.</div></div>';
+    return;
+  }
+  var raw=typeof TEXTES_RAW!=='undefined'?TEXTES_RAW[docId]:null;
+  if(!raw){reader.innerHTML='<div class="tx-no-result">Document non disponible.</div>';return;}
+  _txSections=txParseDoc(raw,docId);
+  txRender(_txSections,'');
+}
+
+function txParseDoc(raw,docId){
+  var text=raw.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+  var lines=text.split('\n');
+  var sections=[],curSec=null,curArt=null;
+  var structured=['ri_inf','statuts_jci','ri_jci'].indexOf(docId)>=0;
+  for(var i=0;i<lines.length;i++){
+    var line=lines[i].trim();
+    if(!line||/^\f/.test(line)||/^Page \d+ sur \d+$/.test(line)||/^@Copyright/.test(line)||line==='\f')continue;
+    if(structured){
+      var cm=line.match(/^CHAPITRE[S]?\s+([IVX]+)\s*[:–-]\s*(.+)/i);
+      if(cm){curSec={id:docId+'-ch-'+cm[1],title:'Chapitre '+cm[1]+' : '+cm[2],articles:[]};sections.push(curSec);curArt=null;continue;}
+      var am=line.match(/^ARTICLE\s+([\d.\-]+)\s*[:–]\s*(.+)/i);
+      if(am){
+        if(!curSec){curSec={id:docId+'-ch0',title:'Dispositions générales',articles:[]};sections.push(curSec);}
+        var num=am[1],rest=am[2].trim();
+        // Find a natural title break — first all-caps word sequence or up to 80 chars
+        var tEnd=rest.search(/\s{2,}|\.\s+[A-ZÀÂÉÈÊËÎÏÔÙÛÜ]/);
+        var artTitle=(tEnd>5&&tEnd<100)?rest.substring(0,tEnd).trim():rest.substring(0,80).trim();
+        var art={id:docId+'-'+num.replace(/\./g,'-'),num:'Article '+num,title:artTitle,content:rest};
+        curSec.articles.push(art);curArt=art;continue;
+      }
+      if(curArt&&line.length>1){curArt.content+='\n'+line;continue;}
+      if(curSec&&!curArt&&line.length>1&&curSec.articles.length>0){
+        curSec.articles[curSec.articles.length-1].content+='\n'+line;
+      }
+    } else {
+      // Detect section headers
+      var isSec=/^(I{1,4}V?|VI{0,3}|I?X)\.\s+.{3,}/i.test(line)
+        ||/^\d+[-–]\s*[A-ZÀÂÉÈÊËÎÏÔÙÛÜ].{3,}/.test(line)
+        ||/^(BACKGROUND|STRUCTURE|CONDITIONS|FORUM|PROGRAMME DE CERTIFICATION|MERCI|INFORMATIONS|DANS LA PREMI)/i.test(line);
+      var isArt=/^\d+\.\d+\.?\s+.+/.test(line)
+        ||/^\d+\.\s+[A-ZÀÂÉÈÊËÎÏÔÙÛÜ].{4,}/.test(line)
+        ||/^LEVEL\s+\d+\s*[-–]/i.test(line)
+        ||/^(A\d|B\d|[89]|10|11|12|13)\s*[:.\-]\s+.+/.test(line);
+      if(isSec&&!isArt){
+        curSec={id:docId+'-s'+sections.length,title:line,articles:[]};sections.push(curSec);curArt=null;continue;
+      }
+      if(isArt){
+        if(!curSec){curSec={id:docId+'-s0',title:'Général',articles:[]};sections.push(curSec);}
+        var nm=line.match(/^([\d.]+|LEVEL\s+\d+|[A-Z]\d)\s*[-–:\s]+(.+)/i);
+        var artN=nm?nm[1]:'',artT=nm?nm[2].trim():line;
+        var a={id:docId+'-i'+sections.length+'-'+curSec.articles.length,num:artN,title:artT,content:''};
+        curSec.articles.push(a);curArt=a;continue;
+      }
+      if(curArt){curArt.content+=(curArt.content?'\n':'')+line;}
+      else if(curSec){
+        if(curSec.articles.length===0){var a2={id:docId+'-intro'+sections.length,num:'',title:'Présentation',content:line};curSec.articles.push(a2);curArt=a2;}
+        else{curSec.articles[curSec.articles.length-1].content+='\n'+line;}
+      } else {
+        curSec={id:docId+'-intro',title:'Introduction',articles:[]};
+        var a3={id:docId+'-intro0',num:'',title:'Présentation',content:line};
+        curSec.articles.push(a3);curArt=a3;sections.push(curSec);
+      }
+    }
+  }
+  return sections;
+}
+
+function txRender(sections,q){
+  var reader=document.getElementById('tx-reader');
+  var meta=TX_DOCS[_txDoc]||{};
+  var favs=txGetFavs();
+  var ql=q.toLowerCase().trim();
+  var html='<div class="tx-doc-header"><div class="tx-doc-title">'+_txEsc(meta.title||'Document')+'</div><div class="tx-doc-sub">'+_txEsc(meta.sub||'')+'</div></div>';
+  var total=0;
+  sections.forEach(function(sec){
+    var arts=ql?sec.articles.filter(function(a){return(a.title+' '+a.num+' '+a.content).toLowerCase().indexOf(ql)>=0;}):sec.articles;
+    if(!arts.length)return;
+    total+=arts.length;
+    html+='<div class="tx-ch-header"><div class="tx-ch-title">'+_txEsc(sec.title)+'</div></div>';
+    arts.forEach(function(art){
+      var isFav=favs.indexOf(art.id)>=0;
+      var body=ql?_txHl(_txEsc(art.content),ql):_txEsc(art.content);
+      var tit=ql?_txHl(_txEsc(art.title),ql):_txEsc(art.title);
+      html+='<div class="tx-article" id="txart-'+art.id+'">';
+      if(art.num)html+='<div class="tx-art-num">'+_txEsc(art.num)+'</div>';
+      if(art.title&&art.title!=='Présentation')html+='<div class="tx-art-title">'+tit+'</div>';
+      html+='<div class="tx-art-body">'+body+'</div>';
+      html+='<div class="tx-art-actions">'
+        +'<button class="tx-star'+(isFav?' active':'')
+        +'" onclick="txTogFav(\''+_txEscAttr(art.id)+'\',\''+_txEscAttr(art.num+(art.num?' – ':'')+art.title)+'\',\''+_txDoc+'\')"'
+        +' title="'+(isFav?'Retirer des favoris':'Ajouter aux favoris')+'"><span class="material-symbols-rounded">star</span></button>'
+        +'</div>';
+      html+='</div>';
+    });
+  });
+  if(ql&&total===0)html+='<div class="tx-no-result">Aucun résultat pour « '+_txEsc(ql)+' »</div>';
+  if(ql&&total>0){
+    var ct='<div class="tx-search-count">'+total+' résultat'+(total>1?'s':'')+' trouvé'+(total>1?'s':'')+'</div>';
+    html=html.replace('</div>',ct+'</div>');
+  }
+  reader.innerHTML=html;
+}
+
+function _txHl(html,q){
+  var re=new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');
+  return html.replace(re,function(m){return'<mark style="background:#FFF176;color:inherit;border-radius:2px">'+m+'</mark>';});
+}
+
+function txSearch(q){
+  if(_txSections.length)txRender(_txSections,q);
+}
+
+function txTogFav(artId,label,docId){
+  var favs=txGetFavs(),data=txGetFavData();
+  var idx=favs.indexOf(artId);
+  if(idx>=0){favs.splice(idx,1);delete data[artId];}
+  else{favs.push(artId);data[artId]={label:label,docTitle:(TX_DOCS[docId]||{}).title||docId,docId:docId};}
+  localStorage.setItem(_txFavKey,JSON.stringify(favs));
+  localStorage.setItem(_txFavDataKey,JSON.stringify(data));
+  var btn=document.querySelector('#txart-'+artId+' .tx-star');
+  if(btn){btn.classList.toggle('active',idx<0);btn.title=idx<0?'Retirer des favoris':'Ajouter aux favoris';}
+}
+
+function txShowFavorites(){
+  txCloseDrawer();txSetActive('favoris');
+  _txDoc=null;_txSections=[];
+  document.getElementById('tx-topbar-title').textContent='Mes Favoris';
+  var favs=txGetFavs(),data=txGetFavData();
+  var reader=document.getElementById('tx-reader');
+  if(!favs.length){
+    reader.innerHTML='<div class="tx-fav-empty"><span class="material-symbols-rounded">star</span>'
+      +'<div style="font-weight:600;color:var(--text-1);margin-bottom:8px">Aucun favori</div>'
+      +'<div style="font-size:.8rem;color:var(--text-2)">Marquez des articles avec ★ pour les retrouver ici.</div></div>';
+    return;
+  }
+  var byDoc={};
+  favs.forEach(function(id){
+    var d=data[id]||{};var did=d.docId||'other';
+    if(!byDoc[did])byDoc[did]={title:d.docTitle||did,items:[]};
+    byDoc[did].items.push({id:id,label:d.label||id});
+  });
+  var html='<div class="tx-doc-header"><div class="tx-doc-title">Mes Favoris</div><div class="tx-doc-sub">'+favs.length+' article'+(favs.length>1?'s':'')+' enregistré'+(favs.length>1?'s':'')+'</div></div>';
+  Object.keys(byDoc).forEach(function(did){
+    var g=byDoc[did];
+    html+='<div class="tx-ch-header"><div class="tx-ch-title">'+_txEsc(g.title)+'</div></div>';
+    g.items.forEach(function(it){
+      html+='<div class="tx-article"><div class="tx-art-title">'+_txEsc(it.label)+'</div>'
+        +'<div class="tx-art-actions">'
+        +'<button class="tx-star active" onclick="txRemFav(\''+_txEscAttr(it.id)+'\')" title="Retirer des favoris"><span class="material-symbols-rounded">star</span></button>'
+        +'<button class="tx-go-art" onclick="txGoArt(\''+_txEscAttr(did)+'\',\''+_txEscAttr(it.id)+'\')">Lire →</button>'
+        +'</div></div>';
+    });
+  });
+  reader.innerHTML=html;
+}
+
+function txRemFav(id){
+  var favs=txGetFavs(),data=txGetFavData();
+  var idx=favs.indexOf(id);if(idx>=0){favs.splice(idx,1);delete data[id];}
+  localStorage.setItem(_txFavKey,JSON.stringify(favs));
+  localStorage.setItem(_txFavDataKey,JSON.stringify(data));
+  txShowFavorites();
+}
+
+function txGoArt(docId,artId){
+  txOpenDoc(docId);
+  setTimeout(function(){var el=document.getElementById('txart-'+artId);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},120);
+}
+
+function txShowQuiz(){
+  txCloseDrawer();txSetActive('quiz');
+  document.querySelectorAll('.pg').forEach(function(p){p.style.display='none';});
+  var qp=document.getElementById('pg-quiz');
+  qp.style.display='flex';qp.style.flexDirection='column';
+  document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.nb').forEach(function(b){if(b.onclick&&b.onclick.toString().indexOf("'textes'")>=0)b.classList.add('active');});
+}
+
+function txInitHome(){
+  var reader=document.getElementById('tx-reader');
+  var html='<div class="tx-home"><div class="tx-home-title">Textes &amp; Documents</div>'
+    +'<div class="tx-home-sub">Documents officiels de l\'INF JCI Togo. Sélectionnez un document dans le menu ☰.</div>';
+  Object.keys(TX_DOCS).forEach(function(id){
+    var d=TX_DOCS[id];
+    html+='<div class="tx-doc-card" onclick="txOpenDoc(\''+id+'\')">'
+      +'<span class="material-symbols-rounded">'+d.icon+'</span>'
+      +'<div><div class="tx-doc-card-title">'+_txEsc(d.title)+'</div><div class="tx-doc-card-sub">'+_txEsc(d.sub)+'</div></div>'
+      +'</div>';
+  });
+  html+='</div>';
+  reader.innerHTML=html;
+}
+document.addEventListener('DOMContentLoaded',txInitHome);
 </script>
 
 <!-- ══ MOT DU DIRECTEUR PANEL ══ -->
