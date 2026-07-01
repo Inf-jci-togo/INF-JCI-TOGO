@@ -2658,18 +2658,22 @@ function txParseDoc(raw,docId){
   var structured=['ri_inf','statuts_jci','ri_jci'].indexOf(docId)>=0;
   for(var i=0;i<lines.length;i++){
     var line=lines[i].trim();
-    if(!line||/^\f/.test(line)||/^Page \d+ sur \d+$/.test(line)||/^@Copyright/.test(line))continue;
+    if(!line||/^\f/.test(line)||/^Page \d+ sur \d+$/.test(line)||/^@Copyright/.test(line)||/^Statuts et R.glements Int.rieurs JCI Togo/.test(line))continue;
     if(structured){
       var cm=line.match(/^CHAPITRE[S]?\s+([IVX]+)\s*[:–-]\s*(.+)/i);
       if(cm){curSec={id:docId+'-ch-'+cm[1],title:'Chapitre '+cm[1]+' — '+cm[2],articles:[]};sections.push(curSec);curArt=null;continue;}
-      var am=line.match(/^ARTICLE\s+([\d.\-]+)\s*[:–]\s*(.+)/i);
+      var am=line.match(/^(ARTICLE|REGLEMENT)\s+([\d.\-]+)\s*[:–]\s*(.+)/i);
       if(am){
         if(!curSec){curSec={id:docId+'-ch0',title:'Dispositions générales',articles:[]};sections.push(curSec);}
-        var num=am[1],rest=am[2].trim();
-        var tEnd=rest.search(/\s{2,}|\.\s+[A-ZÀÂÉÈÊËÎÏÔÙÛÜ]/);
-        var artTitle=(tEnd>5&&tEnd<100)?rest.substring(0,tEnd).trim():rest.substring(0,80).trim();
-        var artBody=(tEnd>5&&tEnd<100)?rest.substring(tEnd).trim():rest.substring(80).trim();
-        var art={id:docId+'-'+num.replace(/\./g,'-'),num:'Article '+num,title:artTitle,content:artBody};
+        var kw=am[1].charAt(0).toUpperCase()+am[1].slice(1).toLowerCase();
+        var num=am[2],rest=am[3].trim();
+        /* Séparer titre (MAJUSCULES) du corps (minuscules) mot par mot */
+        var wds=rest.split(' '),ti=wds.length;
+        for(var wi=0;wi<wds.length;wi++){if(/[a-zàâéèêëîïôùûü]/.test(wds[wi])){ti=wi;break;}}
+        var artTitle=wds.slice(0,ti).join(' ').replace(/[,:\s]+$/,'').trim();
+        var artBody=wds.slice(ti).join(' ').trim();
+        if(!artTitle){artTitle=artBody.substring(0,60).trim();artBody='';}
+        var art={id:docId+'-'+num.replace(/\./g,'-'),num:kw+' '+num,title:artTitle,content:artBody};
         curSec.articles.push(art);curArt=art;continue;
       }
       if(curArt&&line.length>1){curArt.content+='\n'+line;continue;}
