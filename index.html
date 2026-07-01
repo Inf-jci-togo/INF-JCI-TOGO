@@ -614,7 +614,7 @@ nav::-webkit-scrollbar{display:none}
     .expert-desc{color:rgba(255,255,255,.8);font-size:.85rem;line-height:1.7;margin-bottom:24px}
     .expert-share{background:#FFD700;color:#130F2D;border:none;border-radius:14px;padding:14px 28px;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;width:100%;margin-bottom:10px}
     .expert-home{background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:14px;padding:12px 28px;font-family:'Poppins',sans-serif;font-size:.88rem;cursor:pointer;width:100%}
-    .score-mini{display:inline-block;background:#f0f4f8;border-radius:10px;padding:4px 12px;font-size:.7
+    .score-mini{display:inline-block;background:#f0f4f8;border-radius:10px;padding:4px 12px;font-size:.75rem;color:var(--text-2);font-weight:600}
 /* ══ TEXTES TAB ══════════════════════════════════════════════ */
 .tx-page{display:flex;flex-direction:column;height:calc(100dvh - 64px - 58px);position:relative;overflow:hidden}
 /* Topbar */
@@ -1186,7 +1186,8 @@ function showPg(id, btn){
   document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('active');});
   if(btn) btn.classList.add('active');
   window.scrollTo(0,0);
-  document.getElementById('pg-'+id).style.display='block';
+  var pgEl=document.getElementById('pg-'+id);
+  pgEl.style.display=pgEl.classList.contains('tx-page')?'flex':'block';
   _prevSection = id;
   // Bouton retour : visible sur toutes les pages sauf accueil
   var bb = document.getElementById('back-btn');
