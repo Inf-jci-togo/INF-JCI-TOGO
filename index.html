@@ -1018,6 +1018,7 @@ nav::-webkit-scrollbar{display:none}
   <!-- Topbar -->
   <div class="tx-topbar">
     <button class="tx-tb-btn" onclick="txToggleDrawer()" aria-label="Menu"><span class="material-symbols-rounded">menu</span></button>
+    <button class="tx-tb-btn tx-back-btn" id="tx-back-btn" onclick="txGoHome()" aria-label="Retour" style="display:none"><span class="material-symbols-rounded">arrow_back</span></button>
     <span class="tx-topbar-title" id="tx-topbar-title">Textes &amp; Documents</span>
     <button class="tx-tb-btn" onclick="txToggleSearch()" aria-label="Rechercher"><span class="material-symbols-rounded">search</span></button>
   </div>
@@ -2625,12 +2626,23 @@ function _txEscAttr(s){if(!s)return'';return String(s).replace(/'/g,'&#39;').rep
 function txGetFavs(){try{return JSON.parse(localStorage.getItem(_txFavKey)||'[]');}catch(e){return[];}}
 function txGetFavData(){try{return JSON.parse(localStorage.getItem(_txFavDataKey)||'{}');}catch(e){return{};}}
 
+function txGoHome(){
+  txCloseDrawer();
+  txSetActive('');
+  _txDoc=null;
+  document.getElementById('tx-topbar-title').textContent='Textes & Documents';
+  document.getElementById('tx-back-btn').style.display='none';
+  var sb=document.getElementById('tx-searchbar');
+  if(sb)sb.style.display='none';
+  txInitHome();
+}
 function txOpenDoc(docId){
   txCloseDrawer();
   txSetActive(docId);
   _txDoc=docId;
   var meta=TX_DOCS[docId]||{};
   document.getElementById('tx-topbar-title').textContent=meta.title||'Document';
+  document.getElementById('tx-back-btn').style.display='flex';
   var reader=document.getElementById('tx-reader');
   var raw=typeof TEXTES_RAW!=='undefined'?TEXTES_RAW[docId]:null;
   if(!raw){reader.innerHTML='<div class="tx-no-result"><span class="material-symbols-rounded">description</span>Document non disponible.</div>';return;}
@@ -2772,6 +2784,7 @@ function txShowFavorites(){
   txCloseDrawer();txSetActive('favoris');
   _txDoc=null;_txSections=[];
   document.getElementById('tx-topbar-title').textContent='Mes Favoris';
+  document.getElementById('tx-back-btn').style.display='flex';
   var favs=txGetFavs(),data=txGetFavData();
   var reader=document.getElementById('tx-reader');
   if(!favs.length){
