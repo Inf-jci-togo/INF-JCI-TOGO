@@ -1,4 +1,4 @@
-const CACHE_NAME = 'inf-jci-v59';
+const CACHE_NAME = 'inf-jci-v60';
 const ASSETS = [
   './',
   './index.html',

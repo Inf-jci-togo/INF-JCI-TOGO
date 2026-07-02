@@ -2654,6 +2654,15 @@ function txOpenDoc(docId){
 function txParseDoc(raw,docId){
   var text=raw.replace(/\r\n/g,'\n').replace(/\r/g,'\n');
   var lines=text.split('\n');
+  /* Pour jci_training : éclater les lignes qui concatènent plusieurs LEVEL */
+  if(docId==='jci_training'){
+    var expanded=[];
+    lines.forEach(function(l){
+      var parts=l.split(/(?=LEVEL\s+\d+)/i);
+      parts.forEach(function(p){if(p.trim())expanded.push(p);});
+    });
+    lines=expanded;
+  }
   var sections=[],curSec=null,curArt=null;
   var structured=['ri_inf','statuts_jci','ri_jci'].indexOf(docId)>=0;
   for(var i=0;i<lines.length;i++){
@@ -2683,10 +2692,10 @@ function txParseDoc(raw,docId){
     } else {
       var isSec=/^(I{1,4}V?|VI{0,3}|I?X)\.\s+.{3,}/i.test(line)
         ||/^\d+[-–]\s*[A-ZÀÂÉÈÊËÎÏÔÙÛÜ].{3,}/.test(line)
-        ||/^(BACKGROUND|STRUCTURE|CONDITIONS|FORUM|PROGRAMME DE CERTIFICATION|MERCI|INFORMATIONS|DANS LA PREMI)/i.test(line);
+        ||/^(BACKGROUND|STRUCTURE|CONDITIONS|FORUM|PROGRAMME DE CERTIFICATION|MERCI|INFORMATIONS|DANS LA PREMI|CRIT.RES POUR)/i.test(line)
+        ||/^LEVEL\s+\d+/i.test(line);
       var isArt=/^\d+\.\d+\.?\s+.+/.test(line)
         ||/^\d+\.\s+[A-ZÀÂÉÈÊËÎÏÔÙÛÜ].{4,}/.test(line)
-        ||/^LEVEL\s+\d+\s*[-–]/i.test(line)
         ||/^(A\d|B\d|[89]|10|11|12|13)\s*[:.\-]\s+.+/.test(line);
       if(isSec&&!isArt){
         curSec={id:docId+'-s'+sections.length,title:line,articles:[]};sections.push(curSec);curArt=null;continue;
