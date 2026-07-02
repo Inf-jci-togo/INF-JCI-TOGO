@@ -724,6 +724,36 @@ nav::-webkit-scrollbar{display:none}
 [data-theme="dark"] .tx-ch-header{background:var(--bg)}
 [data-theme="dark"] .tx-article{border-color:var(--border)}
 [data-theme="dark"] .tx-doc-card:hover{box-shadow:0 3px 14px rgba(0,0,0,.3)}
+/* ══ PARTENAIRES ══════════════════════════════════════════════ */
+.partners-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:4px 0}
+.partner-card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:.2s;text-align:center}
+.partner-card:hover{border-color:var(--blue);box-shadow:0 4px 16px rgba(0,151,215,.12);transform:translateY(-2px)}
+.partner-card img{width:64px;height:64px;object-fit:contain;border-radius:8px}
+.partner-placeholder{width:64px;height:64px;background:var(--bg);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.partner-placeholder .material-symbols-rounded{font-size:28px;color:var(--text-3)}
+.partner-name{font-size:.68rem;font-weight:600;color:var(--text-2);line-height:1.3;word-break:break-word}
+/* Partner modal */
+#partner-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1500;align-items:center;justify-content:center;padding:20px}
+.pm-box{background:var(--surface);border-radius:20px;width:100%;max-width:360px;padding:24px 20px;position:relative}
+.pm-close{position:absolute;top:12px;right:12px;background:var(--bg);border:none;cursor:pointer;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text-2);transition:.15s}
+.pm-close:hover{background:var(--border)}
+.pm-close .material-symbols-rounded{font-size:18px}
+.pm-logo-wrap{display:flex;justify-content:center;margin-bottom:14px}
+#pm-logo{width:80px;height:80px;object-fit:contain;border-radius:12px;border:1px solid var(--border)}
+.pm-name{font-size:1rem;font-weight:700;color:var(--text-1);text-align:center;margin-bottom:10px}
+.pm-desc{font-size:.83rem;color:var(--text-2);line-height:1.65;margin-bottom:14px}
+.pm-contact-row{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(0,151,215,.07);border-radius:10px;color:var(--blue);font-size:.82rem;font-weight:600;text-decoration:none}
+.pm-contact-row .material-symbols-rounded{font-size:18px;flex-shrink:0}
+/* Formateurs table */
+.fmt-table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border);margin-top:4px}
+.fmt-table{width:100%;border-collapse:collapse;font-size:.75rem}
+.fmt-table thead tr{background:var(--navy)}
+.fmt-table th{padding:10px 12px;color:#fff;font-weight:600;text-align:left;white-space:nowrap;font-size:.72rem}
+.fmt-table td{padding:8px 12px;color:var(--text-1);border-bottom:1px solid var(--border);vertical-align:top}
+.fmt-even td{background:var(--surface)}
+.fmt-odd td{background:var(--bg)}
+.fmt-table tbody tr:last-child td{border-bottom:none}
+.fmt-loading{color:var(--text-3);font-size:.82rem;padding:16px 0;text-align:center}
 </style>
 <script src="textes-raw.js"></script>
 </head>
@@ -894,6 +924,9 @@ nav::-webkit-scrollbar{display:none}
   <div class="inc">
     <a class="bcard" href="https://forms.gle/AjZEvCgHHQ7iYRbw7" target="_blank"><div class="bc-ico"><span class="material-symbols-rounded">forum</span></div><div class="bc-title">Partagez vos idées</div><div class="bc-desc">Vos suggestions nous aident à améliorer l'INF et à mieux servir les formateurs. N'hésitez pas à partager vos idées, remarques et propositions.</div><div class="bc-btn"><span class="material-symbols-rounded">send</span>Ouvrir la Boîte à Suggestions</div></a>
   </div>
+  <!-- Ils nous accompagnent -->
+  <div class="inh"><div class="inh-ico" style="background:#0097D7"><span class="material-symbols-rounded">handshake</span></div><div><div class="inh-title">Ils nous accompagnent</div><div class="inh-sub">Nos partenaires classiques</div></div></div>
+  <div class="inc" style="padding-bottom:24px"><div id="partners-grid-accueil"><div class="fmt-loading"><span class="material-symbols-rounded" style="font-size:28px;display:block;margin-bottom:6px">sync</span>Chargement…</div></div></div>
 </div>
 
 <!-- ══ BUREAU ══ -->
@@ -902,12 +935,19 @@ nav::-webkit-scrollbar{display:none}
   <div class="inc"><div class="bg-grid" id="bureau-grid"></div></div>
 </div>
 
-<!-- ══ COTISATION ══ -->
-<div class="pg" id="pg-cotisation">
+<!-- ══ TRESORERIE ══ -->
+<div class="pg" id="pg-tresorerie">
+  <!-- Cotisation -->
   <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">credit_score</span></div><div><div class="inh-title">Cotisation</div><div class="inh-sub">Payer ma cotisation INF</div></div></div>
   <div class="inc">
     <div class="ccard"><img src="assets/anne-solange-ameganvi.jpeg" onerror="this.style.display='none'"/><div class="cc-name">Anne-Solange AMEGANVI</div><div class="cc-role">Trésorière Générale · INF JCI Togo</div><p class="cc-desc">Pour payer votre cotisation, veuillez contacter directement la Trésorerie Générale. Elle vous guidera pour le paiement et vous fournira votre reçu.</p><a class="cc-btn" href="tel:91593504"><span class="material-symbols-rounded">phone</span>Appeler : 91 59 35 04</a></div>
   </div>
+  <!-- Ils nous accompagnent -->
+  <div class="inh"><div class="inh-ico" style="background:#0097D7"><span class="material-symbols-rounded">handshake</span></div><div><div class="inh-title">Ils nous accompagnent</div><div class="inh-sub">Nos partenaires classiques</div></div></div>
+  <div class="inc"><div id="partners-grid-tresorerie"><div class="fmt-loading"><span class="material-symbols-rounded" style="font-size:28px;display:block;margin-bottom:6px">sync</span>Chargement des partenaires…</div></div></div>
+  <!-- Les formateurs à jour -->
+  <div class="inh"><div class="inh-ico" style="background:#16a34a"><span class="material-symbols-rounded">verified_user</span></div><div><div class="inh-title">Les formateurs à jour</div><div class="inh-sub">Cotisations 2026 · Mise à jour automatique</div></div></div>
+  <div class="inc" style="padding-bottom:24px"><div id="formateurs-table"><div class="fmt-loading"><span class="material-symbols-rounded" style="font-size:28px;display:block;margin-bottom:6px">sync</span>Chargement du tableau…</div></div></div>
 </div>
 
 <div class="pg" id="pg-quiz">
@@ -1150,7 +1190,7 @@ nav::-webkit-scrollbar{display:none}
   <button class="nb" onclick="showPg('formation',this)"><span class="material-symbols-rounded">cast_for_education</span>Formation</button>
   <button class="nb" onclick="showPg('suggestion',this)"><span class="material-symbols-rounded">tips_and_updates</span>Suggestion</button>
   <button class="nb" onclick="showPg('bureau',this)"><span class="material-symbols-rounded">account_balance</span>Bureau</button>
-  <button class="nb" onclick="showPg('cotisation',this)"><span class="material-symbols-rounded">credit_score</span>Cotis.</button>
+  <button class="nb" onclick="showPg('tresorerie',this)"><span class="material-symbols-rounded">account_balance_wallet</span>Trésorerie</button>
   <button class="nb" onclick="showPg('textes',this)"><span class="material-symbols-rounded">menu_book</span>Textes</button>
 </nav>
 
@@ -1165,7 +1205,7 @@ var sectionTitles = {
   formation:'Formation',
   suggestion:'Suggestions',
   bureau:'Bureau INF',
-  cotisation:'Cotisation',
+  tresorerie:'Trésorerie',
   quiz:'Quiz INF',
   textes:'Textes & Documents',
   partner:'Partenaire VIP'
@@ -1196,6 +1236,8 @@ function showPg(id, btn){
   // Titre header
   var tt = document.getElementById('top-title');
   if(tt) tt.textContent = sectionTitles[id] || 'Institut National de Formation';
+  // Rafraîchir partenaires & formateurs à chaque ouverture de Trésorerie
+  if(id==='tresorerie'){loadPartners();loadFormateurs();}
 }
 
 function goBackAccueil(){
@@ -2883,6 +2925,138 @@ function txInitHome(){
   reader.innerHTML=html;
 }
 document.addEventListener('DOMContentLoaded',txInitHome);
+
+/* ══ PARTENAIRES & FORMATEURS ══════════════════════════════ */
+var PARTNERS_SHEET_ID='1IQFG5PaJd7jDdQAcNtOoY4BE9C2wQfs4o1l_prkrZO4';
+var FORMATEURS_SHEET_ID='1sMqZ4xMd6zr3BVFkRNanhQh9Ayl2KLSJegItSobjAsU';
+var _partnersData=null;
+
+function _parseGviz(txt){
+  try{
+    var m=txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/);
+    if(!m)return null;
+    var d=JSON.parse(m[1]);
+    var cols=(d.table.cols||[]).map(function(c){return c.label||c.id||'';});
+    var rows=(d.table.rows||[]).map(function(r){
+      return (r.c||[]).map(function(cell){return cell&&cell.v!=null?String(cell.v):'';});
+    });
+    return{cols:cols,rows:rows};
+  }catch(e){return null;}
+}
+
+function _gvizUrl(id){
+  return'https://docs.google.com/spreadsheets/d/'+id+'/gviz/tq?tqx=out:json';
+}
+
+function _escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+/* ── Partenaires ─────────────────────────────────────────── */
+function loadPartners(){
+  fetch(_gvizUrl(PARTNERS_SHEET_ID))
+    .then(function(r){return r.text();})
+    .then(function(txt){
+      var d=_parseGviz(txt);
+      if(!d||!d.rows.length){_partnersError();return;}
+      _partnersData=d.rows;
+      _renderPartners();
+    })
+    .catch(_partnersError);
+}
+
+function _partnersError(){
+  var msg='<div class="fmt-loading" style="color:var(--text-3)"><span class="material-symbols-rounded" style="font-size:24px;display:block;margin-bottom:4px">wifi_off</span>Données non disponibles</div>';
+  var a=document.getElementById('partners-grid-accueil');
+  var t=document.getElementById('partners-grid-tresorerie');
+  if(a)a.innerHTML=msg;
+  if(t)t.innerHTML=msg;
+}
+
+function _gdriveImg(url){
+  /* Convertir lien Google Drive /view en lien direct /uc?id= */
+  if(!url)return'';
+  var m=url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if(m)return'https://drive.google.com/uc?export=view&id='+m[1];
+  return url;
+}
+
+function _renderPartners(){
+  if(!_partnersData)return;
+  /* Colonnes : 0=N°, 1=Nom, 2=Description, 3=Contact, 4=Logo */
+  var html='<div class="partners-grid">';
+  _partnersData.forEach(function(row,idx){
+    var logo=_gdriveImg(row[4]||''),name=_escH(row[1]||'');
+    html+='<div class="partner-card" onclick="showPartnerModal('+idx+')">';
+    if(logo){html+='<img src="'+_escH(logo)+'" alt="'+name+'" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">';}
+    html+='<div class="partner-placeholder" style="display:'+(logo?'none':'flex')+'"><span class="material-symbols-rounded">business</span></div>';
+    html+='<div class="partner-name">'+name+'</div></div>';
+  });
+  html+='</div>';
+  var a=document.getElementById('partners-grid-accueil');
+  var t=document.getElementById('partners-grid-tresorerie');
+  if(a)a.innerHTML=html;
+  if(t)t.innerHTML=html;
+}
+
+function showPartnerModal(idx){
+  if(!_partnersData||!_partnersData[idx])return;
+  /* Colonnes : 0=N°, 1=Nom, 2=Description, 3=Contact, 4=Logo */
+  var row=_partnersData[idx];
+  var logo=_gdriveImg(row[4]||''),name=row[1]||'',desc=row[2]||'',contact=row[3]||'';
+  var pm=document.getElementById('pm-logo');
+  if(logo){pm.src=logo;pm.style.display='block';}else{pm.style.display='none';}
+  document.getElementById('pm-name').textContent=name;
+  document.getElementById('pm-desc').textContent=desc;
+  var cw=document.getElementById('pm-contact-wrap');
+  if(contact){
+    var isPhone=/^[+\d\s\-()]+$/.test(contact.trim());
+    var href=isPhone?'tel:'+contact.replace(/\s/g,''):'mailto:'+contact;
+    var ico=isPhone?'phone':'mail';
+    cw.innerHTML='<a class="pm-contact-row" href="'+_escH(href)+'"><span class="material-symbols-rounded">'+ico+'</span>'+_escH(contact)+'</a>';
+  }else{cw.innerHTML='';}
+  document.getElementById('partner-modal').style.display='flex';
+}
+
+function closePartnerModal(){
+  document.getElementById('partner-modal').style.display='none';
+}
+
+/* ── Formateurs à jour ───────────────────────────────────── */
+function loadFormateurs(){
+  fetch(_gvizUrl(FORMATEURS_SHEET_ID))
+    .then(function(r){return r.text();})
+    .then(function(txt){
+      var d=_parseGviz(txt);
+      var el=document.getElementById('formateurs-table');
+      if(!el)return;
+      if(!d||!d.rows.length){el.innerHTML='<div class="fmt-loading" style="color:var(--text-3)">Aucune donnée disponible</div>';return;}
+      _renderFormateurs(d);
+    })
+    .catch(function(){
+      var el=document.getElementById('formateurs-table');
+      if(el)el.innerHTML='<div class="fmt-loading" style="color:var(--text-3)"><span class="material-symbols-rounded" style="font-size:24px;display:block;margin-bottom:4px">wifi_off</span>Données non disponibles</div>';
+    });
+}
+
+function _renderFormateurs(d){
+  /* Filtrer les colonnes vides */
+  var visIdx=d.cols.map(function(c,i){return c?i:-1;}).filter(function(i){return i>=0;});
+  var html='<div class="fmt-table-wrap"><table class="fmt-table"><thead><tr>';
+  visIdx.forEach(function(i){html+='<th>'+_escH(d.cols[i])+'</th>';});
+  html+='</tr></thead><tbody>';
+  d.rows.forEach(function(row,ri){
+    html+='<tr class="'+(ri%2===0?'fmt-even':'fmt-odd')+'">';
+    visIdx.forEach(function(i){html+='<td>'+_escH(row[i]||'')+'</td>';});
+    html+='</tr>';
+  });
+  html+='</tbody></table></div>';
+  document.getElementById('formateurs-table').innerHTML=html;
+}
+
+/* ── Init & refresh ──────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded',function(){
+  loadPartners();
+  loadFormateurs();
+});
 </script>
 
 <!-- ══ MOT DU DIRECTEUR PANEL ══ -->
@@ -2911,6 +3085,16 @@ document.addEventListener('DOMContentLoaded',txInitHome);
       </div>
       <div class="dsp-sig">— Kokouvi DJIWONOU<small>Directeur de l'INF · Mandat 2026</small></div>
     </div>
+  </div>
+</div>
+<!-- ══ MODAL PARTENAIRE ══ -->
+<div id="partner-modal" onclick="if(event.target===this)closePartnerModal()">
+  <div class="pm-box">
+    <button class="pm-close" onclick="closePartnerModal()"><span class="material-symbols-rounded">close</span></button>
+    <div class="pm-logo-wrap"><img id="pm-logo" src="" alt=""/></div>
+    <div class="pm-name" id="pm-name"></div>
+    <p class="pm-desc" id="pm-desc"></p>
+    <div id="pm-contact-wrap"></div>
   </div>
 </div>
 </body>
