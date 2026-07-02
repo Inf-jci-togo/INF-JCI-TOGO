@@ -735,11 +735,12 @@ nav::-webkit-scrollbar{display:none}
 /* Partner modal */
 #partner-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1500;align-items:center;justify-content:center;padding:20px}
 .pm-box{background:var(--surface);border-radius:20px;width:100%;max-width:360px;padding:24px 20px;position:relative}
+[data-theme="dark"] .pm-box{background:#1A1D2E}
 .pm-close{position:absolute;top:12px;right:12px;background:var(--bg);border:none;cursor:pointer;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text-2);transition:.15s}
 .pm-close:hover{background:var(--border)}
 .pm-close .material-symbols-rounded{font-size:18px}
 .pm-logo-wrap{display:flex;justify-content:center;margin-bottom:14px}
-#pm-logo{width:80px;height:80px;object-fit:contain;border-radius:12px;border:1px solid var(--border)}
+#pm-logo,#cpm-logo{width:80px;height:80px;object-fit:contain;border-radius:12px;border:1px solid var(--border)}
 .pm-name{font-size:1rem;font-weight:700;color:var(--text-1);text-align:center;margin-bottom:10px}
 .pm-desc{font-size:.83rem;color:var(--text-2);line-height:1.65;margin-bottom:14px}
 .pm-contact-row{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(0,151,215,.07);border-radius:10px;color:var(--blue);font-size:.82rem;font-weight:600;text-decoration:none}
@@ -876,6 +877,10 @@ nav::-webkit-scrollbar{display:none}
       <div class="ai"><div class="ai-date dt-teal"><div class="ai-day">01</div><div class="ai-month">Août</div></div><div class="ai-body"><span class="ai-chip c-det"><span class="material-symbols-rounded">beach_access</span>DÉTENTE</span><div class="ai-title">Sortie Détente des Formateurs</div><div class="ai-desc">Journée de cohésion et de renforcement des liens.</div><div class="ai-meta"><span class="material-symbols-rounded">location_on</span><span class="ai-meta-t">À définir · 1er Août</span></div><div class="ai-price"><span class="material-symbols-rounded">payments</span>Participation : 6 000 FCFA</div></div></div>
     </div>
   </div>
+
+  <!-- Ils nous accompagnent -->
+  <div class="inh"><div class="inh-ico" style="background:#0097D7"><span class="material-symbols-rounded">handshake</span></div><div><div class="inh-title">Ils nous accompagnent</div><div class="inh-sub">Nos partenaires classiques</div></div></div>
+  <div class="inc" style="padding-bottom:24px"><div id="partners-grid-accueil"><div class="fmt-loading"><span class="material-symbols-rounded" style="font-size:28px;display:block;margin-bottom:6px">sync</span>Chargement…</div></div></div>
 </div>
 
 <!-- ══ RAPPORTS ══ -->
@@ -924,9 +929,6 @@ nav::-webkit-scrollbar{display:none}
   <div class="inc">
     <a class="bcard" href="https://forms.gle/AjZEvCgHHQ7iYRbw7" target="_blank"><div class="bc-ico"><span class="material-symbols-rounded">forum</span></div><div class="bc-title">Partagez vos idées</div><div class="bc-desc">Vos suggestions nous aident à améliorer l'INF et à mieux servir les formateurs. N'hésitez pas à partager vos idées, remarques et propositions.</div><div class="bc-btn"><span class="material-symbols-rounded">send</span>Ouvrir la Boîte à Suggestions</div></a>
   </div>
-  <!-- Ils nous accompagnent -->
-  <div class="inh"><div class="inh-ico" style="background:#0097D7"><span class="material-symbols-rounded">handshake</span></div><div><div class="inh-title">Ils nous accompagnent</div><div class="inh-sub">Nos partenaires classiques</div></div></div>
-  <div class="inc" style="padding-bottom:24px"><div id="partners-grid-accueil"><div class="fmt-loading"><span class="material-symbols-rounded" style="font-size:28px;display:block;margin-bottom:6px">sync</span>Chargement…</div></div></div>
 </div>
 
 <!-- ══ BUREAU ══ -->
@@ -937,17 +939,17 @@ nav::-webkit-scrollbar{display:none}
 
 <!-- ══ TRESORERIE ══ -->
 <div class="pg" id="pg-tresorerie">
-  <!-- Cotisation -->
-  <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">credit_score</span></div><div><div class="inh-title">Cotisation</div><div class="inh-sub">Payer ma cotisation INF</div></div></div>
-  <div class="inc">
-    <div class="ccard"><img src="assets/anne-solange-ameganvi.jpeg" onerror="this.style.display='none'"/><div class="cc-name">Anne-Solange AMEGANVI</div><div class="cc-role">Trésorière Générale · INF JCI Togo</div><p class="cc-desc">Pour payer votre cotisation, veuillez contacter directement la Trésorerie Générale. Elle vous guidera pour le paiement et vous fournira votre reçu.</p><a class="cc-btn" href="tel:91593504"><span class="material-symbols-rounded">phone</span>Appeler : 91 59 35 04</a></div>
-  </div>
   <!-- Ils nous accompagnent -->
   <div class="inh"><div class="inh-ico" style="background:#0097D7"><span class="material-symbols-rounded">handshake</span></div><div><div class="inh-title">Ils nous accompagnent</div><div class="inh-sub">Nos partenaires classiques</div></div></div>
   <div class="inc"><div id="partners-grid-tresorerie"><div class="fmt-loading"><span class="material-symbols-rounded" style="font-size:28px;display:block;margin-bottom:6px">sync</span>Chargement des partenaires…</div></div></div>
   <!-- Les formateurs à jour -->
   <div class="inh"><div class="inh-ico" style="background:#16a34a"><span class="material-symbols-rounded">verified_user</span></div><div><div class="inh-title">Les formateurs à jour</div><div class="inh-sub">Cotisations 2026 · Mise à jour automatique</div></div></div>
-  <div class="inc" style="padding-bottom:24px"><div id="formateurs-table"><div class="fmt-loading"><span class="material-symbols-rounded" style="font-size:28px;display:block;margin-bottom:6px">sync</span>Chargement du tableau…</div></div></div>
+  <div class="inc"><div id="formateurs-table"><div class="fmt-loading"><span class="material-symbols-rounded" style="font-size:28px;display:block;margin-bottom:6px">sync</span>Chargement du tableau…</div></div></div>
+  <!-- Cotisation -->
+  <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">credit_score</span></div><div><div class="inh-title">Cotisation</div><div class="inh-sub">Payer ma cotisation INF</div></div></div>
+  <div class="inc" style="padding-bottom:24px">
+    <div class="ccard"><img src="assets/anne-solange-ameganvi.jpeg" onerror="this.style.display='none'"/><div class="cc-name">Anne-Solange AMEGANVI</div><div class="cc-role">Trésorière Générale · INF JCI Togo</div><p class="cc-desc">Pour payer votre cotisation, veuillez contacter directement la Trésorerie Générale. Elle vous guidera pour le paiement et vous fournira votre reçu.</p><a class="cc-btn" href="tel:91593504"><span class="material-symbols-rounded">phone</span>Appeler : 91 59 35 04</a></div>
+  </div>
 </div>
 
 <div class="pg" id="pg-quiz">
@@ -2951,13 +2953,25 @@ function _gvizUrl(id){
 function _escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 /* ── Partenaires ─────────────────────────────────────────── */
+function _colIdx(cols,label){
+  var l=label.toLowerCase();
+  for(var i=0;i<cols.length;i++){if(cols[i].toLowerCase().indexOf(l)>=0)return i;}
+  return -1;
+}
+
 function loadPartners(){
   fetch(_gvizUrl(PARTNERS_SHEET_ID))
     .then(function(r){return r.text();})
     .then(function(txt){
       var d=_parseGviz(txt);
       if(!d||!d.rows.length){_partnersError();return;}
-      _partnersData=d.rows;
+      var iNom=_colIdx(d.cols,'nom'); if(iNom<0)iNom=1;
+      var iDesc=_colIdx(d.cols,'desc'); if(iDesc<0)iDesc=2;
+      var iContact=_colIdx(d.cols,'contact'); if(iContact<0)iContact=3;
+      var iLogo=_colIdx(d.cols,'logo'); if(iLogo<0)iLogo=4;
+      _partnersData=d.rows.map(function(row){
+        return{nom:row[iNom]||'',desc:row[iDesc]||'',contact:row[iContact]||'',logo:row[iLogo]||''};
+      });
       _renderPartners();
     })
     .catch(_partnersError);
@@ -2972,19 +2986,17 @@ function _partnersError(){
 }
 
 function _gdriveImg(url){
-  /* Convertir lien Google Drive /view en lien direct /uc?id= */
   if(!url)return'';
   var m=url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-  if(m)return'https://drive.google.com/uc?export=view&id='+m[1];
+  if(m)return'https://lh3.googleusercontent.com/d/'+m[1];
   return url;
 }
 
 function _renderPartners(){
   if(!_partnersData)return;
-  /* Colonnes : 0=N°, 1=Nom, 2=Description, 3=Contact, 4=Logo */
   var html='<div class="partners-grid">';
-  _partnersData.forEach(function(row,idx){
-    var logo=_gdriveImg(row[4]||''),name=_escH(row[1]||'');
+  _partnersData.forEach(function(p,idx){
+    var logo=_gdriveImg(p.logo),name=_escH(p.nom);
     html+='<div class="partner-card" onclick="showPartnerModal('+idx+')">';
     if(logo){html+='<img src="'+_escH(logo)+'" alt="'+name+'" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">';}
     html+='<div class="partner-placeholder" style="display:'+(logo?'none':'flex')+'"><span class="material-symbols-rounded">business</span></div>';
@@ -2999,14 +3011,13 @@ function _renderPartners(){
 
 function showPartnerModal(idx){
   if(!_partnersData||!_partnersData[idx])return;
-  /* Colonnes : 0=N°, 1=Nom, 2=Description, 3=Contact, 4=Logo */
-  var row=_partnersData[idx];
-  var logo=_gdriveImg(row[4]||''),name=row[1]||'',desc=row[2]||'',contact=row[3]||'';
-  var pm=document.getElementById('pm-logo');
+  var p=_partnersData[idx];
+  var logo=_gdriveImg(p.logo),name=p.nom,desc=p.desc,contact=p.contact;
+  var pm=document.getElementById('cpm-logo');
   if(logo){pm.src=logo;pm.style.display='block';}else{pm.style.display='none';}
-  document.getElementById('pm-name').textContent=name;
-  document.getElementById('pm-desc').textContent=desc;
-  var cw=document.getElementById('pm-contact-wrap');
+  document.getElementById('cpm-name').textContent=name;
+  document.getElementById('cpm-desc').textContent=desc;
+  var cw=document.getElementById('cpm-contact-wrap');
   if(contact){
     var isPhone=/^[+\d\s\-()]+$/.test(contact.trim());
     var href=isPhone?'tel:'+contact.replace(/\s/g,''):'mailto:'+contact;
@@ -3038,14 +3049,21 @@ function loadFormateurs(){
 }
 
 function _renderFormateurs(d){
-  /* Filtrer les colonnes vides */
   var visIdx=d.cols.map(function(c,i){return c?i:-1;}).filter(function(i){return i>=0;});
+  var statutColPos=visIdx.map(function(i){return d.cols[i].toUpperCase();}).indexOf('STATUT');
   var html='<div class="fmt-table-wrap"><table class="fmt-table"><thead><tr>';
   visIdx.forEach(function(i){html+='<th>'+_escH(d.cols[i])+'</th>';});
   html+='</tr></thead><tbody>';
   d.rows.forEach(function(row,ri){
     html+='<tr class="'+(ri%2===0?'fmt-even':'fmt-odd')+'">';
-    visIdx.forEach(function(i){html+='<td>'+_escH(row[i]||'')+'</td>';});
+    visIdx.forEach(function(i,pos){
+      var val=_escH(row[i]||'');
+      if(pos===statutColPos&&val){
+        html+='<td><span style="color:#16a34a;font-weight:700">'+val+'</span></td>';
+      }else{
+        html+='<td>'+val+'</td>';
+      }
+    });
     html+='</tr>';
   });
   html+='</tbody></table></div>';
@@ -3091,10 +3109,10 @@ document.addEventListener('DOMContentLoaded',function(){
 <div id="partner-modal" onclick="if(event.target===this)closePartnerModal()">
   <div class="pm-box">
     <button class="pm-close" onclick="closePartnerModal()"><span class="material-symbols-rounded">close</span></button>
-    <div class="pm-logo-wrap"><img id="pm-logo" src="" alt=""/></div>
-    <div class="pm-name" id="pm-name"></div>
-    <p class="pm-desc" id="pm-desc"></p>
-    <div id="pm-contact-wrap"></div>
+    <div class="pm-logo-wrap"><img id="cpm-logo" src="" alt=""/></div>
+    <div class="pm-name" id="cpm-name"></div>
+    <p class="pm-desc" id="cpm-desc"></p>
+    <div id="cpm-contact-wrap"></div>
   </div>
 </div>
 </body>
