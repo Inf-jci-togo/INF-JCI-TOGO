@@ -1318,14 +1318,27 @@ function toggleProgramme(){
 function loadProgramme(){
   const el=document.getElementById('prog-list');
   if(!el) return;
+  el.innerHTML='<div class="no-result" style="opacity:.6">Chargement…</div>';
   fetch(PROG_SHEET_URL,{cache:'no-cache'}).then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
   .then(function(text){
+    // Si Google renvoie une page HTML (sheet non public ou accès refusé)
+    if(text.trim().startsWith('<')){
+      console.warn('[Programme] Le sheet renvoie du HTML — vérifier que le Sheet est partagé en public (Tout le monde avec le lien → Lecteur)');
+      el.innerHTML='<div class="no-result">⚠️ Le programme est inaccessible. Vérifier que le Google Sheet est partagé publiquement.</div>';
+      return;
+    }
     const rows=parseCSV(text);
     if(rows.length<2){ el.innerHTML='<div class="no-result">Aucune formation programmée cette semaine.</div>'; return; }
     const header=rows[0].map(h=>h.trim().toLowerCase());
+    console.log('[Programme] Colonnes détectées :', header);
     const idx=name=>header.findIndex(h=>h.indexOf(name)!==-1);
     const iDate=idx('date'), iOl=idx('organisation'), iTheme=idx('thème')>=0?idx('thème'):idx('theme'),
           iType=idx('type'), iLieu=idx('lieu'), iHeure=idx('heure'), iFormateur=idx('formateur'), iContact=idx('contact'), iCode=idx('code');
+    if(iDate<0){
+      console.warn('[Programme] Colonne "date" introuvable. Colonnes reçues :', header);
+      el.innerHTML='<div class="no-result">⚠️ Colonne "date" introuvable dans le Sheet. Colonnes reçues : '+header.join(', ')+'</div>';
+      return;
+    }
     const data=rows.slice(1);
     if(!data.length){ el.innerHTML='<div class="no-result">Aucune formation programmée cette semaine.</div>'; return; }
     const JOURS=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
@@ -1369,8 +1382,9 @@ function loadProgramme(){
         '<th>Thème</th><th>OL</th><th>Heure</th><th>Lieu</th><th>Formateur(s)</th><th>Code</th><th>Contact</th>'+
         '</tr></thead><tbody>'+rowsHtml+'</tbody></table></div></div>';
     }).join('');
-  }).catch(function(){
-    el.innerHTML='<div class="no-result">Impossible de charger le programme pour le moment.</div>';
+  }).catch(function(err){
+    console.error('[Programme] Erreur fetch :', err);
+    el.innerHTML='<div class="no-result">Impossible de charger le programme ('+((err&&err.message)||'réseau')+').</div>';
   });
 }
 
