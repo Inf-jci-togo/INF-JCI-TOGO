@@ -872,8 +872,7 @@ nav::-webkit-scrollbar{display:none}
     <div class="act-list">
       <div class="ai"><div class="ai-date dt-blue"><div class="ai-day">11</div><div class="ai-month">Juil</div></div><div class="ai-body"><span class="ai-chip c-pres"><span class="material-symbols-rounded">record_voice_over</span>PRESENTER</span><div class="ai-title">Cours JCI — Presenter</div><div class="ai-desc">Développer les compétences de présentation efficaces.</div><div class="ai-meta"><span class="material-symbols-rounded">location_on</span><span class="ai-meta-t">Lomé · Samedi 11 Juillet</span></div><div class="ai-price"><span class="material-symbols-rounded">payments</span>10 000 FCFA</div></div></div>
       <div class="ai"><div class="ai-date"><div class="ai-day">—</div><div class="ai-month">Juil</div></div><div class="ai-body"><span class="ai-chip c-dsgn"><span class="material-symbols-rounded">design_services</span>DESIGNER</span><div class="ai-title">Cours de Conception de Modules</div><div class="ai-desc">CCM · Date à préciser.</div><div class="ai-meta"><span class="material-symbols-rounded">location_on</span><span class="ai-meta-t">Lomé · Date à préciser</span></div><div class="ai-price"><span class="material-symbols-rounded">payments</span>90 000 FCFA</div></div></div>
-      <div class="ai"><div class="ai-date"><div class="ai-day">—</div><div class="ai-month">—</div></div><div class="ai-body"><span class="ai-chip c-cff"><span class="material-symbols-rounded">workspace_premium</span>CNT</span><div class="ai-title">JCI Certified National Trainer</div><div class="ai-desc">Nouveau cours de certification des formateurs nationaux.</div><div class="ai-meta"><span class="material-symbols-rounded">location_on</span><span class="ai-meta-t">Lomé · Date à préciser</span></div><div class="ai-price"><span class="material-symbols-rounded">payments</span>60 000 FCFA</div></div></div>
-      <div class="ai"><div class="ai-date"><div class="ai-day">25</div><div class="ai-month">Juil</div></div><div class="ai-body"><span class="ai-chip c-cff"><span class="material-symbols-rounded">workspace_premium</span>CFF</span><div class="ai-title">Cours de Formation des Formateurs</div><div class="ai-desc">Certification Formateur Alpha · Sam. 25 – Dim. 26.</div><div class="ai-meta"><span class="material-symbols-rounded">location_on</span><span class="ai-meta-t">Lomé · 2 jours</span></div><div class="ai-price"><span class="material-symbols-rounded">payments</span>40 000 FCFA</div></div></div>
+      <div class="ai"><div class="ai-date dt-blue"><div class="ai-day">02</div><div class="ai-month">Août</div></div><div class="ai-body"><span class="ai-chip c-cff"><span class="material-symbols-rounded">workspace_premium</span>CNT</span><div class="ai-title">JCI Certified National Trainer</div><div class="ai-desc">Cours de certification des formateurs nationaux · 3 jours.</div><div class="ai-meta"><span class="material-symbols-rounded">location_on</span><span class="ai-meta-t">Lomé · 2 – 4 Août</span></div><div class="ai-price"><span class="material-symbols-rounded">payments</span>60 000 FCFA</div></div></div>
       <div class="ai"><div class="ai-date dt-teal"><div class="ai-day">02</div><div class="ai-month">Août</div></div><div class="ai-body"><span class="ai-chip c-det"><span class="material-symbols-rounded">beach_access</span>DÉTENTE</span><div class="ai-title">Sortie Détente des Formateurs</div><div class="ai-desc">Journée de cohésion et de renforcement des liens.</div><div class="ai-meta"><span class="material-symbols-rounded">location_on</span><span class="ai-meta-t">À définir · 2 Août</span></div><div class="ai-price"><span class="material-symbols-rounded">payments</span>Participation : 6 000 FCFA</div></div></div>
     </div>
   </div>
@@ -2964,7 +2963,7 @@ var PARTNERS_SHEET_ID='1IQFG5PaJd7jDdQAcNtOoY4BE9C2wQfs4o1l_prkrZO4';
 var FORMATEURS_SHEET_ID='1sMqZ4xMd6zr3BVFkRNanhQh9Ayl2KLSJegItSobjAsU';
 var _partnersData=null;
 
-function _parseGviz(txt){
+function _parseGvizRaw(txt){
   try{
     var m=txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/);
     if(!m)return null;
@@ -2994,7 +2993,7 @@ function loadPartners(){
   fetch(_gvizUrl(PARTNERS_SHEET_ID))
     .then(function(r){return r.text();})
     .then(function(txt){
-      var d=_parseGviz(txt);
+      var d=_parseGvizRaw(txt);
       if(!d||!d.rows.length){_partnersError();return;}
       var iNom=_colIdx(d.cols,'nom'); if(iNom<0)iNom=1;
       var iDesc=_colIdx(d.cols,'desc'); if(iDesc<0)iDesc=2;
@@ -3067,7 +3066,7 @@ function loadFormateurs(){
   fetch(_gvizUrl(FORMATEURS_SHEET_ID))
     .then(function(r){return r.text();})
     .then(function(txt){
-      var d=_parseGviz(txt);
+      var d=_parseGvizRaw(txt);
       var el=document.getElementById('formateurs-table');
       if(!el)return;
       if(!d||!d.rows.length){el.innerHTML='<div class="fmt-loading" style="color:var(--text-3)">Aucune donnée disponible</div>';return;}
