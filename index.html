@@ -1329,17 +1329,15 @@ function loadProgramme(){
     }
     const rows=parseCSV(text);
     if(rows.length<2){ el.innerHTML='<div class="no-result">Aucune formation programmée cette semaine.</div>'; return; }
-    const header=rows[0].map(h=>h.trim().toLowerCase());
-    console.log('[Programme] Colonnes détectées :', header);
+    // La première ligne peut être un titre — on cherche la ligne qui contient "date"
+    let headerRowIdx=rows.findIndex(r=>r.some(c=>c.trim().toLowerCase().indexOf('date')!==-1));
+    if(headerRowIdx<0){ el.innerHTML='<div class="no-result">⚠️ Colonne "date" introuvable dans le Sheet.</div>'; return; }
+    const header=rows[headerRowIdx].map(h=>h.trim().toLowerCase());
+    console.log('[Programme] En-têtes (ligne '+(headerRowIdx+1)+') :', header);
     const idx=name=>header.findIndex(h=>h.indexOf(name)!==-1);
     const iDate=idx('date'), iOl=idx('organisation'), iTheme=idx('thème')>=0?idx('thème'):idx('theme'),
           iType=idx('type'), iLieu=idx('lieu'), iHeure=idx('heure'), iFormateur=idx('formateur'), iContact=idx('contact'), iCode=idx('code');
-    if(iDate<0){
-      console.warn('[Programme] Colonne "date" introuvable. Colonnes reçues :', header);
-      el.innerHTML='<div class="no-result">⚠️ Colonne "date" introuvable dans le Sheet. Colonnes reçues : '+header.join(', ')+'</div>';
-      return;
-    }
-    const data=rows.slice(1);
+    const data=rows.slice(headerRowIdx+1);
     if(!data.length){ el.innerHTML='<div class="no-result">Aucune formation programmée cette semaine.</div>'; return; }
     const JOURS=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
     const MOIS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
