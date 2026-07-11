@@ -1285,8 +1285,8 @@ function applyTheme(t){
 }
 function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
 
-// ── Programme de la semaine (Google Sheet — JSON, range=A2 pour sauter la ligne titre)
-const PROG_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1jOyI3mgk2OFU8iM78rTHuo0IaVr4kXJxU-Tocqne1QY/gviz/tq?tqx=out:json&range=A2:Z1000';
+// ── Programme de la semaine (Google Sheet — JSON)
+const PROG_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1jOyI3mgk2OFU8iM78rTHuo0IaVr4kXJxU-Tocqne1QY/gviz/tq?tqx=out:json';
 function parseCSV(text){
   const rows=[]; let row=[]; let field=''; let inQ=false;
   for(let i=0;i<text.length;i++){
@@ -1325,15 +1325,39 @@ function loadProgramme(){
       return;
     }
     var data=_parseGviz(text);
-    // _parseGviz renvoie un tableau d'objets avec clés normalisées (accents retirés, espaces→_)
     data=data.filter(function(r){ return Object.values(r).some(function(v){return v&&v.trim();}); });
     if(!data.length){ el.innerHTML='<div class="no-result">Aucune formation programmée cette semaine.</div>'; return; }
+    // Normalise une chaîne comme le fait _parseGviz pour les labels de colonnes
+    function normKey(s){
+      return (s||'').trim().toLowerCase()
+        .replace(/[éèê]/g,'e').replace(/[àâ]/g,'a').replace(/[ùû]/g,'u')
+        .replace(/[îï]/g,'i').replace(/[ôö]/g,'o')
+        .replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+    }
+    // Si gviz retourne des IDs positionnels (a,b,c...) au lieu de vrais labels,
+    // la première ligne de données contient les vrais en-têtes — on l'extrait et on remappe.
     var keys=Object.keys(data[0]);
+    var isIdBased=keys.length>0&&keys.every(function(k){return /^[a-z]{1,2}$/.test(k);});
+    if(isIdBased){
+      // Trouver la première ligne non-vide avec des valeurs textuelles (= ligne d'en-têtes)
+      var hIdx=data.findIndex(function(r){
+        return Object.values(r).some(function(v){return v&&v.trim()&&!/^\d/.test(v.trim());});
+      });
+      if(hIdx<0){ el.innerHTML='<div class="no-result">⚠️ Structure du Sheet non reconnue.</div>'; return; }
+      var hRow=data[hIdx];
+      var posKeys=keys; // a,b,c...
+      data=data.slice(hIdx+1).map(function(r){
+        var obj={};
+        posKeys.forEach(function(k){ var lbl=normKey(hRow[k]); obj[lbl||k]=r[k]; });
+        return obj;
+      });
+      keys=data.length?Object.keys(data[0]):[];
+    }
     function fk(term){ return keys.find(function(k){return k.indexOf(term)!==-1;})||''; }
     var kDate=fk('date'), kHeure=fk('heure'), kLieu=fk('lieu'),
-        kOl=fk('organisation')||fk('ol'), kTheme=fk('theme'),
+        kOl=fk('organisation')||fk('ol')||fk('org'), kTheme=fk('theme'),
         kType=fk('type'), kFormateur=fk('formateur'), kContact=fk('contact'), kCode=fk('code');
-    console.log('[Programme] Clés détectées:', {kDate,kHeure,kLieu,kOl,kTheme});
+    console.log('[Programme] Clés finales:', keys, '→', {kDate,kHeure,kLieu,kOl,kTheme});
     if(!kDate){ el.innerHTML='<div class="no-result">⚠️ Colonne date introuvable. Clés : '+keys.join(', ')+'</div>'; return; }
     const JOURS=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
     const MOIS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
