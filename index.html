@@ -1329,23 +1329,38 @@ function loadProgramme(){
     }
     const rows=parseCSV(text);
     if(rows.length<2){ el.innerHTML='<div class="no-result">Aucune formation programmée cette semaine.</div>'; return; }
-    // La première ligne peut être un titre — on cherche la ligne qui contient "date"
-    let headerRowIdx=rows.findIndex(r=>r.some(c=>c.trim().toLowerCase().indexOf('date')!==-1));
-    if(headerRowIdx<0){ el.innerHTML='<div class="no-result">⚠️ Colonne "date" introuvable dans le Sheet.</div>'; return; }
+    // Cherche la ligne d'en-têtes : doit contenir "date" ET au moins un autre mot-clé connu
+    const HEADER_KEYWORDS=['heure','lieu','organisation','thème','theme','formateur','type','code'];
+    let headerRowIdx=rows.findIndex(function(r){
+      const cells=r.map(c=>c.trim().toLowerCase());
+      const hasDate=cells.some(c=>c.length<40&&c.indexOf('date')!==-1);
+      const hasOther=cells.some(c=>HEADER_KEYWORDS.some(k=>c.indexOf(k)!==-1));
+      return hasDate&&hasOther;
+    });
+    if(headerRowIdx<0){
+      // Fallback : cherche simplement une ligne avec au moins 3 cellules non-vides courtes
+      headerRowIdx=rows.findIndex(r=>r.filter(c=>c.trim().length>0&&c.trim().length<40).length>=3);
+    }
+    if(headerRowIdx<0){ el.innerHTML='<div class="no-result">⚠️ Structure du Sheet non reconnue.</div>'; return; }
     const header=rows[headerRowIdx].map(h=>h.trim().toLowerCase());
-    console.log('[Programme] En-têtes (ligne '+(headerRowIdx+1)+') :', header);
+    console.log('[Programme] En-têtes ligne '+(headerRowIdx+1)+' :', header);
     const idx=name=>header.findIndex(h=>h.indexOf(name)!==-1);
-    const iDate=idx('date'), iOl=idx('organisation'), iTheme=idx('thème')>=0?idx('thème'):idx('theme'),
+    const iDate=idx('date'), iOl=idx('organisation')>=0?idx('organisation'):idx('ol'), iTheme=idx('thème')>=0?idx('thème'):idx('theme'),
           iType=idx('type'), iLieu=idx('lieu'), iHeure=idx('heure'), iFormateur=idx('formateur'), iContact=idx('contact'), iCode=idx('code');
+    console.log('[Programme] Indices → date:'+iDate+' ol:'+iOl+' theme:'+iTheme+' heure:'+iHeure+' lieu:'+iLieu);
     const data=rows.slice(headerRowIdx+1);
     if(!data.length){ el.innerHTML='<div class="no-result">Aucune formation programmée cette semaine.</div>'; return; }
     const JOURS=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
     const MOIS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
     function parseDate(s){
-      const m=(s||'').trim().match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
-      if(!m) return null;
-      let y=+m[3]; if(y<100) y+=2000;
-      return new Date(y, +m[2]-1, +m[1]);
+      s=(s||'').trim();
+      // DD/MM/YYYY ou DD-MM-YYYY
+      let m=s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
+      if(m){ let y=+m[3]; if(y<100) y+=2000; return new Date(y,+m[2]-1,+m[1]); }
+      // YYYY-MM-DD (ISO)
+      m=s.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
+      if(m){ return new Date(+m[1],+m[2]-1,+m[3]); }
+      return null;
     }
     const groups={};
     data.forEach(function(c){
@@ -1358,7 +1373,10 @@ function loadProgramme(){
       if(da&&db) return da-db;
       return a.localeCompare(b);
     });
-    if(!dateKeys.length){ el.innerHTML='<div class="no-result">Aucune formation programmée cette semaine.</div>'; return; }
+    if(!dateKeys.length){
+      el.innerHTML='<div class="no-result">Aucune formation programmée.<br/><small style="opacity:.6">En-têtes détectés : '+header.join(' | ')+'<br/>Colonne date (idx='+iDate+'): '+(data[0]&&data[0][iDate]||'—')+'</small></div>';
+      return;
+    }
     el.innerHTML=dateKeys.map(function(dateRaw){
       const d=parseDate(dateRaw);
       const label=d?JOURS[d.getDay()]+' '+d.getDate()+' '+MOIS[d.getMonth()]+' '+d.getFullYear():dateRaw;
