@@ -1286,7 +1286,7 @@ function applyTheme(t){
 function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
 
 // ── Programme de la semaine (Google Sheet — JSON)
-const PROG_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1jOyI3mgk2OFU8iM78rTHuo0IaVr4kXJxU-Tocqne1QY/gviz/tq?tqx=out:json';
+const PROG_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1jOyI3mgk2OFU8iM78rTHuo0IaVr4kXJxU-Tocqne1QY/gviz/tq?tqx=out:json&range=A2';
 function parseCSV(text){
   const rows=[]; let row=[]; let field=''; let inQ=false;
   for(let i=0;i<text.length;i++){
@@ -1339,9 +1339,9 @@ function loadProgramme(){
     var keys=Object.keys(data[0]);
     var isIdBased=keys.length>0&&keys.every(function(k){return /^[a-z]{1,2}$/.test(k);});
     if(isIdBased){
-      // Trouver la première ligne non-vide avec des valeurs textuelles (= ligne d'en-têtes)
+      // Ligne d'en-têtes = première ligne avec ≥2 cellules non-vides (la ligne titre fusionnée n'en a qu'une)
       var hIdx=data.findIndex(function(r){
-        return Object.values(r).some(function(v){return v&&v.trim()&&!/^\d/.test(v.trim());});
+        return Object.values(r).filter(function(v){return v&&v.trim();}).length>=2;
       });
       if(hIdx<0){ el.innerHTML='<div class="no-result">⚠️ Structure du Sheet non reconnue.</div>'; return; }
       var hRow=data[hIdx];
