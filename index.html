@@ -1286,7 +1286,7 @@ function applyTheme(t){
 function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');}
 
 // ── Programme de la semaine (Google Sheet — JSON)
-const PROG_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1jOyI3mgk2OFU8iM78rTHuo0IaVr4kXJxU-Tocqne1QY/gviz/tq?tqx=out:json&range=A2';
+const PROG_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1jOyI3mgk2OFU8iM78rTHuo0IaVr4kXJxU-Tocqne1QY/gviz/tq?tqx=out:json';
 function parseCSV(text){
   const rows=[]; let row=[]; let field=''; let inQ=false;
   for(let i=0;i<text.length;i++){
