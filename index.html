@@ -312,6 +312,20 @@ nav::-webkit-scrollbar{display:none}
 .list-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:.2s}
 .list-item:hover{border-color:var(--blue);transform:translateX(2px)}
 .no-result{text-align:center;color:var(--text-3);padding:30px;font-size:.9rem}
+/* ══ FORMATEURS AUTH ════════════════════════════════════════ */
+#fmt-auth-overlay{display:flex;align-items:center;justify-content:center;padding:40px 16px;min-height:55vh}
+.fmt-auth-box{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:32px 22px;max-width:300px;width:100%;box-shadow:0 4px 24px var(--shadow-md)}
+.fmt-auth-ico{width:56px;height:56px;background:rgba(0,37,80,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.fmt-auth-ico .material-symbols-rounded{font-size:28px;color:var(--navy)}
+.fmt-auth-title{font-size:.98rem;font-weight:700;color:var(--text-1);text-align:center;margin-bottom:5px}
+.fmt-auth-sub{font-size:.73rem;color:var(--text-2);text-align:center;line-height:1.55;margin-bottom:18px}
+.fmt-auth-lbl{display:block;font-size:.71rem;font-weight:600;color:var(--text-2);margin:12px 0 4px}
+.fmt-auth-inp{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text-1);font-family:'Inter',sans-serif;font-size:.87rem;box-sizing:border-box;outline:none;transition:.2s}
+.fmt-auth-inp:focus{border-color:var(--navy)}
+.fmt-auth-btn{width:100%;padding:11px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-size:.87rem;font-weight:700;cursor:pointer;margin-top:18px;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:7px;transition:.2s}
+.fmt-auth-btn:hover{opacity:.88}
+.fmt-auth-btn .material-symbols-rounded{font-size:16px}
+.fmt-auth-err{color:#dc2626;font-size:.73rem;margin-top:10px;text-align:center;display:none;padding:8px 10px;background:rgba(220,38,38,.08);border-radius:7px}
 /* ══ BIG CARDS ══════════════════════════════════════════════ */
 .bcard{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px 18px;text-align:center;cursor:pointer;transition:.2s;text-decoration:none;display:block;color:inherit;margin-bottom:13px}
 .bcard:hover{box-shadow:0 6px 24px var(--shadow-md);transform:translateY(-2px)}
@@ -893,17 +907,34 @@ nav::-webkit-scrollbar{display:none}
 
 <!-- ══ FORMATEURS ══ -->
 <div class="pg" id="pg-formateurs">
-  <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">group</span></div><div><div class="inh-title">Formateurs</div><div class="inh-sub">Base des formateurs INF · JCI Togo</div></div></div>
-  <div class="inc">
-    <div class="sbox">
-      <div class="sb-lbl"><span class="material-symbols-rounded">search</span>Rechercher un formateur</div>
-      <div class="sb-row">
-        <div class="sb-iw"><span class="material-symbols-rounded">search</span><input type="text" id="search-input" placeholder="Nom, NIF, organisation…" onkeydown="if(event.key==='Enter')doSearch()"/></div>
-        <select class="sb-sel" id="search-type"><option value="nom">Par Nom</option><option value="nif">Par NIF</option><option value="locale">Par Organisation</option><option value="grade">Par Grade</option></select>
-      </div>
-      <button class="sb-btn" onclick="doSearch()"><span class="material-symbols-rounded">manage_search</span>Rechercher</button>
+  <!-- Écran de connexion -->
+  <div id="fmt-auth-overlay">
+    <div class="fmt-auth-box">
+      <div class="fmt-auth-ico"><span class="material-symbols-rounded">lock</span></div>
+      <div class="fmt-auth-title">Espace Formateurs</div>
+      <div class="fmt-auth-sub">Connectez-vous avec votre NIF et votre mot de passe pour accéder à la base des formateurs.</div>
+      <label class="fmt-auth-lbl">NIF (Numéro d'Identification Formateur)</label>
+      <input class="fmt-auth-inp" id="fmt-nif" type="text" placeholder="Ex : 2026001" autocomplete="off" onkeydown="if(event.key==='Enter')document.getElementById('fmt-pwd').focus()"/>
+      <label class="fmt-auth-lbl">Mot de passe</label>
+      <input class="fmt-auth-inp" id="fmt-pwd" type="password" placeholder="••••••••" autocomplete="off" onkeydown="if(event.key==='Enter')submitFormateurAuth()"/>
+      <div class="fmt-auth-err" id="fmt-auth-err">NIF ou mot de passe incorrect.</div>
+      <button class="fmt-auth-btn" onclick="submitFormateurAuth()"><span class="material-symbols-rounded">login</span>Se connecter</button>
     </div>
-    <div id="fmt-results"></div>
+  </div>
+  <!-- Contenu visible après authentification -->
+  <div id="fmt-content" style="display:none">
+    <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">group</span></div><div><div class="inh-title">Formateurs</div><div class="inh-sub">Base des formateurs INF · JCI Togo</div></div></div>
+    <div class="inc">
+      <div class="sbox">
+        <div class="sb-lbl"><span class="material-symbols-rounded">search</span>Rechercher un formateur</div>
+        <div class="sb-row">
+          <div class="sb-iw"><span class="material-symbols-rounded">search</span><input type="text" id="search-input" placeholder="Nom, NIF, organisation…" onkeydown="if(event.key==='Enter')doSearch()"/></div>
+          <select class="sb-sel" id="search-type"><option value="nom">Par Nom</option><option value="nif">Par NIF</option><option value="locale">Par Organisation</option><option value="grade">Par Grade</option></select>
+        </div>
+        <button class="sb-btn" onclick="doSearch()"><span class="material-symbols-rounded">manage_search</span>Rechercher</button>
+      </div>
+      <div id="fmt-results"></div>
+    </div>
   </div>
 </div>
 
@@ -1239,6 +1270,31 @@ function showPg(id, btn){
   if(tt) tt.textContent = sectionTitles[id] || 'Institut National de Formation';
   // Rafraîchir partenaires & formateurs à chaque ouverture de Trésorerie
   if(id==='tresorerie'){loadPartners();loadFormateurs();}
+  // Vérifier l'auth à chaque ouverture de Formateurs
+  if(id==='formateurs') checkFormateurAuth();
+}
+
+// ── Authentification Formateurs
+function checkFormateurAuth(){
+  var ok=sessionStorage.getItem('fmt_auth')==='1';
+  var overlay=document.getElementById('fmt-auth-overlay');
+  var content=document.getElementById('fmt-content');
+  if(overlay) overlay.style.display=ok?'none':'flex';
+  if(content) content.style.display=ok?'block':'none';
+  if(!ok) setTimeout(function(){ var n=document.getElementById('fmt-nif'); if(n) n.focus(); },120);
+}
+function submitFormateurAuth(){
+  var nif=(document.getElementById('fmt-nif').value||'').trim();
+  var pwd=(document.getElementById('fmt-pwd').value||'').trim();
+  var errEl=document.getElementById('fmt-auth-err');
+  errEl.style.display='none';
+  if(pwd!=='dinf@2026'||!formateurs.some(function(f){return f.nif===nif;})){
+    errEl.style.display='block';
+    return;
+  }
+  sessionStorage.setItem('fmt_auth','1');
+  document.getElementById('fmt-auth-overlay').style.display='none';
+  document.getElementById('fmt-content').style.display='block';
 }
 
 function goBackAccueil(){
