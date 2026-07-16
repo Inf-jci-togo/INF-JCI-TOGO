@@ -912,12 +912,10 @@ nav::-webkit-scrollbar{display:none}
     <div class="fmt-auth-box">
       <div class="fmt-auth-ico"><span class="material-symbols-rounded">lock</span></div>
       <div class="fmt-auth-title">Espace Formateurs</div>
-      <div class="fmt-auth-sub">Connectez-vous avec votre NIF et votre mot de passe pour accéder à la base des formateurs.</div>
-      <label class="fmt-auth-lbl">NIF (Numéro d'Identification Formateur)</label>
-      <input class="fmt-auth-inp" id="fmt-nif" type="text" placeholder="Ex : 2026001" autocomplete="off" onkeydown="if(event.key==='Enter')document.getElementById('fmt-pwd').focus()"/>
+      <div class="fmt-auth-sub">Saisissez le mot de passe pour accéder à la base des formateurs.</div>
       <label class="fmt-auth-lbl">Mot de passe</label>
       <input class="fmt-auth-inp" id="fmt-pwd" type="password" placeholder="••••••••" autocomplete="off" onkeydown="if(event.key==='Enter')submitFormateurAuth()"/>
-      <div class="fmt-auth-err" id="fmt-auth-err">NIF ou mot de passe incorrect.</div>
+      <div class="fmt-auth-err" id="fmt-auth-err">Mot de passe incorrect.</div>
       <button class="fmt-auth-btn" onclick="submitFormateurAuth()"><span class="material-symbols-rounded">login</span>Se connecter</button>
     </div>
   </div>
@@ -1281,14 +1279,13 @@ function checkFormateurAuth(){
   var content=document.getElementById('fmt-content');
   if(overlay) overlay.style.display=ok?'none':'flex';
   if(content) content.style.display=ok?'block':'none';
-  if(!ok) setTimeout(function(){ var n=document.getElementById('fmt-nif'); if(n) n.focus(); },120);
+  if(!ok) setTimeout(function(){ var p=document.getElementById('fmt-pwd'); if(p) p.focus(); },120);
 }
 function submitFormateurAuth(){
-  var nif=(document.getElementById('fmt-nif').value||'').trim();
   var pwd=(document.getElementById('fmt-pwd').value||'').trim();
   var errEl=document.getElementById('fmt-auth-err');
   errEl.style.display='none';
-  if(pwd!=='dinf@2026'||!formateurs.some(function(f){return f.nif===nif;})){
+  if(pwd!=='inf@2026'){
     errEl.style.display='block';
     return;
   }
@@ -2156,9 +2153,13 @@ const formateurs = [
 const gradeMap={'ALPHA':'badge-alpha','LOCAL':'badge-local','NATIONAL':'badge-national','INTERNATIONAL JUNIOR':'badge-int-jr','INTERNATIONAL SENIOR':'badge-int-sr'};
 function gradeBadge(g){return '<span class="badge '+(gradeMap[g]||'badge-alpha')+'">'+g+'</span>';}
 
+// NIFs des formateurs ayant autorisé la visibilité de leurs coordonnées
+const FMT_CONTACT_ALLOWED = [];
+
 function ficheHTML(f){
-  var tel=f.contact?'<a href="tel:'+f.contact.replace(/\s/g,'')+'">'+f.contact+'</a>':'<em style="color:var(--text-3)">Non renseigné</em>';
-  var mail=f.mail?'<a href="mailto:'+f.mail+'">'+f.mail+'</a>':'<em style="color:var(--text-3)">Non renseigné</em>';
+  var canShow=FMT_CONTACT_ALLOWED.includes(f.nif);
+  var tel=canShow?(f.contact?'<a href="tel:'+f.contact.replace(/\s/g,'')+'">'+f.contact+'</a>':'<em style="color:var(--text-3)">Non renseigné</em>'):'<em style="color:var(--text-3)">Non disponible</em>';
+  var mail=canShow?(f.mail?'<a href="mailto:'+f.mail+'">'+f.mail+'</a>':'<em style="color:var(--text-3)">Non renseigné</em>'):'<em style="color:var(--text-3)">Non disponible</em>';
   var anniv=f.anniversaire?'<div class="fcr"><span class="fcl">Anniversaire</span>'+f.anniversaire+'</div>':'';
   return '<div class="fc-card">'+
     '<button class="back-btn" onclick="clearSearch()"><span class="material-symbols-rounded" style="font-size:16px">arrow_back</span>Retour</button>'+
