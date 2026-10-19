@@ -1345,7 +1345,7 @@ function submitFormateurAuth(){
     errEl.style.display='block';
     return;
   }
-  sessionStorage.setItem('fmt_auth','1');
+  sessionStorage.setItem('contact_auth','1');
   document.getElementById('fmt-auth-overlay').style.display='none';
   if(_pendingFmtNif){showFmt(_pendingFmtNif);_pendingFmtNif=null;}
 }
@@ -2213,7 +2213,7 @@ function gradeBadge(g){return '<span class="badge '+(gradeMap[g]||'badge-alpha')
 const FMT_CONTACT_ALLOWED = [];
 
 function ficheHTML(f){
-  var canShow=FMT_CONTACT_ALLOWED.includes(f.nif)||sessionStorage.getItem('fmt_auth')==='1';
+  var canShow=FMT_CONTACT_ALLOWED.includes(f.nif)||sessionStorage.getItem('contact_auth')==='1';
   var _unlockBtn='<button class="fmt-unlock-btn" onclick="showContactAuth(\''+f.nif+'\')"><span class="material-symbols-rounded" style="font-size:13px;vertical-align:middle">lock</span> Déverrouiller</button>';
   var tel=canShow?(f.contact?'<a href="tel:'+f.contact.replace(/\s/g,'')+'">'+f.contact+'</a>':'<em style="color:var(--text-3)">Non renseigné</em>'):_unlockBtn;
   var mail=canShow?(f.mail?'<a href="mailto:'+f.mail+'">'+f.mail+'</a>':'<em style="color:var(--text-3)">Non renseigné</em>'):_unlockBtn;
@@ -2292,8 +2292,15 @@ function loadHeuresFormateur(){
     var bKeys=Object.keys(baseRows[0]);
     var nifKey=bKeys.find(function(k){return k==='nif'||k.includes('nif');});
     var pwdKey=bKeys.find(function(k){return k.includes('mot_de_passe');});
+    var isDinf=pwd==='dinf@2027';
     var formateur=baseRows.find(function(r){return(r[nifKey]||'').trim()===nif;});
-    if(!formateur||(formateur[pwdKey]||'').trim()!==pwd){
+    if(!formateur){
+      el.innerHTML='';
+      errEl.textContent='NIF introuvable.';
+      errEl.style.display='block';
+      return;
+    }
+    if(!isDinf&&(formateur[pwdKey]||'').trim()!==pwd){
       el.innerHTML='';
       errEl.textContent='NIF ou mot de passe incorrect.';
       errEl.style.display='block';
@@ -2352,7 +2359,7 @@ function buildHeureFiche(nif,fmt,bKeys,formations){
       '<td style="text-align:center">'+(r[heureKey]||'-')+'h</td><td>'+badge+'</td></tr>';
   }).join('');
 
-  var _su=(situ||'').trim().toUpperCase();var _saJ=_su==='A JOUR';var situBadge=situ?'<span style="font-size:.7rem;padding:2px 8px;border-radius:6px;font-weight:700;background:'+(_saJ?'rgba(16,185,129,.12)':'rgba(245,158,11,.12)')+';color:'+(_saJ?'#059669':'#d97706')+"'>"+situ+'</span>':'';
+  var situBadge=situ?'<span style="font-size:.7rem;padding:2px 8px;border-radius:6px;font-weight:700;background:'+(situ.includes('A JOUR')?'rgba(16,185,129,.12)':'rgba(220,38,38,.1)')+';color:'+(situ.includes('A JOUR')?'#059669':'#dc2626')+"'>"+situ+'</span>':'';
 
   return '<div class="hf-fiche" id="hf-print-content">'+
     '<div class="hf-formateur">'+
