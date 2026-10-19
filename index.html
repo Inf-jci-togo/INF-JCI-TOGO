@@ -970,12 +970,14 @@ nav::-webkit-scrollbar{display:none}
       <hr class="hf-sep"/>
       <div class="hf-section-head">
         <div class="hf-section-ico"><span class="material-symbols-rounded">schedule</span></div>
-        <div><div class="hf-section-title">Situation des Heures de Formation</div><div class="hf-section-sub">Consultez le bilan des heures par NIF</div></div>
+        <div><div class="hf-section-title">Situation des Heures de Formation</div><div class="hf-section-sub">Saisissez votre NIF et votre mot de passe personnel</div></div>
       </div>
-      <div class="hf-nif-row">
-        <input type="text" id="hf-nif-input" class="hf-nif-inp" placeholder="Saisir un NIF…" onkeydown="if(event.key==='Enter')loadHeuresFormateur()"/>
-        <button class="hf-nif-btn" onclick="loadHeuresFormateur()"><span class="material-symbols-rounded">search</span>Consulter</button>
-      </div>
+      <label class="fmt-auth-lbl">NIF du formateur</label>
+      <input type="text" id="hf-nif-input" class="hf-nif-inp" placeholder="Ex: 2026001" autocomplete="off" onkeydown="if(event.key==='Enter')document.getElementById('hf-pwd-input').focus()"/>
+      <label class="fmt-auth-lbl" style="margin-top:10px">Mot de passe personnel</label>
+      <input type="password" id="hf-pwd-input" class="hf-nif-inp" placeholder="••••••••" autocomplete="off" onkeydown="if(event.key==='Enter')loadHeuresFormateur()"/>
+      <div class="fmt-auth-err" id="hf-auth-err" style="display:none">NIF ou mot de passe incorrect.</div>
+      <button class="hf-nif-btn" style="width:100%;margin-top:14px;justify-content:center" onclick="loadHeuresFormateur()"><span class="material-symbols-rounded">search</span>Consulter ma situation</button>
       <div id="heures-result"></div>
     </div>
   </div>
@@ -2239,47 +2241,85 @@ function clearSearch(){document.getElementById('search-input').value='';document
 document.addEventListener('DOMContentLoaded',function(){const inp=document.getElementById('search-input');if(inp)inp.addEventListener('keydown',e=>{if(e.key==='Enter')doSearch();});});
 
 // ── Situation des Heures de Formation
-const HEURES_SHEET_URL='https://docs.google.com/spreadsheets/d/1Wu0NYR3sGjxVu1Wx4fiXnngyHNGIDhFZ4iibbRZXZ5w/gviz/tq?tqx=out:json&sheet=Rapport%20des%20formateurs';
+const HEURES_BASE_URL='https://docs.google.com/spreadsheets/d/1Wu0NYR3sGjxVu1Wx4fiXnngyHNGIDhFZ4iibbRZXZ5w/gviz/tq?tqx=out:json&sheet=BASE%20ACTUALISEE%20AVEC%20NIF';
+const HEURES_RAPPORT_URL='https://docs.google.com/spreadsheets/d/1Wu0NYR3sGjxVu1Wx4fiXnngyHNGIDhFZ4iibbRZXZ5w/gviz/tq?tqx=out:json&sheet=Rapport%20des%20formateurs';
 
-function loadHeuresFormateur(){
-  var nif=(document.getElementById('hf-nif-input').value||'').trim().toUpperCase();
-  var el=document.getElementById('heures-result');
-  if(!nif){el.innerHTML='<p class="no-result">Veuillez saisir un NIF.</p>';return;}
-  el.innerHTML='<p class="no-result">Chargement…</p>';
-  fetch(HEURES_SHEET_URL,{cache:'no-cache'})
-    .then(function(r){return r.text();})
-    .then(function(text){
-      var rows=_parseGviz(text);
-      rows=rows.filter(function(r){return Object.values(r).some(function(v){return v&&v.trim();});});
-      if(!rows.length){el.innerHTML='<p class="no-result">Données indisponibles.</p>';return;}
-      var allKeys=Object.keys(rows[0]);
-      var nifKey=allKeys.find(function(k){return k.includes('nif');});
-      if(!nifKey){el.innerHTML='<p class="no-result">Structure du Sheet non reconnue.</p>';return;}
-      var formations=rows.filter(function(r){return(r[nifKey]||'').trim().toUpperCase()===nif;});
-      if(!formations.length){el.innerHTML='<p class="no-result">Aucune formation trouvée pour le NIF <strong>'+nif+'</strong>.</p>';return;}
-      el.innerHTML=buildHeureFiche(nif,formations);
-    })
-    .catch(function(){el.innerHTML='<p class="no-result">Erreur de chargement des données.</p>';});
+function _parseGvizMapped(text){
+  function _nk(s){return(s||'').trim().toLowerCase().replace(/[éèê]/g,'e').replace(/[àâ]/g,'a').replace(/[ùû]/g,'u').replace(/[îï]/g,'i').replace(/[ôö]/g,'o').replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');}
+  var rows=_parseGviz(text);
+  rows=rows.filter(function(r){return Object.values(r).some(function(v){return v&&v.trim();});});
+  if(!rows.length)return[];
+  var keys=Object.keys(rows[0]);
+  var isId=keys.length>0&&keys.every(function(k){return/^[a-z]{1,2}$/.test(k);});
+  if(isId){
+    var hIdx=rows.findIndex(function(r){return Object.values(r).filter(function(v){return v&&v.trim();}).length>=2;});
+    if(hIdx<0)return[];
+    var hRow=rows[hIdx];
+    return rows.slice(hIdx+1).map(function(r){var obj={};keys.forEach(function(k){var lbl=_nk(hRow[k]);obj[lbl||k]=r[k];});return obj;});
+  }
+  return rows;
 }
 
-function buildHeureFiche(nif,formations){
-  var f=formations[0];
-  var k=Object.keys(f);
-  var nomKey=k.find(function(x){return x.includes('nom_et_prenom')||x.includes('nom');});
-  var gradeKey=k.find(function(x){return x.includes('grade');});
-  var orgKey=k.find(function(x){return x.includes('organisation')||x.includes('locale');});
-  var dateKey=k.find(function(x){return x.includes('date');});
-  var typeKey=k.find(function(x){return x.includes('type');});
-  var codeKey=k.find(function(x){return x.includes('code');});
-  var themeKey=k.find(function(x){return x.includes('theme');});
-  var niveauKey=k.find(function(x){return x.includes('niveau');});
-  var partKey=k.find(function(x){return x.includes('participants')||x.includes('nombre_de_p');});
-  var heureKey=k.find(function(x){return x.includes('heure_valide')||x.includes('nombre_dheure');});
-  var visaKey=k.find(function(x){return x.includes('visa');});
+function loadHeuresFormateur(){
+  var nif=(document.getElementById('hf-nif-input').value||'').trim();
+  var pwd=(document.getElementById('hf-pwd-input').value||'').trim();
+  var el=document.getElementById('heures-result');
+  var errEl=document.getElementById('hf-auth-err');
+  errEl.style.display='none';
+  el.innerHTML='';
+  if(!nif||!pwd){errEl.textContent='Veuillez saisir votre NIF et votre mot de passe.';errEl.style.display='block';return;}
+  el.innerHTML='<p class="no-result">Chargement…</p>';
+  Promise.all([
+    fetch(HEURES_BASE_URL,{cache:'no-cache'}).then(function(r){return r.text();}),
+    fetch(HEURES_RAPPORT_URL,{cache:'no-cache'}).then(function(r){return r.text();})
+  ]).then(function(res){
+    var baseRows=_parseGvizMapped(res[0]);
+    var rapportRows=_parseGvizMapped(res[1]);
+    if(!baseRows.length){el.innerHTML='<p class="no-result">Données indisponibles.</p>';return;}
+    var bKeys=Object.keys(baseRows[0]);
+    var nifKey=bKeys.find(function(k){return k==='nif'||k.includes('nif');});
+    var pwdKey=bKeys.find(function(k){return k.includes('mot_de_passe');});
+    var formateur=baseRows.find(function(r){return(r[nifKey]||'').trim()===nif;});
+    if(!formateur||(formateur[pwdKey]||'').trim()!==pwd){
+      el.innerHTML='';
+      errEl.textContent='NIF ou mot de passe incorrect.';
+      errEl.style.display='block';
+      return;
+    }
+    if(!rapportRows.length){el.innerHTML='<p class="no-result">Aucune donnée de formation disponible.</p>';return;}
+    var rNifKey=Object.keys(rapportRows[0]).find(function(k){return k.includes('nif');});
+    var formations=rapportRows.filter(function(r){return(r[rNifKey]||'').trim()===nif;});
+    if(!formations.length){
+      el.innerHTML='<p class="no-result">Aucune formation enregistrée pour ce NIF.</p>';
+      return;
+    }
+    el.innerHTML=buildHeureFiche(nif,formateur,bKeys,formations);
+  })
+  .catch(function(){el.innerHTML='<p class="no-result">Erreur de chargement des données.</p>';});
+}
 
-  var nom=f[nomKey]||nif;
-  var grade=f[gradeKey]||'';
-  var org=f[orgKey]||'';
+function buildHeureFiche(nif,fmt,bKeys,formations){
+  var nomKey=bKeys.find(function(k){return k.includes('nom_et_prenoms')||k.includes('nom');});
+  var gradeKey=bKeys.find(function(k){return k.includes('grade');});
+  var orgKey=bKeys.find(function(k){return k.includes('locale');});
+  var statutKey=bKeys.find(function(k){return k.includes('statut');});
+  var situKey=bKeys.find(function(k){return k.includes('situation');});
+  var nom=fmt[nomKey]||nif;
+  var grade=fmt[gradeKey]||'';
+  var org=fmt[orgKey]||'';
+  var statut=fmt[statutKey]||'';
+  var situ=fmt[situKey]||'';
+
+  var rk=Object.keys(formations[0]);
+  var dateKey=rk.find(function(k){return k.includes('date');});
+  var typeKey=rk.find(function(k){return k.includes('type');});
+  var codeKey=rk.find(function(k){return k.includes('code');});
+  var themeKey=rk.find(function(k){return k.includes('theme');});
+  var niveauKey=rk.find(function(k){return k.includes('niveau');});
+  var partKey=rk.find(function(k){return k.includes('participants')||k.includes('nombre_de_p');});
+  var heureKey=rk.find(function(k){return k.includes('heure_valide')||k.includes('nombre_dheure');});
+  var visaKey=rk.find(function(k){return k.includes('visa');});
+
   var total=formations.length;
   var asPrincipal=formations.filter(function(r){return(r[niveauKey]||'').toUpperCase().includes('PRINCIPAL');}).length;
   var asAssistant=formations.filter(function(r){return(r[niveauKey]||'').toUpperCase().includes('ASSISTANT');}).length;
@@ -2290,24 +2330,21 @@ function buildHeureFiche(nif,formations){
   },0);
 
   var tbody=formations.map(function(r,i){
-    var date=r[dateKey]||'';
-    var code=r[codeKey]||'-';
-    var theme=r[themeKey]||'-';
-    var type=r[typeKey]||'-';
-    var niveau=r[niveauKey]||'-';
-    var part=r[partKey]||'-';
-    var heures=r[heureKey]||'-';
     var visa=(r[visaKey]||'').trim().toUpperCase();
     var badge=visa==='OK'?'<span class="hf-badge-ok">Validé</span>':'<span class="hf-badge-pend">En attente</span>';
-    return '<tr><td>'+(i+1)+'</td><td style="white-space:nowrap">'+date+'</td><td>'+code+'</td>'+
-      '<td style="max-width:140px;word-break:break-word">'+theme+'</td><td>'+type+'</td><td>'+niveau+'</td>'+
-      '<td style="text-align:center">'+part+'</td><td style="text-align:center">'+heures+'h</td><td>'+badge+'</td></tr>';
+    return '<tr><td>'+(i+1)+'</td><td style="white-space:nowrap">'+(r[dateKey]||'')+'</td><td>'+(r[codeKey]||'-')+'</td>'+
+      '<td style="max-width:140px;word-break:break-word">'+(r[themeKey]||'-')+'</td><td>'+(r[typeKey]||'-')+'</td>'+
+      '<td>'+(r[niveauKey]||'-')+'</td><td style="text-align:center">'+(r[partKey]||'-')+'</td>'+
+      '<td style="text-align:center">'+(r[heureKey]||'-')+'h</td><td>'+badge+'</td></tr>';
   }).join('');
+
+  var situBadge=situ?'<span style="font-size:.7rem;padding:2px 8px;border-radius:6px;font-weight:700;background:'+(situ.includes('A JOUR')?'rgba(16,185,129,.12)':'rgba(220,38,38,.1)')+';color:'+(situ.includes('A JOUR')?'#059669':'#dc2626')+'">'+situ+'</span>':'';
 
   return '<div class="hf-fiche" id="hf-print-content">'+
     '<div class="hf-formateur">'+
       '<div class="hf-fmt-name">'+nom+'</div>'+
-      '<div class="hf-fmt-sub">NIF : '+nif+(grade?' · '+grade:'')+(org?' · '+org:'')+'</div>'+
+      '<div class="hf-fmt-sub">NIF : '+nif+(grade?' · '+grade:'')+(org?' · '+org:'')+(statut?' · '+statut:'')+'</div>'+
+      (situBadge?'<div style="margin-top:6px">'+situBadge+'</div>':'')+
     '</div>'+
     '<div class="hf-stats">'+
       '<div class="hf-stat"><div class="hf-stat-val">'+total+'</div><div class="hf-stat-lbl">Formations animées</div></div>'+
@@ -2326,7 +2363,7 @@ function buildHeureFiche(nif,formations){
 }
 
 function printHeureFiche(){
-  var nif=(document.getElementById('hf-nif-input').value||'').trim().toUpperCase();
+  var nif=(document.getElementById('hf-nif-input').value||'').trim();
   var ficheEl=document.getElementById('hf-print-content');
   if(!ficheEl)return;
   var nom=ficheEl.querySelector('.hf-fmt-name')?ficheEl.querySelector('.hf-fmt-name').textContent:nif;
@@ -2368,12 +2405,19 @@ function printHeureFiche(){
     'td{padding:5px 8px;border-bottom:1px solid #dee2e6;vertical-align:top}'+
     'tr:nth-child(even) td{background:#f8f9fc}'+
     '.ok{color:#059669;font-weight:700}.pend{color:#d97706;font-weight:700}'+
-    '.footer{margin-top:18px;font-size:9px;color:#aaa;text-align:center;border-top:1px solid #dee2e6;padding-top:8px}'+
+    '.sig{margin-top:28px;padding-top:12px;border-top:2px solid #002550}'+
+    '.sig-name{font-size:12px;font-weight:700;color:#002550;margin-bottom:2px}'+
+    '.sig-title{font-size:9.5px;color:#555}'+
+    '.footer{margin-top:14px;font-size:9px;color:#aaa;text-align:center;border-top:1px solid #dee2e6;padding-top:8px}'+
   '</style></head><body>'+
     '<h1>Situation des Heures de Formation</h1>'+
-    '<div class="sub">Institut National de Formation · JCI Togo &nbsp;|&nbsp; Édité le '+today+'</div>'+
+    '<div class="sub">Institut National de Formation · JCI Togo  |  Édité le '+today+'</div>'+
     '<div class="fmt-card"><div class="fmt-name">'+nom+'</div><div style="font-size:10px;color:#555">'+sub+'</div></div>'+
     statsHTML+tableHTML+
+    '<div class="sig">'+
+      '<div class="sig-name">Kokouvi DJIWONOU</div>'+
+      '<div class="sig-title">Directeur, Institut National de Formation · JCI Togo</div>'+
+    '</div>'+
     '<div class="footer">Institut National de Formation · JCI Togo</div>'+
   '</body></html>');
   w.document.close();
