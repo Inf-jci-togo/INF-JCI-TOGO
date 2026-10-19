@@ -1,4 +1,4 @@
-const CACHE_NAME = 'inf-jci-v80';
+const CACHE_NAME = 'inf-jci-v81';
 const ASSETS = [
   './',
   './index.html',
@@ -18,7 +18,8 @@ const ASSETS = [
   './assets/hyppolite-djoka.jpeg',
   './assets/icon-192.png',
   './assets/icon-512.png',
-  './textes-raw.js'
+  './textes-raw.js',
+  './assets/signature-directeur.png'
 ];
 
 // Installation : mise en cache + skipWaiting dans la promesse
