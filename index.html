@@ -2554,7 +2554,10 @@ function showUpdateToast(autoReload) {
 }
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(function(){});
+  navigator.serviceWorker.register('sw.js').then(function(reg) {
+    // Force la vérification du SW à chaque ouverture (contourne le cache HTTP de GitHub Pages)
+    reg.update();
+  }).catch(function(){});
   // Le SW envoie SW_UPDATED → notification + rechargement automatique
   navigator.serviceWorker.addEventListener('message', function(event) {
     if (event.data && event.data.type === 'SW_UPDATED') {
