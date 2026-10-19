@@ -2244,6 +2244,9 @@ document.addEventListener('DOMContentLoaded',function(){const inp=document.getEl
 const HEURES_BASE_URL='https://docs.google.com/spreadsheets/d/1Wu0NYR3sGjxVu1Wx4fiXnngyHNGIDhFZ4iibbRZXZ5w/gviz/tq?tqx=out:json&sheet=BASE%20ACTUALISEE%20AVEC%20NIF';
 const HEURES_RAPPORT_URL='https://docs.google.com/spreadsheets/d/1Wu0NYR3sGjxVu1Wx4fiXnngyHNGIDhFZ4iibbRZXZ5w/gviz/tq?tqx=out:json&sheet=Rapport%20des%20formateurs';
 
+// Données courantes pour l'impression
+var _hfFmt=null, _hfBKeys=null, _hfFormations=null, _hfNif=null;
+
 function _parseGvizMapped(text){
   function _nk(s){return(s||'').trim().toLowerCase().replace(/[éèê]/g,'e').replace(/[àâ]/g,'a').replace(/[ùû]/g,'u').replace(/[îï]/g,'i').replace(/[ôö]/g,'o').replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');}
   var rows=_parseGviz(text);
@@ -2293,6 +2296,7 @@ function loadHeuresFormateur(){
       el.innerHTML='<p class="no-result">Aucune formation enregistrée pour ce NIF.</p>';
       return;
     }
+    _hfFmt=formateur; _hfBKeys=bKeys; _hfFormations=formations; _hfNif=nif;
     el.innerHTML=buildHeureFiche(nif,formateur,bKeys,formations);
   })
   .catch(function(){el.innerHTML='<p class="no-result">Erreur de chargement des données.</p>';});
@@ -2362,67 +2366,158 @@ function buildHeureFiche(nif,fmt,bKeys,formations){
   '<button class="hf-print-btn" onclick="printHeureFiche()"><span class="material-symbols-rounded">print</span>Télécharger / Imprimer la situation</button>';
 }
 
-function printHeureFiche(){
-  var nif=(document.getElementById('hf-nif-input').value||'').trim();
-  var ficheEl=document.getElementById('hf-print-content');
-  if(!ficheEl)return;
-  var nom=ficheEl.querySelector('.hf-fmt-name')?ficheEl.querySelector('.hf-fmt-name').textContent:nif;
-  var sub=ficheEl.querySelector('.hf-fmt-sub')?ficheEl.querySelector('.hf-fmt-sub').textContent:'';
-  var statsHTML='<div class="stats">';
-  ficheEl.querySelectorAll('.hf-stat').forEach(function(s){
-    var val=s.querySelector('.hf-stat-val')?s.querySelector('.hf-stat-val').textContent:'';
-    var lbl=s.querySelector('.hf-stat-lbl')?s.querySelector('.hf-stat-lbl').innerHTML:'';
-    statsHTML+='<div class="stat"><div class="stat-val">'+val+'</div><div class="stat-lbl">'+lbl+'</div></div>';
-  });
-  statsHTML+='</div>';
-  var tableEl=ficheEl.querySelector('.hf-table');
-  var tableHTML='';
-  if(tableEl){
-    tableHTML='<table><thead><tr><th>#</th><th>Date</th><th>Code</th><th>Thème</th><th>Type</th><th>Niveau</th><th>Part.</th><th>Heures</th><th>Statut</th></tr></thead><tbody>';
-    tableEl.querySelectorAll('tbody tr').forEach(function(tr){
-      var tds=tr.querySelectorAll('td');
-      var visa=tds[8]?tds[8].textContent.trim():'';
-      tableHTML+='<tr>';
-      for(var i=0;i<8;i++)tableHTML+='<td>'+(tds[i]?tds[i].textContent.trim():'-')+'</td>';
-      tableHTML+='<td><span class="'+(visa==='Validé'?'ok':'pend')+'">'+visa+'</span></td></tr>';
+function _imgToDataUrl(path){
+  return fetch(path,{cache:'force-cache'}).then(function(r){return r.blob();}).then(function(b){
+    return new Promise(function(resolve){
+      var rd=new FileReader();rd.onloadend=function(){resolve(rd.result);};rd.readAsDataURL(b);
     });
-    tableHTML+='</tbody></table>';
-  }
-  var today=new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
-  var w=window.open('','_blank','width=960,height=700');
-  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Situation des Heures · '+nif+'</title><style>'+
-    'body{font-family:Arial,sans-serif;font-size:11px;color:#1a1a2e;padding:24px 28px}'+
-    'h1{font-size:14px;color:#002550;margin:0 0 3px}'+
-    '.sub{font-size:9.5px;color:#555;margin-bottom:16px}'+
-    '.fmt-card{background:#f4f6f9;border:1px solid #d0d7e3;border-radius:8px;padding:12px 14px;margin-bottom:14px}'+
-    '.fmt-name{font-size:13px;font-weight:700;margin-bottom:3px}'+
-    '.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}'+
-    '.stat{text-align:center;background:#f4f6f9;border:1px solid #d0d7e3;border-radius:6px;padding:8px}'+
-    '.stat-val{font-size:17px;font-weight:800;color:#002550}'+
-    '.stat-lbl{font-size:9px;color:#666;margin-top:2px}'+
-    'table{width:100%;border-collapse:collapse;font-size:10px}'+
-    'th{background:#002550;color:#fff;padding:6px 8px;text-align:left;white-space:nowrap}'+
-    'td{padding:5px 8px;border-bottom:1px solid #dee2e6;vertical-align:top}'+
-    'tr:nth-child(even) td{background:#f8f9fc}'+
-    '.ok{color:#059669;font-weight:700}.pend{color:#d97706;font-weight:700}'+
-    '.sig{margin-top:28px;padding-top:12px;border-top:2px solid #002550}'+
-    '.sig-name{font-size:12px;font-weight:700;color:#002550;margin-bottom:2px}'+
-    '.sig-title{font-size:9.5px;color:#555}'+
-    '.footer{margin-top:14px;font-size:9px;color:#aaa;text-align:center;border-top:1px solid #dee2e6;padding-top:8px}'+
-  '</style></head><body>'+
-    '<h1>Situation des Heures de Formation</h1>'+
-    '<div class="sub">Institut National de Formation · JCI Togo  |  Édité le '+today+'</div>'+
-    '<div class="fmt-card"><div class="fmt-name">'+nom+'</div><div style="font-size:10px;color:#555">'+sub+'</div></div>'+
-    statsHTML+tableHTML+
-    '<div class="sig">'+
-      '<div class="sig-name">Kokouvi DJIWONOU</div>'+
-      '<div class="sig-title">Directeur, Institut National de Formation · JCI Togo</div>'+
-    '</div>'+
-    '<div class="footer">Institut National de Formation · JCI Togo</div>'+
-  '</body></html>');
-  w.document.close();
-  w.focus();
-  setTimeout(function(){w.print();},400);
+  });
+}
+
+function printHeureFiche(){
+  if(!_hfFmt||!_hfFormations){return;}
+  var nif=_hfNif||'';
+  var fmt=_hfFmt, bKeys=_hfBKeys, formations=_hfFormations;
+
+  var nomKey=bKeys.find(function(k){return k.includes('nom_et_prenoms')||k.includes('nom');});
+  var gradeKey=bKeys.find(function(k){return k.includes('grade');});
+  var orgKey=bKeys.find(function(k){return k.includes('locale');});
+  var statutKey=bKeys.find(function(k){return k.includes('statut');});
+  var situKey=bKeys.find(function(k){return k.includes('situation');});
+  var nom=fmt[nomKey]||nif;
+  var grade=fmt[gradeKey]||'';
+  var org=fmt[orgKey]||'';
+  var statut=fmt[statutKey]||'';
+  var situ=fmt[situKey]||'';
+
+  var rk=Object.keys(formations[0]);
+  var themeKey=rk.find(function(k){return k.includes('theme');});
+  var codeKey=rk.find(function(k){return k.includes('code');});
+  var heureKey=rk.find(function(k){return k.includes('heure_valide')||k.includes('nombre_dheure');});
+  var visaKey=rk.find(function(k){return k.includes('visa');});
+
+  var totalValides=formations.filter(function(r){return(r[visaKey]||'').trim().toUpperCase()==='OK';}).length;
+
+  var tbody=formations.map(function(r,i){
+    var visa=(r[visaKey]||'').trim().toUpperCase();
+    return '<tr>'+
+      '<td class="tc">'+(i+1)+'</td>'+
+      '<td class="tl">'+(r[themeKey]||'-')+'</td>'+
+      '<td class="tc">'+(r[codeKey]||'-')+'</td>'+
+      '<td class="tc">'+(r[heureKey]||'-')+'</td>'+
+      '<td class="tc '+(visa==='OK'?'ok':'pend')+'">'+(visa==='OK'?'OK':visa||'-')+'</td>'+
+    '</tr>';
+  }).join('');
+
+  var today=new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'});
+
+  Promise.all([
+    _imgToDataUrl('./assets/logo-inf-officiel.png'),
+    _imgToDataUrl('./assets/signature-directeur.png')
+  ]).then(function(imgs){
+    var logoSrc=imgs[0], sigSrc=imgs[1];
+    var w=window.open('','_blank','width=700,height=900');
+    w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8">'+
+      '<title>Situation des Heures · '+nif+'</title>'+
+      '<style>'+
+        '@page{size:A4 portrait;margin:10mm 12mm}'+
+        '*{box-sizing:border-box;margin:0;padding:0}'+
+        'body{font-family:Arial,sans-serif;font-size:10px;color:#1a1a2e;background:#fff}'+
+        '.page{border:1.5px solid #002550;min-height:277mm;display:flex;flex-direction:column}'+
+        /* Header */
+        '.hdr{display:flex;align-items:center;padding:8px 12px;border-bottom:2px solid #002550;gap:12px}'+
+        '.hdr-logo{height:64px;flex-shrink:0}'+
+        '.hdr-text{flex:1}'+
+        '.hdr-inst{font-size:13px;font-weight:700;color:#002550;text-transform:uppercase;letter-spacing:.3px}'+
+        '.hdr-form{background:#1565c0;color:#fff;font-size:9.5px;font-weight:700;padding:4px 8px;margin-top:5px;text-transform:uppercase;letter-spacing:.5px;text-align:center}'+
+        /* Info block */
+        '.info{width:100%;border-collapse:collapse;font-size:10px}'+
+        '.info td{border:1px solid #002550;padding:5px 9px;vertical-align:middle}'+
+        '.lbl{background:#fff8c5;font-weight:700;color:#002550;width:140px;white-space:nowrap}'+
+        '.val{background:#fff;min-width:80px}'+
+        /* Section title */
+        '.sec{background:#002550;color:#fff;text-align:center;font-size:11px;font-weight:700;padding:6px 8px;text-transform:uppercase;letter-spacing:.8px;border-top:2px solid #002550}'+
+        /* Formations table */
+        '.ftbl{width:100%;border-collapse:collapse;font-size:10px;flex:1}'+
+        '.ftbl th{background:#002550;color:#fff;padding:6px 6px;border:1px solid #002550;font-size:9.5px}'+
+        '.ftbl td{border:1px solid #b0bec5;padding:4px 6px;vertical-align:middle}'+
+        '.ftbl tr:nth-child(even) td{background:#f0f4f8}'+
+        '.tc{text-align:center}.tl{text-align:left}'+
+        '.ok{color:#059669;font-weight:700}.pend{color:#d97706;font-weight:700}'+
+        /* Footer */
+        '.ftr{display:flex;justify-content:flex-end;padding:14px 16px 10px;border-top:1px solid #ccc;margin-top:auto}'+
+        '.sig-blk{text-align:center;min-width:160px}'+
+        '.sig-date{font-size:10px;margin-bottom:4px;text-align:right}'+
+        '.sig-lbl{font-size:10px;font-weight:600;color:#1a1a2e}'+
+        '.sig-img{height:55px;display:block;margin:2px auto}'+
+        '.sig-name{font-size:11px;font-weight:700;color:#002550}'+
+        '@media print{html,body{width:210mm}button{display:none}}'+
+      '</style></head><body>'+
+      '<div class="page">'+
+
+        '<div class="hdr">'+
+          '<img src="'+logoSrc+'" class="hdr-logo"/>'+
+          '<div class="hdr-text">'+
+            '<div class="hdr-inst">Institut National de Formation - JCI Togo</div>'+
+            '<div class="hdr-form">Formulaire de situation des heures validées — Formateur</div>'+
+          '</div>'+
+        '</div>'+
+
+        '<table class="info">'+
+          '<tr>'+
+            '<td class="lbl">NIF du formateur</td>'+
+            '<td class="val" colspan="3" style="font-weight:700">'+nif+'</td>'+
+          '</tr>'+
+          '<tr>'+
+            '<td class="lbl">Nom et prénom</td>'+
+            '<td class="val">'+nom+'</td>'+
+            '<td class="lbl">OL</td>'+
+            '<td class="val">'+org+'</td>'+
+          '</tr>'+
+          '<tr>'+
+            '<td class="lbl">Grade</td>'+
+            '<td class="val">'+grade+'</td>'+
+            '<td class="lbl">Statut</td>'+
+            '<td class="val">'+statut+'</td>'+
+          '</tr>'+
+          '<tr>'+
+            '<td class="lbl">Situation TG</td>'+
+            '<td class="val">'+situ+'</td>'+
+            '<td class="lbl">N° totale validées</td>'+
+            '<td class="val" style="font-weight:700;color:#002550;font-size:12px">'+totalValides+'</td>'+
+          '</tr>'+
+        '</table>'+
+
+        '<div class="sec">Détail des formations validées</div>'+
+
+        '<table class="ftbl">'+
+          '<thead><tr>'+
+            '<th style="width:40px">N° d\'ordre</th>'+
+            '<th>Formations</th>'+
+            '<th style="width:65px">Codes</th>'+
+            '<th style="width:55px">Heures</th>'+
+            '<th style="width:70px">Visa Dinf</th>'+
+          '</tr></thead>'+
+          '<tbody>'+tbody+'</tbody>'+
+        '</table>'+
+
+        '<div class="ftr">'+
+          '<div class="sig-blk">'+
+            '<div class="sig-date">Fait le : '+today+'</div>'+
+            '<div class="sig-lbl">Le Directeur</div>'+
+            '<img src="'+sigSrc+'" class="sig-img"/>'+
+            '<div class="sig-name">Kokouvi DJIWONOU</div>'+
+          '</div>'+
+        '</div>'+
+
+      '</div>'+
+    '</body></html>');
+    w.document.close();
+    w.focus();
+    setTimeout(function(){w.print();},500);
+  }).catch(function(){
+    alert('Impossible de charger les images pour l\'impression.');
+  });
 }
 
 // ── PWA
