@@ -326,6 +326,38 @@ nav::-webkit-scrollbar{display:none}
 .fmt-auth-btn:hover{opacity:.88}
 .fmt-auth-btn .material-symbols-rounded{font-size:16px}
 .fmt-auth-err{color:#dc2626;font-size:.73rem;margin-top:10px;text-align:center;display:none;padding:8px 10px;background:rgba(220,38,38,.08);border-radius:7px}
+/* ══ HEURES DE FORMATION ════════════════════════════════════ */
+.hf-sep{border:none;border-top:1.5px solid var(--border);margin:24px 0 20px}
+.hf-section-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.hf-section-ico{width:40px;height:40px;background:rgba(0,37,80,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hf-section-ico .material-symbols-rounded{font-size:22px;color:var(--navy)}
+.hf-section-title{font-size:.92rem;font-weight:700;color:var(--text-1)}
+.hf-section-sub{font-size:.72rem;color:var(--text-2)}
+.hf-nif-row{display:flex;gap:8px;margin-bottom:4px}
+.hf-nif-inp{flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text-1);font-family:'Inter',sans-serif;font-size:.87rem;box-sizing:border-box;outline:none;transition:.2s;text-transform:uppercase}
+.hf-nif-inp:focus{border-color:var(--navy)}
+.hf-nif-btn{padding:10px 16px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-size:.83rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:6px;white-space:nowrap;transition:.2s}
+.hf-nif-btn:hover{opacity:.88}
+.hf-nif-btn .material-symbols-rounded{font-size:16px}
+.hf-fiche{margin-top:14px}
+.hf-formateur{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px}
+.hf-fmt-name{font-size:1rem;font-weight:700;color:var(--text-1);margin-bottom:4px}
+.hf-fmt-sub{font-size:.75rem;color:var(--text-2)}
+.hf-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.hf-stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center}
+.hf-stat-val{font-size:1.35rem;font-weight:800;color:var(--navy)}
+.hf-stat-lbl{font-size:.67rem;color:var(--text-2);margin-top:2px;line-height:1.3}
+.hf-table-wrap{overflow-x:auto;margin-bottom:14px;border-radius:10px;border:1px solid var(--border)}
+.hf-table{width:100%;border-collapse:collapse;font-size:.73rem;min-width:560px}
+.hf-table th{background:var(--navy);color:#fff;padding:8px 10px;text-align:left;font-weight:600;white-space:nowrap}
+.hf-table td{padding:7px 10px;border-bottom:1px solid var(--border);color:var(--text-1);vertical-align:top}
+.hf-table tr:last-child td{border-bottom:none}
+.hf-table tr:nth-child(even) td{background:rgba(0,37,80,.03)}
+.hf-badge-ok{display:inline-block;padding:2px 8px;background:rgba(16,185,129,.12);color:#059669;border-radius:6px;font-size:.68rem;font-weight:700}
+.hf-badge-pend{display:inline-block;padding:2px 8px;background:rgba(245,158,11,.12);color:#d97706;border-radius:6px;font-size:.68rem;font-weight:700}
+.hf-print-btn{width:100%;padding:11px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:.87rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:7px;transition:.2s;margin-top:6px}
+.hf-print-btn:hover{opacity:.88}
+.hf-print-btn .material-symbols-rounded{font-size:18px}
 /* ══ BIG CARDS ══════════════════════════════════════════════ */
 .bcard{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px 18px;text-align:center;cursor:pointer;transition:.2s;text-decoration:none;display:block;color:inherit;margin-bottom:13px}
 .bcard:hover{box-shadow:0 6px 24px var(--shadow-md);transform:translateY(-2px)}
@@ -932,6 +964,19 @@ nav::-webkit-scrollbar{display:none}
         <button class="sb-btn" onclick="doSearch()"><span class="material-symbols-rounded">manage_search</span>Rechercher</button>
       </div>
       <div id="fmt-results"></div>
+    </div>
+    <!-- Situation des Heures de Formation -->
+    <div class="inc" style="padding-top:0">
+      <hr class="hf-sep"/>
+      <div class="hf-section-head">
+        <div class="hf-section-ico"><span class="material-symbols-rounded">schedule</span></div>
+        <div><div class="hf-section-title">Situation des Heures de Formation</div><div class="hf-section-sub">Consultez le bilan des heures par NIF</div></div>
+      </div>
+      <div class="hf-nif-row">
+        <input type="text" id="hf-nif-input" class="hf-nif-inp" placeholder="Saisir un NIF…" onkeydown="if(event.key==='Enter')loadHeuresFormateur()"/>
+        <button class="hf-nif-btn" onclick="loadHeuresFormateur()"><span class="material-symbols-rounded">search</span>Consulter</button>
+      </div>
+      <div id="heures-result"></div>
     </div>
   </div>
 </div>
@@ -2192,6 +2237,149 @@ function doSearch(){
 function showFmt(nif){const f=formateurs.find(x=>x.nif===nif);if(f)document.getElementById('fmt-results').innerHTML=ficheHTML(f);}
 function clearSearch(){document.getElementById('search-input').value='';document.getElementById('fmt-results').innerHTML='';}
 document.addEventListener('DOMContentLoaded',function(){const inp=document.getElementById('search-input');if(inp)inp.addEventListener('keydown',e=>{if(e.key==='Enter')doSearch();});});
+
+// ── Situation des Heures de Formation
+const HEURES_SHEET_URL='https://docs.google.com/spreadsheets/d/1Wu0NYR3sGjxVu1Wx4fiXnngyHNGIDhFZ4iibbRZXZ5w/gviz/tq?tqx=out:json&sheet=Rapport%20des%20formateurs';
+
+function loadHeuresFormateur(){
+  var nif=(document.getElementById('hf-nif-input').value||'').trim().toUpperCase();
+  var el=document.getElementById('heures-result');
+  if(!nif){el.innerHTML='<p class="no-result">Veuillez saisir un NIF.</p>';return;}
+  el.innerHTML='<p class="no-result">Chargement…</p>';
+  fetch(HEURES_SHEET_URL,{cache:'no-cache'})
+    .then(function(r){return r.text();})
+    .then(function(text){
+      var rows=_parseGviz(text);
+      rows=rows.filter(function(r){return Object.values(r).some(function(v){return v&&v.trim();});});
+      if(!rows.length){el.innerHTML='<p class="no-result">Données indisponibles.</p>';return;}
+      var allKeys=Object.keys(rows[0]);
+      var nifKey=allKeys.find(function(k){return k.includes('nif');});
+      if(!nifKey){el.innerHTML='<p class="no-result">Structure du Sheet non reconnue.</p>';return;}
+      var formations=rows.filter(function(r){return(r[nifKey]||'').trim().toUpperCase()===nif;});
+      if(!formations.length){el.innerHTML='<p class="no-result">Aucune formation trouvée pour le NIF <strong>'+nif+'</strong>.</p>';return;}
+      el.innerHTML=buildHeureFiche(nif,formations);
+    })
+    .catch(function(){el.innerHTML='<p class="no-result">Erreur de chargement des données.</p>';});
+}
+
+function buildHeureFiche(nif,formations){
+  var f=formations[0];
+  var k=Object.keys(f);
+  var nomKey=k.find(function(x){return x.includes('nom_et_prenom')||x.includes('nom');});
+  var gradeKey=k.find(function(x){return x.includes('grade');});
+  var orgKey=k.find(function(x){return x.includes('organisation')||x.includes('locale');});
+  var dateKey=k.find(function(x){return x.includes('date');});
+  var typeKey=k.find(function(x){return x.includes('type');});
+  var codeKey=k.find(function(x){return x.includes('code');});
+  var themeKey=k.find(function(x){return x.includes('theme');});
+  var niveauKey=k.find(function(x){return x.includes('niveau');});
+  var partKey=k.find(function(x){return x.includes('participants')||x.includes('nombre_de_p');});
+  var heureKey=k.find(function(x){return x.includes('heure_valide')||x.includes('nombre_dheure');});
+  var visaKey=k.find(function(x){return x.includes('visa');});
+
+  var nom=f[nomKey]||nif;
+  var grade=f[gradeKey]||'';
+  var org=f[orgKey]||'';
+  var total=formations.length;
+  var asPrincipal=formations.filter(function(r){return(r[niveauKey]||'').toUpperCase().includes('PRINCIPAL');}).length;
+  var asAssistant=formations.filter(function(r){return(r[niveauKey]||'').toUpperCase().includes('ASSISTANT');}).length;
+  var heuresValidees=formations.reduce(function(acc,r){
+    var ok=(r[visaKey]||'').trim().toUpperCase()==='OK';
+    var h=parseFloat((r[heureKey]||'').replace(',','.'));
+    return acc+(ok&&!isNaN(h)?h:0);
+  },0);
+
+  var tbody=formations.map(function(r,i){
+    var date=r[dateKey]||'';
+    var code=r[codeKey]||'-';
+    var theme=r[themeKey]||'-';
+    var type=r[typeKey]||'-';
+    var niveau=r[niveauKey]||'-';
+    var part=r[partKey]||'-';
+    var heures=r[heureKey]||'-';
+    var visa=(r[visaKey]||'').trim().toUpperCase();
+    var badge=visa==='OK'?'<span class="hf-badge-ok">Validé</span>':'<span class="hf-badge-pend">En attente</span>';
+    return '<tr><td>'+(i+1)+'</td><td style="white-space:nowrap">'+date+'</td><td>'+code+'</td>'+
+      '<td style="max-width:140px;word-break:break-word">'+theme+'</td><td>'+type+'</td><td>'+niveau+'</td>'+
+      '<td style="text-align:center">'+part+'</td><td style="text-align:center">'+heures+'h</td><td>'+badge+'</td></tr>';
+  }).join('');
+
+  return '<div class="hf-fiche" id="hf-print-content">'+
+    '<div class="hf-formateur">'+
+      '<div class="hf-fmt-name">'+nom+'</div>'+
+      '<div class="hf-fmt-sub">NIF : '+nif+(grade?' · '+grade:'')+(org?' · '+org:'')+'</div>'+
+    '</div>'+
+    '<div class="hf-stats">'+
+      '<div class="hf-stat"><div class="hf-stat-val">'+total+'</div><div class="hf-stat-lbl">Formations animées</div></div>'+
+      '<div class="hf-stat"><div class="hf-stat-val">'+asPrincipal+'</div><div class="hf-stat-lbl">Formateur<br/>Principal</div></div>'+
+      '<div class="hf-stat"><div class="hf-stat-val">'+asAssistant+'</div><div class="hf-stat-lbl">Formateur<br/>Assistant</div></div>'+
+      '<div class="hf-stat"><div class="hf-stat-val">'+heuresValidees.toFixed(1)+'h</div><div class="hf-stat-lbl">Heures validées<br/>DINF</div></div>'+
+    '</div>'+
+    '<div class="hf-table-wrap">'+
+      '<table class="hf-table">'+
+        '<thead><tr><th>#</th><th>Date</th><th>Code</th><th>Thème</th><th>Type</th><th>Niveau</th><th>Part.</th><th>Heures</th><th>Statut</th></tr></thead>'+
+        '<tbody>'+tbody+'</tbody>'+
+      '</table>'+
+    '</div>'+
+  '</div>'+
+  '<button class="hf-print-btn" onclick="printHeureFiche()"><span class="material-symbols-rounded">print</span>Télécharger / Imprimer la situation</button>';
+}
+
+function printHeureFiche(){
+  var nif=(document.getElementById('hf-nif-input').value||'').trim().toUpperCase();
+  var ficheEl=document.getElementById('hf-print-content');
+  if(!ficheEl)return;
+  var nom=ficheEl.querySelector('.hf-fmt-name')?ficheEl.querySelector('.hf-fmt-name').textContent:nif;
+  var sub=ficheEl.querySelector('.hf-fmt-sub')?ficheEl.querySelector('.hf-fmt-sub').textContent:'';
+  var statsHTML='<div class="stats">';
+  ficheEl.querySelectorAll('.hf-stat').forEach(function(s){
+    var val=s.querySelector('.hf-stat-val')?s.querySelector('.hf-stat-val').textContent:'';
+    var lbl=s.querySelector('.hf-stat-lbl')?s.querySelector('.hf-stat-lbl').innerHTML:'';
+    statsHTML+='<div class="stat"><div class="stat-val">'+val+'</div><div class="stat-lbl">'+lbl+'</div></div>';
+  });
+  statsHTML+='</div>';
+  var tableEl=ficheEl.querySelector('.hf-table');
+  var tableHTML='';
+  if(tableEl){
+    tableHTML='<table><thead><tr><th>#</th><th>Date</th><th>Code</th><th>Thème</th><th>Type</th><th>Niveau</th><th>Part.</th><th>Heures</th><th>Statut</th></tr></thead><tbody>';
+    tableEl.querySelectorAll('tbody tr').forEach(function(tr){
+      var tds=tr.querySelectorAll('td');
+      var visa=tds[8]?tds[8].textContent.trim():'';
+      tableHTML+='<tr>';
+      for(var i=0;i<8;i++)tableHTML+='<td>'+(tds[i]?tds[i].textContent.trim():'-')+'</td>';
+      tableHTML+='<td><span class="'+(visa==='Validé'?'ok':'pend')+'">'+visa+'</span></td></tr>';
+    });
+    tableHTML+='</tbody></table>';
+  }
+  var today=new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+  var w=window.open('','_blank','width=960,height=700');
+  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Situation des Heures · '+nif+'</title><style>'+
+    'body{font-family:Arial,sans-serif;font-size:11px;color:#1a1a2e;padding:24px 28px}'+
+    'h1{font-size:14px;color:#002550;margin:0 0 3px}'+
+    '.sub{font-size:9.5px;color:#555;margin-bottom:16px}'+
+    '.fmt-card{background:#f4f6f9;border:1px solid #d0d7e3;border-radius:8px;padding:12px 14px;margin-bottom:14px}'+
+    '.fmt-name{font-size:13px;font-weight:700;margin-bottom:3px}'+
+    '.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}'+
+    '.stat{text-align:center;background:#f4f6f9;border:1px solid #d0d7e3;border-radius:6px;padding:8px}'+
+    '.stat-val{font-size:17px;font-weight:800;color:#002550}'+
+    '.stat-lbl{font-size:9px;color:#666;margin-top:2px}'+
+    'table{width:100%;border-collapse:collapse;font-size:10px}'+
+    'th{background:#002550;color:#fff;padding:6px 8px;text-align:left;white-space:nowrap}'+
+    'td{padding:5px 8px;border-bottom:1px solid #dee2e6;vertical-align:top}'+
+    'tr:nth-child(even) td{background:#f8f9fc}'+
+    '.ok{color:#059669;font-weight:700}.pend{color:#d97706;font-weight:700}'+
+    '.footer{margin-top:18px;font-size:9px;color:#aaa;text-align:center;border-top:1px solid #dee2e6;padding-top:8px}'+
+  '</style></head><body>'+
+    '<h1>Situation des Heures de Formation</h1>'+
+    '<div class="sub">Institut National de Formation · JCI Togo &nbsp;|&nbsp; Édité le '+today+'</div>'+
+    '<div class="fmt-card"><div class="fmt-name">'+nom+'</div><div style="font-size:10px;color:#555">'+sub+'</div></div>'+
+    statsHTML+tableHTML+
+    '<div class="footer">Institut National de Formation · JCI Togo</div>'+
+  '</body></html>');
+  w.document.close();
+  w.focus();
+  setTimeout(function(){w.print();},400);
+}
 
 // ── PWA
 // ─── PWA ──────────────────────────────────────────────────
