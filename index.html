@@ -265,6 +265,10 @@ nav::-webkit-scrollbar{display:none}
 .inh-ico .material-symbols-rounded{font-size:18px;color:#fff}
 .inh-title{font-size:.92rem;font-weight:700;color:var(--text-1)}
 .inh-sub{font-size:.64rem;color:var(--text-3);margin-top:1px}
+.inh-toggle{width:100%;background:none;border:none;border-bottom:1px solid var(--border);cursor:pointer;font-family:inherit;color:inherit}
+.inh-toggle:active{background:var(--surface-2)}
+.inh-chev{font-size:24px;color:var(--text-2);transition:transform .25s}
+.inh-toggle[aria-expanded="true"] .inh-chev{transform:rotate(180deg)}
 .inc{padding:14px}
 /* ══ RAPPORT CARDS ══════════════════════════════════════════ */
 .rcard{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:15px;margin-bottom:10px;display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;border-left:3px solid var(--navy);transition:.2s}
@@ -1064,8 +1068,8 @@ nav::-webkit-scrollbar{display:none}
 
 <!-- ══ BUREAU ══ -->
 <div class="pg" id="pg-bureau">
-  <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">account_balance</span></div><div><div class="inh-title">Bureau INF</div><div class="inh-sub">Membres du Bureau · Mandat 2026</div></div></div>
-  <div class="inc"><div class="bg-grid" id="bureau-grid"></div></div>
+  <button type="button" class="inh inh-toggle" id="bureau-toggle" aria-expanded="false" aria-controls="bureau-members" onclick="toggleBureauMembers()"><div class="inh-ico"><span class="material-symbols-rounded">account_balance</span></div><div style="flex:1;text-align:left"><div class="inh-title">Bureau INF</div><div class="inh-sub">Membres du Bureau · Mandat 2026</div></div><span class="material-symbols-rounded inh-chev">expand_more</span></button>
+  <div class="inc" id="bureau-members" hidden><div class="bg-grid" id="bureau-grid"></div></div>
   <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">monitoring</span></div><div><div class="inh-title">Tableau de bord</div><div class="inh-sub">Suivi des formations · Réservé au Bureau</div></div></div>
   <div class="inc" style="padding-bottom:24px">
     <div id="db-lock" class="fmt-auth-box" style="margin:6px auto">
@@ -2635,6 +2639,12 @@ function printHeureFiche(){
 const DB_SHEET_URL='https://docs.google.com/spreadsheets/d/1Wu0NYR3sGjxVu1Wx4fiXnngyHNGIDhFZ4iibbRZXZ5w/gviz/tq?tqx=out:json&sheet=';
 var _dbLoaded=false;
 
+function toggleBureauMembers(){
+  var btn=document.getElementById('bureau-toggle'),box=document.getElementById('bureau-members');
+  var open=btn.getAttribute('aria-expanded')!=='true';
+  btn.setAttribute('aria-expanded',open?'true':'false');
+  box.hidden=!open;
+}
 function dbCheck(){
   var ok=false;try{ok=sessionStorage.getItem('bureau_auth')==='1';}catch(e){}
   document.getElementById('db-lock').style.display=ok?'none':'block';
