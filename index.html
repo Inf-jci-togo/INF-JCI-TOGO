@@ -2447,7 +2447,7 @@ function buildHeureFiche(nif,fmt,bKeys,formations){
       '<td class="hf-c">'+(r[heureKey]||'-')+'h</td><td>'+badge+'</td></tr>';
   }).join('');
 
-  var situBadge=situ?'<span style="font-size:.7rem;padding:2px 8px;border-radius:6px;font-weight:700;background:'+(situ.includes('A JOUR')?'rgba(16,185,129,.12)':'rgba(220,38,38,.1)')+';color:'+(situ.includes('A JOUR')?'#059669':'#dc2626')+'">'+situ+'</span>':'';
+  var situBadge=situ?'<span style="font-size:.7rem;padding:2px 8px;border-radius:6px;font-weight:700;background:'+(_isAJour(situ)?'rgba(16,185,129,.12)':'rgba(220,38,38,.1)')+';color:'+(_isAJour(situ)?'#059669':'#dc2626')+'">'+situ+'</span>':'';
 
   return '<div class="hf-fiche" id="hf-print-content">'+
     '<div class="hf-formateur">'+
@@ -2654,6 +2654,7 @@ function dbLock(){
   dbCheck();
 }
 
+function _isAJour(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/\s+/g,' ').trim()==='A JOUR';}
 function _dbE(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function _dbN(s){return String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/\s+/g,' ').trim();}
 function _dbParse(text){
@@ -2780,7 +2781,7 @@ function buildDashboard(pg,ol,rf,base){
   var taux=progDue.length?Math.round(doneDue/progDue.length*100):0;
   var fem=real.reduce(function(a,f){return a+f.fem;},0),hom=real.reduce(function(a,f){return a+f.hom;},0),part=fem+hom;
   var heures=rep.reduce(function(a,x){return a+(x.ok?x.h:0);},0);
-  var aJour=fmts.filter(function(r){return(r[kSitu]||'').toUpperCase().indexOf('A JOUR')>=0;}).length;
+  var aJour=fmts.filter(function(r){return _isAJour(r[kSitu]);}).length;
   var actifs=fmts.filter(function(r){return(r[kStatut]||'').toUpperCase().indexOf('ACTIF')===0;}).length;
   var kpi=function(v,l,s){return '<div class="db-kpi"><div class="db-kpi-v">'+v+'</div><div class="db-kpi-l">'+l+'</div>'+(s?'<div class="db-kpi-s">'+s+'</div>':'')+'</div>';};
   var s1='<div class="db-kpis">'+
@@ -2789,7 +2790,7 @@ function buildDashboard(pg,ol,rf,base){
     kpi(part,'Participants',hom+' hommes · '+fem+' femmes')+
     kpi((part?Math.round(fem/part*100):0)+'%','Participation féminine','')+
     kpi((Math.round(heures*10)/10).toString().replace('.',',')+'h','Heures validées DINF',rep.filter(function(x){return x.ok;}).length+' rapports visés')+
-    kpi(aJour+' / '+fmts.length,'Formateurs à jour (TG)',actifs+' formateurs actifs')+
+    kpi(aJour+' / '+fmts.length,'Formateurs à jour (TG)',(fmts.length-aJour)+' non à jour · '+actifs+' actifs')+
   '</div>';
 
   // ── 2. Activité par mois
