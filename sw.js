@@ -1,4 +1,4 @@
-const CACHE_NAME = 'inf-jci-v87';
+const CACHE_NAME = 'inf-jci-v88';
 const ASSETS = [
   './',
   './index.html',
@@ -53,16 +53,9 @@ self.addEventListener('fetch', e => {
   const isHTML = url.endsWith('/') || url.endsWith('/index.html') || url.includes('INF-JCI-TOGO/') && !url.includes('.');
 
   if (isHTML) {
-    // Network-first pour la page principale → toujours la dernière version
+    // no-store : contourne le cache HTTP (CDN GitHub Pages) → toujours la dernière version
     e.respondWith(
-      fetch(e.request)
-        .then(response => {
-          if (response && response.status === 200) {
-            const clone = response.clone();
-            caches.open(CACHE_NAME).then(c => c.put(e.request, clone));
-          }
-          return response;
-        })
+      fetch(e.request, { cache: 'no-store' })
         .catch(() => caches.match('./index.html'))
     );
   } else {
