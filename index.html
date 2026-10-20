@@ -416,6 +416,54 @@ nav::-webkit-scrollbar{display:none}
 .bm a:hover{background:var(--blue)}
 .bm a:hover .material-symbols-rounded{color:#fff}
 .bm a .material-symbols-rounded{font-size:13px;color:var(--blue)}
+/* ══ TABLEAU DE BORD (Bureau) ══════════════════════════════ */
+.db-bar{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.66rem;color:var(--text-3);margin-bottom:12px}
+.db-bar-btns{display:flex;gap:6px}
+.db-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text-1);font-size:.68rem;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
+.db-btn .material-symbols-rounded{font-size:15px}
+.db-sec{margin-top:20px}
+.db-sec:first-of-type{margin-top:0}
+.db-h{display:flex;align-items:center;gap:6px;font-size:.86rem;font-weight:700;color:var(--text-1);margin-bottom:10px}
+.db-h .material-symbols-rounded{font-size:18px;color:var(--blue)}
+.db-kpis{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.db-kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 8px;text-align:center}
+.db-kpi-v{font-size:1.35rem;font-weight:800;color:var(--text-1);font-variant-numeric:tabular-nums}
+.db-kpi-l{font-size:.67rem;color:var(--text-2);margin-top:2px;line-height:1.3}
+.db-kpi-s{font-size:.62rem;color:var(--text-3);margin-top:3px;line-height:1.3}
+.db-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px}
+.db-card+.db-card{margin-top:8px}
+.db-sub{font-size:.72rem;font-weight:700;color:var(--text-2);margin-bottom:10px}
+.db-note{font-size:.64rem;color:var(--text-3);margin-top:8px;line-height:1.4}
+.db-lg{display:flex;gap:14px;font-size:.66rem;color:var(--text-2);margin-bottom:10px}
+.db-lg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.db-mc{display:flex;align-items:flex-end;gap:2px;height:130px;border-bottom:1px solid var(--border)}
+.db-m{flex:1;display:flex;align-items:flex-end;justify-content:center;gap:2px;height:100%;cursor:pointer}
+.db-m i{display:block;width:42%;max-width:12px;border-radius:4px 4px 0 0}
+.db-p{background:#eb6834}
+[data-theme="dark"] .db-p{background:#d95926}
+.db-r{background:var(--blue)}
+.db-ml{display:flex;gap:2px;margin-top:4px}
+.db-ml span{flex:1;text-align:center;font-size:.56rem;color:var(--text-3)}
+.db-hb{display:grid;grid-template-columns:38% 1fr auto;align-items:center;gap:8px;font-size:.69rem;padding:4px 0;cursor:default}
+.db-hb-l{color:var(--text-1);line-height:1.25;word-break:break-word}
+.db-hb-b{height:10px;background:var(--blue);border-radius:0 4px 4px 0;min-width:3px}
+.db-hb-v{color:var(--text-2);font-variant-numeric:tabular-nums;white-space:nowrap}
+.db-chips{display:flex;flex-wrap:wrap;gap:6px}
+.db-chip{font-size:.66rem;padding:3px 9px;border-radius:12px;background:rgba(245,158,11,.13);color:#b45309;font-weight:600}
+[data-theme="dark"] .db-chip{color:#FFAA40}
+.db-li{padding:8px 0;border-bottom:1px solid var(--border);font-size:.7rem}
+.db-li:last-child{border-bottom:none}
+.db-li-t{font-weight:600;color:var(--text-1);line-height:1.3}
+.db-li-s{color:var(--text-2);margin-top:2px;line-height:1.35}
+.db-hide{display:none}
+.db-more{background:none;border:none;color:var(--blue);font-weight:700;font-size:.72rem;padding:8px 0 0;cursor:pointer;font-family:'Inter',sans-serif}
+.db-tbl{width:100%;border-collapse:collapse;font-size:.69rem}
+.db-tbl th{text-align:left;color:var(--text-2);font-weight:600;padding:0 4px 6px;border-bottom:1px solid var(--border)}
+.db-tbl td{padding:6px 4px;border-bottom:1px solid var(--border);color:var(--text-1);vertical-align:top}
+.db-tbl tr:last-child td{border-bottom:none}
+.db-tbl .n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.db-empty{font-size:.7rem;color:var(--text-3);padding:4px 0}
+#db-tip{position:fixed;z-index:9999;display:none;max-width:230px;padding:6px 9px;border-radius:7px;background:var(--text-1);color:var(--bg);font-size:.68rem;line-height:1.4;pointer-events:none;box-shadow:0 4px 14px var(--shadow-md)}
 /* ══ COTISATION ═════════════════════════════════════════════ */
 .ccard{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px 18px;text-align:center;transition:background .3s}
 .ccard img{width:100px;height:100px;border-radius:50%;object-fit:cover;object-position:center top;border:3px solid var(--blue);margin-bottom:12px}
@@ -1018,6 +1066,19 @@ nav::-webkit-scrollbar{display:none}
 <div class="pg" id="pg-bureau">
   <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">account_balance</span></div><div><div class="inh-title">Bureau INF</div><div class="inh-sub">Membres du Bureau · Mandat 2026</div></div></div>
   <div class="inc"><div class="bg-grid" id="bureau-grid"></div></div>
+  <div class="inh"><div class="inh-ico"><span class="material-symbols-rounded">monitoring</span></div><div><div class="inh-title">Tableau de bord</div><div class="inh-sub">Suivi des formations · Réservé au Bureau</div></div></div>
+  <div class="inc" style="padding-bottom:24px">
+    <div id="db-lock" class="fmt-auth-box" style="margin:6px auto">
+      <div class="fmt-auth-ico"><span class="material-symbols-rounded">lock</span></div>
+      <div class="fmt-auth-title">Accès réservé au Bureau</div>
+      <div class="fmt-auth-sub">Saisissez le mot de passe du Bureau pour afficher le tableau de bord.</div>
+      <label class="fmt-auth-lbl" for="db-pwd">Mot de passe</label>
+      <input class="fmt-auth-inp" id="db-pwd" type="password" placeholder="••••••••" autocomplete="off" onkeydown="if(event.key==='Enter')dbUnlock()"/>
+      <div class="fmt-auth-err" id="db-err">Mot de passe incorrect.</div>
+      <button class="fmt-auth-btn" onclick="dbUnlock()"><span class="material-symbols-rounded">lock_open</span>Déverrouiller</button>
+    </div>
+    <div id="db-content" style="display:none"></div>
+  </div>
 </div>
 
 <!-- ══ TRESORERIE ══ -->
@@ -1325,6 +1386,7 @@ function showPg(id, btn){
   if(id==='tresorerie'){loadPartners();loadFormateurs();}
   // Vérifier l'auth à chaque ouverture de Formateurs
   if(id==='formateurs') checkFormateurAuth();
+  if(id==='bureau') dbCheck();
 }
 
 // ── Authentification Formateurs
@@ -2568,6 +2630,254 @@ function printHeureFiche(){
     alert('Impossible de charger les images pour l\'impression.');
   });
 }
+
+// ── Tableau de bord du Bureau
+const DB_SHEET_URL='https://docs.google.com/spreadsheets/d/1Wu0NYR3sGjxVu1Wx4fiXnngyHNGIDhFZ4iibbRZXZ5w/gviz/tq?tqx=out:json&sheet=';
+var _dbLoaded=false;
+
+function dbCheck(){
+  var ok=false;try{ok=sessionStorage.getItem('bureau_auth')==='1';}catch(e){}
+  document.getElementById('db-lock').style.display=ok?'none':'block';
+  document.getElementById('db-content').style.display=ok?'block':'none';
+  if(ok&&!_dbLoaded)loadDashboard();
+}
+function dbUnlock(){
+  var inp=document.getElementById('db-pwd'),err=document.getElementById('db-err');
+  if(inp.value.trim()!=='dinf@2027'){err.style.display='block';return;}
+  err.style.display='none';inp.value='';
+  try{sessionStorage.setItem('bureau_auth','1');}catch(e){}
+  dbCheck();
+}
+function dbLock(){
+  try{sessionStorage.removeItem('bureau_auth');}catch(e){}
+  _dbLoaded=false;document.getElementById('db-content').innerHTML='';
+  dbCheck();
+}
+
+function _dbE(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function _dbN(s){return String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/\s+/g,' ').trim();}
+function _dbParse(text){
+  var m=text.match(/setResponse\(([\s\S]*)\)\s*;?\s*$/);
+  if(!m)return{h:[],rows:[]};
+  var data;try{data=JSON.parse(m[1]);}catch(e){return{h:[],rows:[]};}
+  var cols=data.table.cols;
+  var rows=data.table.rows.map(function(r){return cols.map(function(c,i){return(r.c||[])[i]||null;});});
+  var filled=function(r){return r.filter(function(x){return x&&x.v!=null&&String(x.v).trim()!=='';}).length;};
+  var h=cols.map(function(c){return _dbN(c.label);});
+  if(h.filter(Boolean).length<3){
+    var hi=rows.findIndex(function(r){return filled(r)>=3;});
+    if(hi<0)return{h:[],rows:[]};
+    h=rows[hi].map(function(x){return _dbN(x&&x.v);});
+    rows=rows.slice(hi+1);
+  }
+  return{h:h,rows:rows.filter(function(r){return filled(r)>=2;})};
+}
+function _dbCol(p,kws,fb){var i=p.h.findIndex(function(l){return kws.every(function(k){return l.indexOf(k)>=0;});});return i>=0?i:fb;}
+function _dbS(c){return c&&c.v!=null?String(c.v).trim():'';}
+function _dbNum(c){
+  if(!c||c.v==null)return 0;
+  if(typeof c.v==='number')return c.v;
+  var m=String(c.v).replace(',','.').match(/\d+(\.\d+)?/);
+  return m?parseFloat(m[0]):0;
+}
+function _dbDate(c){
+  if(!c||c.v==null)return null;
+  var s=String(c.v),d=null,m=s.match(/^Date\((\d+),(\d+),(\d+)/);
+  if(m)d=new Date(+m[1],+m[2],+m[3]);
+  else{m=(c.f||s).match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);if(m)d=new Date(+m[3],+m[2]-1,+m[1]);}
+  if(!d||d.getFullYear()<2020||d.getFullYear()>2100)return null;
+  return d;
+}
+function _dbCode(s){return String(s||'').toUpperCase().replace(/\s+/g,'').replace(/^([A-Z]+?)O(\d)/,'$10$2');}
+function _dbFmtD(d){return d?('0'+d.getDate()).slice(-2)+'/'+('0'+(d.getMonth()+1)).slice(-2)+'/'+d.getFullYear():'—';}
+function _dbOlKey(s){return _dbN(s).replace(/^jci\s+/,'');}
+// Regroupe par clé normalisée ; préfère un libellé en casse normale à un libellé tout en majuscules
+function _dbGroup(items,keyFn,labelFn){
+  var map={},order=[];
+  var caps=function(s){return s===s.toUpperCase();};
+  items.forEach(function(it){
+    var k=keyFn(it);if(!k)return;
+    var l=labelFn(it);
+    if(!map[k]){map[k]={label:l,items:[]};order.push(k);}
+    else if(caps(map[k].label)&&!caps(l))map[k].label=l;
+    map[k].items.push(it);
+  });
+  return order.map(function(k){return map[k];});
+}
+
+function loadDashboard(){
+  var box=document.getElementById('db-content');
+  box.innerHTML='<div class="fmt-loading"><span class="material-symbols-rounded" style="font-size:28px;display:block;margin-bottom:6px">sync</span>Chargement du tableau de bord…</div>';
+  var sheets=['Formations programmées','Rapport de formation des OL','Rapport des formateurs','BASE ACTUALISEE AVEC NIF'];
+  Promise.all(sheets.map(function(s){return fetch(DB_SHEET_URL+encodeURIComponent(s),{cache:'no-cache'}).then(function(r){return r.text();});}))
+  .then(function(res){
+    _dbLoaded=true;
+    box.innerHTML=buildDashboard(_dbParse(res[0]),_dbParse(res[1]),_dbParse(res[2]),_parseGvizMapped(res[3]));
+  })
+  .catch(function(){
+    box.innerHTML='<p class="no-result">Impossible de charger les données. Vérifiez votre connexion puis réessayez.</p><div style="text-align:center"><button class="db-btn" onclick="loadDashboard()"><span class="material-symbols-rounded">refresh</span>Réessayer</button></div>';
+  });
+}
+
+function _dbHBars(rows,unit){
+  if(!rows.length)return '<div class="db-empty">Aucune donnée.</div>';
+  var max=Math.max.apply(null,rows.map(function(r){return r.v;}))||1;
+  return rows.map(function(r){
+    var tip=r.label+' : '+r.v+(unit?' '+unit:'')+(r.extra?' · '+r.extra:'');
+    return '<div class="db-hb" data-tip="'+_dbE(tip)+'"><div class="db-hb-l">'+_dbE(r.label)+'</div>'+
+      '<div><div class="db-hb-b" style="width:'+(r.v/max*100).toFixed(1)+'%"></div></div>'+
+      '<div class="db-hb-v">'+r.v+(r.extra?' · '+_dbE(r.extra):'')+'</div></div>';
+  }).join('');
+}
+function _dbList(items,render,limit){
+  if(!items.length)return '<div class="db-empty">Rien à signaler.</div>';
+  var html=items.map(function(it,i){return '<div class="db-li'+(i>=limit?' db-hide':'')+'">'+render(it)+'</div>';}).join('');
+  if(items.length>limit)html+='<button class="db-more" onclick="this.parentNode.querySelectorAll(\'.db-hide\').forEach(function(e){e.classList.remove(\'db-hide\');});this.remove()">Voir les '+items.length+'</button>';
+  return html;
+}
+
+function buildDashboard(pg,ol,rf,base){
+  var today=new Date();today.setHours(0,0,0,0);
+  var in7=new Date(today);in7.setDate(in7.getDate()+7);
+  var year=today.getFullYear();
+
+  // Formations programmées
+  var cP={ol:_dbCol(pg,['organisation'],1),type:_dbCol(pg,['type'],2),code:_dbCol(pg,['code'],3),theme:_dbCol(pg,['theme'],4),
+    lieu:_dbCol(pg,['lieu'],5),date:_dbCol(pg,['date','prevue'],6),heure:_dbCol(pg,['heure','prevue'],7),fmt:_dbCol(pg,['nom','formateur'],9),statut:_dbCol(pg,['statut'],24)};
+  var prog=pg.rows.map(function(r){return{ol:_dbS(r[cP.ol]),type:_dbS(r[cP.type]),code:_dbCode(_dbS(r[cP.code])),theme:_dbS(r[cP.theme]),lieu:_dbS(r[cP.lieu]),
+    date:_dbDate(r[cP.date]),heure:_dbS(r[cP.heure]),fmt:_dbS(r[cP.fmt]),statut:_dbS(r[cP.statut])};})
+    .filter(function(f){return f.code||f.theme;});
+
+  // Rapports de formation des OL (formations réalisées)
+  var cO={ol:_dbCol(ol,['organisation'],2),type:_dbCol(ol,['type'],3),date:_dbCol(ol,['date','formation'],4),code:_dbCol(ol,['code'],5),theme:_dbCol(ol,['theme'],6),
+    fem:_dbCol(ol,['femmes'],11),hom:_dbCol(ol,['hommes'],12)};
+  var seen={},real=[];
+  ol.rows.forEach(function(r){
+    var f={ol:_dbS(r[cO.ol]),type:_dbS(r[cO.type]),date:_dbDate(r[cO.date]),code:_dbCode(_dbS(r[cO.code])),theme:_dbS(r[cO.theme]),fem:_dbNum(r[cO.fem]),hom:_dbNum(r[cO.hom])};
+    if(f.code){if(seen[f.code])return;seen[f.code]=1;}
+    real.push(f);
+  });
+
+  // Rapports des formateurs
+  var cF={nif:_dbCol(rf,['nif'],2),nom:_dbCol(rf,['nom'],3),date:_dbCol(rf,['date','formation'],6),code:_dbCol(rf,['code'],9),theme:_dbCol(rf,['theme'],10),
+    h:_dbCol(rf,['heure','valide'],17),visa:_dbCol(rf,['visa'],18)};
+  var rep=rf.rows.map(function(r){return{nif:_dbS(r[cF.nif]),nom:_dbS(r[cF.nom]),date:_dbDate(r[cF.date]),code:_dbCode(_dbS(r[cF.code])),theme:_dbS(r[cF.theme]),
+    h:_dbNum(r[cF.h]),ok:_dbS(r[cF.visa]).toUpperCase()==='OK'};}).filter(function(x){return x.nif||x.nom;});
+
+  // Base des formateurs
+  var bk=base.length?Object.keys(base[0]):[];
+  var kNif=bk.find(function(k){return k==='nif'||k.indexOf('nif')>=0;});
+  var kGrade=bk.find(function(k){return k.indexOf('grade')>=0;});
+  var kStatut=bk.find(function(k){return k.indexOf('statut')>=0;});
+  var kSitu=bk.find(function(k){return k.indexOf('situation')>=0;});
+  var fmts=base.filter(function(r){return(r[kNif]||'').trim();});
+
+  // ── 1. Chiffres clés
+  var reported={};real.forEach(function(f){if(f.code)reported[f.code]=1;});
+  var cancelled=function(f){var s=_dbN(f.statut);return s.indexOf('annul')>=0||s.indexOf('report')>=0;};
+  var progDue=prog.filter(function(f){return f.date&&f.date<=today&&!cancelled(f);});
+  var doneDue=progDue.filter(function(f){return f.code&&reported[f.code];}).length;
+  var taux=progDue.length?Math.round(doneDue/progDue.length*100):0;
+  var fem=real.reduce(function(a,f){return a+f.fem;},0),hom=real.reduce(function(a,f){return a+f.hom;},0),part=fem+hom;
+  var heures=rep.reduce(function(a,x){return a+(x.ok?x.h:0);},0);
+  var aJour=fmts.filter(function(r){return(r[kSitu]||'').toUpperCase().indexOf('A JOUR')>=0;}).length;
+  var actifs=fmts.filter(function(r){return(r[kStatut]||'').toUpperCase().indexOf('ACTIF')===0;}).length;
+  var kpi=function(v,l,s){return '<div class="db-kpi"><div class="db-kpi-v">'+v+'</div><div class="db-kpi-l">'+l+'</div>'+(s?'<div class="db-kpi-s">'+s+'</div>':'')+'</div>';};
+  var s1='<div class="db-kpis">'+
+    kpi(real.length,'Formations réalisées',prog.length+' programmées au total')+
+    kpi(taux+'%','Taux de réalisation',doneDue+' sur '+progDue.length+' prévues à ce jour')+
+    kpi(part,'Participants',hom+' hommes · '+fem+' femmes')+
+    kpi((part?Math.round(fem/part*100):0)+'%','Participation féminine','')+
+    kpi((Math.round(heures*10)/10).toString().replace('.',',')+'h','Heures validées DINF',rep.filter(function(x){return x.ok;}).length+' rapports visés')+
+    kpi(aJour+' / '+fmts.length,'Formateurs à jour (TG)',actifs+' formateurs actifs')+
+  '</div>';
+
+  // ── 2. Activité par mois
+  var mois=['Janv','Févr','Mars','Avr','Mai','Juin','Juil','Août','Sept','Oct','Nov','Déc'];
+  var mP=new Array(12).fill(0),mR=new Array(12).fill(0);
+  prog.forEach(function(f){if(f.date&&f.date.getFullYear()===year)mP[f.date.getMonth()]++;});
+  real.forEach(function(f){if(f.date&&f.date.getFullYear()===year)mR[f.date.getMonth()]++;});
+  var mMax=Math.max.apply(null,mP.concat(mR))||1;
+  var s2='<div class="db-card"><div class="db-lg"><span><i class="db-p"></i>Programmées</span><span><i class="db-r"></i>Réalisées</span></div>'+
+    '<div class="db-mc">'+mois.map(function(m,i){
+      return '<div class="db-m" data-tip="'+m+' '+year+' : '+mP[i]+' programmée(s), '+mR[i]+' réalisée(s)">'+
+        '<i class="db-p" style="height:'+(mP[i]/mMax*100)+'%"></i><i class="db-r" style="height:'+(mR[i]/mMax*100)+'%"></i></div>';
+    }).join('')+'</div>'+
+    '<div class="db-ml">'+mois.map(function(m){return '<span>'+m.slice(0,1)+'</span>';}).join('')+'</div>'+
+    '<div class="db-note">Année '+year+' · touchez un mois pour le détail. Max : '+mMax+' formations.</div></div>';
+
+  // ── 3. Par organisation locale
+  var byOl=_dbGroup(real,function(f){return _dbOlKey(f.ol);},function(f){return f.ol.replace(/^jci\s+/i,'');})
+    .map(function(g){var p=g.items.reduce(function(a,f){return a+f.fem+f.hom;},0);return{label:g.label,v:g.items.length,extra:p+' part.'};})
+    .sort(function(a,b){return b.v-a.v;});
+  var realOl={};real.forEach(function(f){realOl[_dbOlKey(f.ol)]=1;});
+  var relance=_dbGroup(progDue,function(f){return _dbOlKey(f.ol);},function(f){return f.ol.replace(/^jci\s+/i,'');})
+    .filter(function(g){return!realOl[_dbOlKey(g.items[0].ol)];});
+  var s3='<div class="db-card"><div class="db-sub">Formations réalisées et participants</div>'+_dbHBars(byOl,'formation(s)')+'</div>'+
+    '<div class="db-card"><div class="db-sub">OL sans formation réalisée (à relancer)</div>'+
+    (relance.length?'<div class="db-chips">'+relance.map(function(g){return '<span class="db-chip">'+_dbE(g.label)+' · '+g.items.length+' prévue(s)</span>';}).join('')+'</div>':'<div class="db-empty">Toutes les OL ayant des formations prévues en ont réalisé au moins une.</div>')+'</div>';
+
+  // ── 4. Par type et par thème
+  var byType=_dbGroup(real,function(f){return _dbN(f.type);},function(f){return f.type.toUpperCase();})
+    .map(function(g){return{label:g.label,v:g.items.length};}).sort(function(a,b){return b.v-a.v;});
+  var byTheme=_dbGroup(real,function(f){return _dbN(f.theme).replace(/[^a-z0-9 ]/g,'');},function(f){return f.theme;})
+    .map(function(g){return{label:g.label,v:g.items.length};}).sort(function(a,b){return b.v-a.v;}).slice(0,8);
+  var s4='<div class="db-card"><div class="db-sub">Par type de formation</div>'+_dbHBars(byType,'formation(s)')+'</div>'+
+    '<div class="db-card"><div class="db-sub">Les 8 thèmes les plus dispensés</div>'+_dbHBars(byTheme,'formation(s)')+'</div>';
+
+  // ── 5. Formateurs
+  var byGrade=_dbGroup(fmts,function(r){return _dbN(r[kGrade]);},function(r){return(r[kGrade]||'').toUpperCase();})
+    .map(function(g){return{label:g.label,v:g.items.length};}).sort(function(a,b){return b.v-a.v;});
+  var topF=_dbGroup(rep,function(x){return x.nif||_dbN(x.nom);},function(x){return x.nom;})
+    .map(function(g){return{nom:g.label,n:g.items.length,h:g.items.reduce(function(a,x){return a+(x.ok?x.h:0);},0)};})
+    .sort(function(a,b){return b.h-a.h||b.n-a.n;}).slice(0,10);
+  var pend=rep.filter(function(x){return!x.ok;}).sort(function(a,b){return(a.date||0)-(b.date||0);});
+  var s5='<div class="db-card"><div class="db-sub">Formateurs par grade</div>'+_dbHBars(byGrade,'formateur(s)')+'</div>'+
+    '<div class="db-card"><div class="db-sub">Les 10 formateurs les plus actifs</div>'+
+    (topF.length?'<table class="db-tbl"><thead><tr><th>Formateur</th><th class="n">Form.</th><th class="n">Heures</th></tr></thead><tbody>'+
+      topF.map(function(t){return '<tr><td>'+_dbE(t.nom)+'</td><td class="n">'+t.n+'</td><td class="n">'+String(Math.round(t.h*10)/10).replace('.',',')+'h</td></tr>';}).join('')+
+    '</tbody></table>':'<div class="db-empty">Aucun rapport.</div>')+
+    '<div class="db-note">Heures validées par la DINF uniquement.</div></div>'+
+    '<div class="db-card"><div class="db-sub">Rapports en attente de visa DINF ('+pend.length+')</div>'+
+    _dbList(pend,function(x){return '<div class="db-li-t">'+_dbE(x.nom)+'</div><div class="db-li-s">'+_dbFmtD(x.date)+' · '+_dbE(x.code||'—')+' · '+_dbE(x.theme)+'</div>';},5)+'</div>';
+
+  // ── 6. Suivi opérationnel
+  var soon=prog.filter(function(f){return f.date&&f.date>=today&&f.date<=in7;}).sort(function(a,b){return a.date-b.date;});
+  var missing=progDue.filter(function(f){return f.code&&!reported[f.code];}).sort(function(a,b){return b.date-a.date;});
+  var s6='<div class="db-card"><div class="db-sub">Formations des 7 prochains jours ('+soon.length+')</div>'+
+    _dbList(soon,function(f){return '<div class="db-li-t">'+_dbFmtD(f.date)+(f.heure?' · '+_dbE(f.heure):'')+' — '+_dbE(f.theme)+'</div><div class="db-li-s">'+_dbE(f.ol)+' · '+_dbE(f.code)+(f.lieu?' · '+_dbE(f.lieu):'')+(f.fmt?' · '+_dbE(f.fmt):'')+'</div>';},8)+'</div>'+
+    '<div class="db-card"><div class="db-sub">Formations passées sans rapport de l\'OL ('+missing.length+')</div>'+
+    _dbList(missing,function(f){return '<div class="db-li-t">'+_dbFmtD(f.date)+' — '+_dbE(f.theme)+'</div><div class="db-li-s">'+_dbE(f.ol)+' · '+_dbE(f.code)+(f.fmt?' · '+_dbE(f.fmt):'')+'</div>';},5)+
+    '<div class="db-note">Comparaison par code de formation. Les formations au statut « annulé » ou « reporté » sont exclues.</div></div>';
+
+  var sec=function(ico,t,body){return '<div class="db-sec"><div class="db-h"><span class="material-symbols-rounded">'+ico+'</span>'+t+'</div>'+body+'</div>';};
+  var now=new Date();
+  return '<div class="db-bar"><span>Mis à jour à '+('0'+now.getHours()).slice(-2)+':'+('0'+now.getMinutes()).slice(-2)+'</span>'+
+    '<span class="db-bar-btns"><button class="db-btn" onclick="loadDashboard()"><span class="material-symbols-rounded">refresh</span>Actualiser</button>'+
+    '<button class="db-btn" onclick="dbLock()"><span class="material-symbols-rounded">lock</span>Verrouiller</button></span></div>'+
+    sec('insights','Chiffres clés',s1)+
+    sec('bar_chart','Activité par mois',s2)+
+    sec('location_city','Par organisation locale',s3)+
+    sec('category','Par type et par thème',s4)+
+    sec('groups','Formateurs',s5)+
+    sec('event_upcoming','Suivi opérationnel',s6);
+}
+
+// Infobulle des graphiques (survol ou toucher)
+(function(){
+  var tip=null;
+  function show(el){
+    if(!tip){tip=document.createElement('div');tip.id='db-tip';document.body.appendChild(tip);}
+    tip.textContent=el.getAttribute('data-tip');tip.style.display='block';
+    var r=el.getBoundingClientRect(),w=tip.offsetWidth,h=tip.offsetHeight;
+    tip.style.left=Math.max(8,Math.min(window.innerWidth-w-8,r.left+r.width/2-w/2))+'px';
+    tip.style.top=(r.top-h-6<8?r.bottom+6:r.top-h-6)+'px';
+  }
+  function hide(){if(tip)tip.style.display='none';}
+  document.addEventListener('pointerover',function(e){var el=e.target.closest&&e.target.closest('#db-content [data-tip]');if(el)show(el);else hide();});
+  document.addEventListener('click',function(e){var el=e.target.closest&&e.target.closest('#db-content [data-tip]');if(el)show(el);else hide();});
+  window.addEventListener('scroll',hide,{passive:true});
+})();
 
 function showUpdateToast(autoReload) {
   var b = document.getElementById('update-banner');
