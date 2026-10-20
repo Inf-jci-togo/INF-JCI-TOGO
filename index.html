@@ -2359,7 +2359,7 @@ function buildHeureFiche(nif,fmt,bKeys,formations){
       '<td style="text-align:center">'+(r[heureKey]||'-')+'h</td><td>'+badge+'</td></tr>';
   }).join('');
 
-  var situBadge=situ?'<span style="font-size:.7rem;padding:2px 8px;border-radius:6px;font-weight:700;background:'+(situ.includes('A JOUR')?'rgba(16,185,129,.12)':'rgba(220,38,38,.1)')+';color:'+(situ.includes('A JOUR')?'#059669':'#dc2626')+"'>"+situ+'</span>':'';
+  var situBadge=situ?'<span style="font-size:.7rem;padding:2px 8px;border-radius:6px;font-weight:700;background:'+(situ.includes('A JOUR')?'rgba(16,185,129,.12)':'rgba(220,38,38,.1)')+';color:'+(situ.includes('A JOUR')?'#059669':'#dc2626')+'">'+situ+'</span>':'';
 
   return '<div class="hf-fiche" id="hf-print-content">'+
     '<div class="hf-formateur">'+
