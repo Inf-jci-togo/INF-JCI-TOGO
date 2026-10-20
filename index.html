@@ -346,11 +346,14 @@ nav::-webkit-scrollbar{display:none}
 .hf-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
 .hf-stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center}
 .hf-stat-val{font-size:1.35rem;font-weight:800;color:var(--navy)}
+[data-theme="dark"] .hf-stat-val{color:#60C8EF}
 .hf-stat-lbl{font-size:.67rem;color:var(--text-2);margin-top:2px;line-height:1.3}
 .hf-table-wrap{overflow-x:auto;margin-bottom:14px;border-radius:10px;border:1px solid var(--border)}
-.hf-table{width:100%;border-collapse:collapse;font-size:.73rem;min-width:560px}
-.hf-table th{background:var(--navy);color:#fff;padding:8px 10px;text-align:left;font-weight:600;white-space:nowrap}
-.hf-table td{padding:7px 10px;border-bottom:1px solid var(--border);color:var(--text-1);vertical-align:top}
+.hf-table{width:100%;border-collapse:collapse;font-size:.73rem}
+.hf-table th{background:var(--navy);color:#fff;padding:8px 6px;text-align:left;font-weight:600;white-space:nowrap}
+.hf-table td{padding:7px 6px;border-bottom:1px solid var(--border);color:var(--text-1);vertical-align:top;white-space:nowrap}
+.hf-table .hf-c{text-align:center}
+.hf-table td.hf-theme{white-space:normal;min-width:190px}
 .hf-table tr:last-child td{border-bottom:none}
 .hf-table tr:nth-child(even) td{background:rgba(0,37,80,.03)}
 .hf-badge-ok{display:inline-block;padding:2px 8px;background:rgba(16,185,129,.12);color:#059669;border-radius:6px;font-size:.68rem;font-weight:700}
@@ -2273,6 +2276,28 @@ function _parseGvizMapped(text){
   return rows;
 }
 
+// Ajoute à chaque ligne de _parseGvizMapped(text) la date de la colonne G (index 6), au format JJ/MM/AAAA
+function _hfAttachColG(text,rows){
+  var m=text.match(/setResponse\(([\s\S]*)\)\s*;?\s*$/);
+  if(!m)return;
+  var data;try{data=JSON.parse(m[1]);}catch(e){return;}
+  var raw=data.table.rows.map(function(r){return r.c||[];});
+  var nonEmpty=function(c){return c.filter(function(x){return x&&x.v!=null&&String(x.v).trim();}).length;};
+  raw=raw.filter(function(c){return nonEmpty(c)>0;});
+  var isId=data.table.cols.every(function(c){return!(c.label||'').trim();});
+  if(isId){
+    var h=raw.findIndex(function(c){return nonEmpty(c)>=2;});
+    raw=h<0?[]:raw.slice(h+1);
+  }
+  raw.forEach(function(c,i){
+    if(!rows[i])return;
+    var cell=c[6];
+    if(!cell||cell.v==null){rows[i]._colG='';return;}
+    var d=String(cell.v).match(/^Date\((\d+),(\d+),(\d+)/);
+    rows[i]._colG=d?('0'+d[3]).slice(-2)+'/'+('0'+(+d[2]+1)).slice(-2)+'/'+d[1]:(cell.f||String(cell.v));
+  });
+}
+
 function loadHeuresFormateur(){
   var nif=(document.getElementById('hf-nif-input').value||'').trim();
   var pwd=(document.getElementById('hf-pwd-input').value||'').trim();
@@ -2288,6 +2313,7 @@ function loadHeuresFormateur(){
   ]).then(function(res){
     var baseRows=_parseGvizMapped(res[0]);
     var rapportRows=_parseGvizMapped(res[1]);
+    _hfAttachColG(res[1],rapportRows);
     if(!baseRows.length){el.innerHTML='<p class="no-result">Données indisponibles.</p>';return;}
     var bKeys=Object.keys(baseRows[0]);
     var nifKey=bKeys.find(function(k){return k==='nif'||k.includes('nif');});
@@ -2353,10 +2379,10 @@ function buildHeureFiche(nif,fmt,bKeys,formations){
   var tbody=formations.map(function(r,i){
     var visa=(r[visaKey]||'').trim().toUpperCase();
     var badge=visa==='OK'?'<span class="hf-badge-ok">Validé</span>':'<span class="hf-badge-pend">En attente</span>';
-    return '<tr><td>'+(i+1)+'</td><td style="white-space:nowrap">'+(r[dateKey]||'')+'</td><td>'+(r[codeKey]||'-')+'</td>'+
-      '<td style="max-width:140px;word-break:break-word">'+(r[themeKey]||'-')+'</td><td>'+(r[typeKey]||'-')+'</td>'+
-      '<td>'+(r[niveauKey]||'-')+'</td><td style="text-align:center">'+(r[partKey]||'-')+'</td>'+
-      '<td style="text-align:center">'+(r[heureKey]||'-')+'h</td><td>'+badge+'</td></tr>';
+    return '<tr><td class="hf-c">'+(i+1)+'</td><td>'+(r._colG||r[dateKey]||'')+'</td><td>'+(r[codeKey]||'-')+'</td>'+
+      '<td class="hf-theme">'+(r[themeKey]||'-')+'</td><td>'+(r[typeKey]||'-')+'</td>'+
+      '<td>'+(r[niveauKey]||'-')+'</td><td class="hf-c">'+(r[partKey]||'-')+'</td>'+
+      '<td class="hf-c">'+(r[heureKey]||'-')+'h</td><td>'+badge+'</td></tr>';
   }).join('');
 
   var situBadge=situ?'<span style="font-size:.7rem;padding:2px 8px;border-radius:6px;font-weight:700;background:'+(situ.includes('A JOUR')?'rgba(16,185,129,.12)':'rgba(220,38,38,.1)')+';color:'+(situ.includes('A JOUR')?'#059669':'#dc2626')+'">'+situ+'</span>':'';
@@ -2375,7 +2401,7 @@ function buildHeureFiche(nif,fmt,bKeys,formations){
     '</div>'+
     '<div class="hf-table-wrap">'+
       '<table class="hf-table">'+
-        '<thead><tr><th>#</th><th>Date</th><th>Code</th><th>Thème</th><th>Type</th><th>Niveau</th><th>Part.</th><th>Heures</th><th>Statut</th></tr></thead>'+
+        '<thead><tr><th class="hf-c">#</th><th>Date</th><th>Code</th><th>Thème</th><th>Type</th><th>Niveau</th><th class="hf-c">Part.</th><th class="hf-c">Heures</th><th>Statut</th></tr></thead>'+
         '<tbody>'+tbody+'</tbody>'+
       '</table>'+
     '</div>'+
@@ -2432,9 +2458,10 @@ function printHeureFiche(){
   var today=new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'});
   Promise.all([
     _imgToDataUrl('./assets/logo-inf-officiel.png'),
-    _imgToDataUrl('./assets/signature-directeur.png')
+    _imgToDataUrl('./assets/signature-directeur.png'),
+    _imgToDataUrl('./assets/logo-filigrane.png')
   ]).then(function(imgs){
-    var logoSrc=imgs[0],sigSrc=imgs[1];
+    var logoSrc=imgs[0],sigSrc=imgs[1],wmSrc=imgs[2];
     var w=window.open('','_blank','width=760,height=1000');
     w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8">'+
       '<title>Situation des Heures \u00b7 '+nif+'</title>'+
@@ -2442,7 +2469,8 @@ function printHeureFiche(){
         '@page{size:A4 portrait;margin:12mm 14mm}'+
         '*{box-sizing:border-box;margin:0;padding:0}'+
         'body{font-family:Arial,Helvetica,sans-serif;font-size:10.5px;color:#1a1a2e;background:#fff}'+
-        '.page{border:2px solid #002550;min-height:273mm;display:flex;flex-direction:column}'+
+        '.page{border:2px solid #002550;display:flex;flex-direction:column;position:relative}'+
+        '.wm{position:absolute;top:50%;left:50%;width:min(115mm,70%);max-height:85%;object-fit:contain;transform:translate(-50%,-50%);opacity:.09;pointer-events:none;z-index:10}'+
         '.hdr-top{height:6px;background:linear-gradient(90deg,#002550 60%,#1565c0 100%)}'+
         '.hdr{display:flex;align-items:center;padding:10px 14px;gap:14px}'+
         '.hdr-logo{height:72px;flex-shrink:0}'+
@@ -2464,7 +2492,7 @@ function printHeureFiche(){
         '.ftbl tr:nth-child(even) td{background:#f8fafc}'+
         '.tc{text-align:center}.tl{text-align:left}'+
         '.ok{color:#059669;font-weight:700}.pend{color:#d97706;font-weight:700}'+
-        '.ftr{padding:14px 18px 12px;border-top:1.5px solid #b0bec5;margin-top:auto;display:flex;justify-content:flex-end}'+
+        '.ftr{padding:14px 18px 12px;border-top:1.5px solid #b0bec5;display:flex;justify-content:flex-end;break-inside:avoid}'+
         '.sig{text-align:center;min-width:170px}'+
         '.sig-date{font-size:10px;color:#444;margin-bottom:6px}'+
         '.sig-ttl{font-size:10.5px;font-weight:700;color:#002550;margin-bottom:2px}'+
@@ -2473,6 +2501,7 @@ function printHeureFiche(){
         '@media print{html,body{width:210mm}button{display:none}}'+
       '</style></head><body>'+
       '<div class="page">'+
+      '<img src="'+wmSrc+'" class="wm" alt=""/>'+
         '<div class="hdr-top"></div>'+
         '<div class="hdr">'+
           '<img src="'+logoSrc+'" class="hdr-logo" alt="INF"/>'+
