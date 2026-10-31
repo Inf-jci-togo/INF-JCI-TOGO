@@ -82,6 +82,17 @@ nav::-webkit-scrollbar{display:none}
 .hero-chips{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
 .hchip{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:4px 10px;font-size:.6rem;color:rgba(255,255,255,.65);font-weight:500}
 .hchip .material-symbols-rounded{font-size:12px;color:var(--blue)}
+.hchip-btn{cursor:pointer;font-family:inherit;transition:background .2s}
+.hchip-btn:active,.hchip-btn:hover{background:rgba(255,255,255,.16)}
+.hchip .hchip-go{font-size:13px;margin:0 -4px 0 -1px;color:rgba(255,255,255,.45)}
+.ol-h{display:flex;align-items:center;gap:8px;margin-bottom:4px;padding-right:30px}
+.ol-back{width:30px;height:30px;border-radius:50%;border:none;background:var(--surface-2);color:var(--text-1);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.ol-sub{font-size:.72rem;color:var(--text-3);margin-bottom:14px}
+.ol-item{width:100%;text-align:left;font-family:inherit;color:inherit}
+.ol-cnt{font-size:.68rem;color:var(--text-2);white-space:nowrap;display:flex;align-items:center;gap:2px}
+.ol-cnt .material-symbols-rounded{font-size:16px;color:var(--text-3)}
+.ol-fmt{cursor:default}
+.ol-fmt:hover{transform:none;border-color:var(--border)}
 /* ══ HERO TOP ROW ════════════════════════════════════════════ */
 .hero-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .dir-btn{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,215,0,.25);border-radius:24px;padding:5px 11px 5px 5px;cursor:pointer;transition:.2s;-webkit-tap-highlight-color:transparent;font-family:'Inter',sans-serif}
@@ -902,9 +913,9 @@ nav::-webkit-scrollbar{display:none}
     <div class="hero-title">Bienvenue sur<br/><span class="ht-blue">l'INF JCI Togo</span></div>
     <div class="hero-sub">Institut National de Formation · Mandat 2026</div>
     <div class="hero-chips">
-      <div class="hchip"><span class="material-symbols-rounded">location_city</span>13 organisations locales</div>
+      <button type="button" class="hchip hchip-btn" onclick="openOlSheet()"><span class="material-symbols-rounded">location_city</span><span id="hc-ol">13 organisations locales</span><span class="material-symbols-rounded hchip-go">chevron_right</span></button>
       <div class="hchip"><span class="material-symbols-rounded">calendar_today</span>Mandat 2026</div>
-      <div class="hchip"><span class="material-symbols-rounded">groups</span>150 Formateurs</div>
+      <button type="button" class="hchip hchip-btn" onclick="showPg('formateurs',document.querySelector('.nb[onclick*=&quot;\'formateurs\'&quot;]'))"><span class="material-symbols-rounded">groups</span><span id="hc-fmt">150 Formateurs</span><span class="material-symbols-rounded hchip-go">chevron_right</span></button>
     </div>
   </div>
 
@@ -974,11 +985,8 @@ nav::-webkit-scrollbar{display:none}
 
   <div class="sec-wrap" style="margin-bottom:20px">
     <div class="sh"><div class="sh-left"><div class="sh-ico"><span class="material-symbols-rounded">calendar_month</span></div><div class="sh-title">Activités à Venir</div></div></div>
-    <div class="act-list">
-      <div class="ai"><div class="ai-date dt-blue"><div class="ai-day">11</div><div class="ai-month">Juil</div></div><div class="ai-body"><span class="ai-chip c-pres"><span class="material-symbols-rounded">record_voice_over</span>PRESENTER</span><div class="ai-title">Cours JCI — Presenter</div><div class="ai-desc">Développer les compétences de présentation efficaces.</div><div class="ai-meta"><span class="material-symbols-rounded">location_on</span><span class="ai-meta-t">Lomé · Samedi 11 Juillet</span></div><div class="ai-price"><span class="material-symbols-rounded">payments</span>10 000 FCFA</div></div></div>
-      <div class="ai"><div class="ai-date"><div class="ai-day">—</div><div class="ai-month">Juil</div></div><div class="ai-body"><span class="ai-chip c-dsgn"><span class="material-symbols-rounded">design_services</span>DESIGNER</span><div class="ai-title">Cours de Conception de Modules</div><div class="ai-desc">CCM · Date à préciser.</div><div class="ai-meta"><span class="material-symbols-rounded">location_on</span><span class="ai-meta-t">Lomé · Date à préciser</span></div><div class="ai-price"><span class="material-symbols-rounded">payments</span>90 000 FCFA</div></div></div>
-      <div class="ai"><div class="ai-date dt-blue"><div class="ai-day">02</div><div class="ai-month">Oct</div></div><div class="ai-body"><span class="ai-chip c-cff"><span class="material-symbols-rounded">workspace_premium</span>CNT</span><div class="ai-title">JCI Certified National Trainer</div><div class="ai-desc">Cours de certification des formateurs nationaux · 3 jours.</div><div class="ai-meta"><span class="material-symbols-rounded">location_on</span><span class="ai-meta-t">Lomé · 2 – 4 Octobre</span></div><div class="ai-price"><span class="material-symbols-rounded">payments</span>60 000 FCFA</div></div></div>
-      <div class="ai"><div class="ai-date dt-teal"><div class="ai-day">02</div><div class="ai-month">Août</div></div><div class="ai-body"><span class="ai-chip c-det"><span class="material-symbols-rounded">beach_access</span>DÉTENTE</span><div class="ai-title">Sortie Détente des Formateurs</div><div class="ai-desc">Journée de cohésion et de renforcement des liens.</div><div class="ai-meta"><span class="material-symbols-rounded">location_on</span><span class="ai-meta-t">À définir · 2 Août</span></div><div class="ai-price"><span class="material-symbols-rounded">payments</span>Participation : 6 000 FCFA</div></div></div>
+    <div class="act-list" id="act-list">
+      <div class="fmt-loading"><span class="material-symbols-rounded" style="font-size:28px;display:block;margin-bottom:6px">sync</span>Chargement des activités…</div>
     </div>
   </div>
 
@@ -1318,6 +1326,14 @@ nav::-webkit-scrollbar{display:none}
     </div>
   </div>
 </div>
+<!-- ══ OL MODAL ══ -->
+<div class="nm-overlay" id="ol-overlay" onclick="if(event.target===this)closeOlSheet()">
+  <div class="nm-modal" role="dialog" aria-modal="true" aria-labelledby="ol-title">
+    <div class="nm-handle"></div>
+    <button class="nm-x" onclick="closeOlSheet()" aria-label="Fermer"><span class="material-symbols-rounded">close</span></button>
+    <div class="nm-body" id="ol-body"></div>
+  </div>
+</div>
 <!-- ══ PARTNER MODAL ══ -->
 <div class="pm-overlay" id="pm-overlay" onclick="if(event.target===this)closePM()">
   <div class="pm-modal" id="pm-modal">
@@ -1391,6 +1407,7 @@ function showPg(id, btn){
   // Vérifier l'auth à chaque ouverture de Formateurs
   if(id==='formateurs') checkFormateurAuth();
   if(id==='bureau') dbCheck();
+  if(id==='accueil') fetchAndRenderActivities();
 }
 
 // ── Authentification Formateurs
@@ -1451,6 +1468,8 @@ document.addEventListener('DOMContentLoaded', function(){
   fetchAndRenderPartners();
   fetchAndRenderNews();
   fetchAndRenderMDJ();
+  fetchAndRenderActivities();
+  renderHeroCounts();
 });
 
 // ── Thème
@@ -1796,6 +1815,127 @@ function openNewsDyn(index){
   var c='';
   if(n.contact) c='<a class="nm-contact" href="tel:+228'+n.contact.replace(/\D/g,'').replace(/^228/,'')+'"><span class="material-symbols-rounded">call</span>Contactez-nous</a>';
   document.getElementById('nm-contact').innerHTML=c;
+  document.getElementById('nm-overlay').classList.add('show');document.body.style.overflow='hidden';
+}
+// ── Organisations locales (fenêtre depuis l'en-tête de l'accueil)
+function _olGroups(){
+  var map={};
+  formateurs.forEach(function(f){var k=(f.locale||'').trim();if(!k)return;(map[k]=map[k]||[]).push(f);});
+  return Object.keys(map).sort(function(a,b){return a.localeCompare(b,'fr');}).map(function(k){
+    return{nom:k,fmts:map[k].slice().sort(function(a,b){return a.nom.localeCompare(b.nom,'fr');})};
+  });
+}
+function renderHeroCounts(){
+  var n=_olGroups().length;
+  document.getElementById('hc-ol').textContent=n+' organisation'+(n>1?'s':'')+' locale'+(n>1?'s':'');
+  document.getElementById('hc-fmt').textContent=formateurs.length+' Formateurs';
+}
+function openOlSheet(){
+  _renderOlList();
+  document.getElementById('ol-overlay').classList.add('show');document.body.style.overflow='hidden';
+}
+function closeOlSheet(){
+  document.getElementById('ol-overlay').classList.remove('show');document.body.style.overflow='';
+}
+function _renderOlList(){
+  var g=_olGroups();
+  document.getElementById('ol-body').innerHTML=
+    '<div class="ol-h"><div class="nm-title" id="ol-title" style="margin:0">Organisations locales</div></div>'+
+    '<div class="ol-sub">'+g.length+' organisations · '+formateurs.length+' formateurs · touchez une OL pour voir ses formateurs</div>'+
+    g.map(function(o,i){
+      return '<button type="button" class="list-item ol-item" onclick="_renderOlDetail('+i+')"><span style="font-weight:700;color:var(--text-1)">'+_dbE(o.nom)+'</span>'+
+        '<span class="ol-cnt">'+o.fmts.length+' formateur'+(o.fmts.length>1?'s':'')+'<span class="material-symbols-rounded">chevron_right</span></span></button>';
+    }).join('');
+  document.querySelector('#ol-overlay .nm-modal').scrollTop=0;
+}
+function _renderOlDetail(i){
+  var o=_olGroups()[i];if(!o)return;
+  document.getElementById('ol-body').innerHTML=
+    '<div class="ol-h"><button type="button" class="ol-back" onclick="_renderOlList()" aria-label="Retour aux organisations"><span class="material-symbols-rounded">arrow_back</span></button>'+
+    '<div class="nm-title" id="ol-title" style="margin:0">'+_dbE(o.nom)+'</div></div>'+
+    '<div class="ol-sub">'+o.fmts.length+' formateur'+(o.fmts.length>1?'s':'')+'</div>'+
+    o.fmts.map(function(f){
+      return '<div class="list-item ol-fmt"><div><span style="font-weight:700;color:var(--text-1)">'+_dbE(f.nom)+'</span><br/><small style="color:var(--text-3)">NIF '+_dbE(f.nif)+(f.statut?' · '+_dbE(f.statut):'')+'</small></div>'+gradeBadge(f.grade)+'</div>';
+    }).join('');
+  document.querySelector('#ol-overlay .nm-modal').scrollTop=0;
+}
+
+// ── Activités à venir — Google Sheets
+const ACT_SHEET_URL='https://docs.google.com/spreadsheets/d/1bEDte0bNU7eUSH_z7VvnYVvXjUasJxgwRb_Lz07uO8Q/gviz/tq?tqx=out:json';
+var _acts=[];
+var _MOIS_C=['Janv','Févr','Mars','Avr','Mai','Juin','Juil','Août','Sept','Oct','Nov','Déc'];
+var _MOIS_L=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+var _JOURS=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+function _actStyle(nom){
+  var n=_dbN(nom);
+  if(n.indexOf('present')>=0)return{chip:'c-pres',ico:'record_voice_over',dt:'dt-blue'};
+  if(n.indexOf('facilit')>=0)return{chip:'c-disc',ico:'groups',dt:'dt-blue'};
+  if(n.indexOf('design')>=0||n.indexOf('ccm')>=0||n.indexOf('conception')>=0)return{chip:'c-dsgn',ico:'design_services',dt:''};
+  if(/cnt|cff|alpha|trainer|certif/.test(n))return{chip:'c-cff',ico:'workspace_premium',dt:'dt-blue'};
+  if(/soiree|diner|detente|sortie|gala|fete/.test(n))return{chip:'c-det',ico:'celebration',dt:'dt-teal'};
+  return{chip:'c-disc',ico:'event',dt:''};
+}
+function _actPrix(c){
+  var s=_dbS(c);if(!s)return'';
+  var n=typeof c.v==='number'?c.v:(/^\d[\d\s.]*$/.test(s)?parseInt(s.replace(/\D/g,''),10):NaN);
+  if(isNaN(n))return s;
+  return n?String(n).replace(/\B(?=(\d{3})+(?!\d))/g,' ')+' FCFA':'Gratuit';
+}
+function _parseActivities(text){
+  var p=_dbParse(text);
+  var c={nom:_dbCol(p,['nom'],1),def:_dbCol(p,['definition'],2),desc:_dbCol(p,['description'],3),lieu:_dbCol(p,['lieu'],4),date:_dbCol(p,['date'],5),
+    prix:_dbCol(p,['prix'],6),det:_dbCol(p,['detail'],7),tel:_dbCol(p,['contact'],8),photo:_dbCol(p,['photo'],9)};
+  var today=new Date();today.setHours(0,0,0,0);
+  return p.rows.map(function(r){
+    return{nom:_dbS(r[c.nom]),titre:_dbS(r[c.def]),desc:_dbS(r[c.desc]),lieu:_dbS(r[c.lieu]),date:_dbDate(r[c.date]),
+      prix:_actPrix(r[c.prix]),details:_dbS(r[c.det]),tel:_dbS(r[c.tel]),photo:_dbS(r[c.photo])};
+  }).filter(function(a){return(a.nom||a.titre)&&!(a.date&&a.date<today);})
+    .sort(function(a,b){return(a.date?a.date.getTime():Infinity)-(b.date?b.date.getTime():Infinity);});
+}
+function _renderActivities(){
+  var box=document.getElementById('act-list');if(!box)return;
+  if(!_acts.length){box.innerHTML='<div class="fmt-loading">Aucune activité programmée pour le moment.</div>';return;}
+  box.innerHTML=_acts.map(function(a,i){
+    var st=_actStyle(a.nom),d=a.date;
+    var quand=d?_JOURS[d.getDay()]+' '+d.getDate()+' '+_MOIS_L[d.getMonth()]:'Date à préciser';
+    return '<div class="ai" role="button" tabindex="0" onclick="openActDyn('+i+')" onkeydown="if(event.key===\'Enter\')openActDyn('+i+')">'+
+      '<div class="ai-date '+st.dt+'"><div class="ai-day">'+(d?('0'+d.getDate()).slice(-2):'—')+'</div><div class="ai-month">'+(d?_MOIS_C[d.getMonth()]:'À venir')+'</div></div>'+
+      '<div class="ai-body">'+(a.nom?'<span class="ai-chip '+st.chip+'"><span class="material-symbols-rounded">'+st.ico+'</span>'+_dbE(a.nom)+'</span>':'')+
+      '<div class="ai-title">'+_dbE(a.titre||a.nom)+'</div>'+(a.desc?'<div class="ai-desc">'+_dbE(a.desc)+'</div>':'')+
+      '<div class="ai-meta"><span class="material-symbols-rounded">location_on</span><span class="ai-meta-t">'+_dbE(a.lieu||'Lieu à définir')+' · '+quand+'</span></div>'+
+      (a.prix?'<div class="ai-price"><span class="material-symbols-rounded">payments</span>'+_dbE(a.prix)+'</div>':'')+
+      '</div></div>';
+  }).join('');
+}
+function fetchAndRenderActivities(){
+  fetch(ACT_SHEET_URL,{cache:'no-cache'})
+    .then(function(r){return r.ok?r.text():Promise.reject(r.status);})
+    .then(function(text){
+      _acts=_parseActivities(text);
+      _renderActivities();
+      try{localStorage.setItem('inf-acts',text);}catch(e){}
+    })
+    .catch(function(err){
+      console.warn('Activités inaccessibles:',err);
+      var cached=null;try{cached=localStorage.getItem('inf-acts');}catch(e){}
+      if(cached){_acts=_parseActivities(cached);_renderActivities();}
+      else if(!_acts.length){var b=document.getElementById('act-list');if(b)b.innerHTML='<div class="fmt-loading">Activités indisponibles hors connexion.</div>';}
+    });
+}
+function _linkify(escaped){
+  return escaped.replace(/https?:\/\/[^\s<]+/g,function(u){return '<a href="'+u+'" target="_blank" rel="noopener" style="color:var(--blue);word-break:break-all">'+u+'</a>';});
+}
+function openActDyn(i){
+  var a=_acts[i];if(!a)return;
+  var img=document.getElementById('nm-img'),src=_driveImgHQ(a.photo);
+  if(src){img.src=src;img.style.display='block';img.onerror=function(){img.style.display='none';};}else{img.style.display='none';}
+  document.getElementById('nm-title').textContent=a.titre||a.nom;
+  var d=a.date,quand=d?_JOURS[d.getDay()]+' '+d.getDate()+' '+_MOIS_L[d.getMonth()]+' '+d.getFullYear():'Date à préciser';
+  var det=a.details&&!/^[-\s]*$/.test(a.details)?a.details:
+    (a.desc?a.desc+'\n\n':'')+'📅 Date : '+quand+'\n📌 Lieu : '+(a.lieu||'À définir')+(a.prix?'\n💰 Participation : '+a.prix:'');
+  document.getElementById('nm-desc').innerHTML=_linkify(_dbE(det));
+  var tel=a.tel.replace(/\D/g,'').replace(/^228/,'');
+  document.getElementById('nm-contact').innerHTML=tel?'<a class="nm-contact" href="tel:+228'+tel+'"><span class="material-symbols-rounded">call</span>Contactez-nous</a>':'';
   document.getElementById('nm-overlay').classList.add('show');document.body.style.overflow='hidden';
 }
 function newsScroll(dir){
@@ -2183,12 +2323,12 @@ const formateurs = [
   {"nif":"2026058","nom":"DJINSO Jean-Pierre","grade":"LOCAL","locale":"Lomé Flamboyant","contact":"90797090","mail":"djinsopro@gmail.com","statut":"Actif","anniversaire":""},
   {"nif":"2026059","nom":"DJIWONOU Kokouvi","grade":"NATIONAL","locale":"Lomé Flamboyant","contact":"98678932","mail":"tdjiwonou@gmail.com","statut":"Actif","anniversaire":""},
   {"nif":"2026060","nom":"DJOKA Komi Hyppolite","grade":"ALPHA","locale":"Lomé Cocotier","contact":"92195981","mail":"djokahyppolite@gmail.com","statut":"Actif","anniversaire":""},
-  {"nif":"2026061","nom":"DOFONNOU Mawouéna Kévin","grade":"LOCAL","locale":"Agoè-Nyivé Pionner","contact":"91200660","mail":"pablosdof@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026061","nom":"DOFONNOU Mawouéna Kévin","grade":"LOCAL","locale":"Agoè-Nyivé Pioneer","contact":"91200660","mail":"pablosdof@gmail.com","statut":"Actif","anniversaire":""},
   {"nif":"2026062","nom":"DOSSOU Biova Komi","grade":"ALPHA","locale":"Lomé Prestige","contact":"90228054","mail":"mbiovadossou@gmail.com","statut":"Actif","anniversaire":""},
   {"nif":"2026063","nom":"DOSSOU Yawa Kékéli Carmen","grade":"NATIONAL","locale":"Lomé Cocotier","contact":"90290925","mail":"kekelidossou@gmail.com","statut":"Actif","anniversaire":""},
   {"nif":"2026064","nom":"DZIMEDO Hervé","grade":"ALPHA","locale":"Lomé Prestige","contact":"90250205","mail":"kdzimedo@gmail.com","statut":"Actif","anniversaire":""},
   {"nif":"2026065","nom":"EDOH Michel Kossi","grade":"LOCAL","locale":"Lomé Prestige","contact":"90235363","mail":"michel@edoh.cc","statut":"Actif","anniversaire":""},
-  {"nif":"2026066","nom":"FAMBO Ougoufounu","grade":"ALPHA","locale":"Lomé Azur","contact":"91515675","mail":"fambo.antoine@gmail.com","statut":"Actif","anniversaire":""},
+  {"nif":"2026066","nom":"FAMBO Ougoufounu","grade":"ALPHA","locale":"Djagblé Leader","contact":"91515675","mail":"fambo.antoine@gmail.com","statut":"Actif","anniversaire":""},
   {"nif":"2026067","nom":"FOLI Francis","grade":"NATIONAL","locale":"Lomé Azur","contact":"91724700","mail":"","statut":"Actif","anniversaire":""},
   {"nif":"2026068","nom":"GAME Désiré","grade":"ALPHA","locale":"Baguida Impact","contact":"92532494","mail":"dondesire@ymail.com","statut":"Actif","anniversaire":""},
   {"nif":"2026069","nom":"GANGAN Komi Xolalom","grade":"ALPHA","locale":"Lomé Flamboyant","contact":"90351167","mail":"komixolalom005@gmail.com","statut":"Actif","anniversaire":""},
