@@ -478,6 +478,26 @@ nav::-webkit-scrollbar{display:none}
 .db-tbl tr:last-child td{border-bottom:none}
 .db-tbl .n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .db-empty{font-size:.7rem;color:var(--text-3);padding:4px 0}
+.db-a{background:var(--text-3)}
+.db-ol{padding:6px 0 8px;border-bottom:1px solid var(--border)}
+.db-ol:last-child{border-bottom:none}
+.db-ol-top{display:flex;justify-content:space-between;gap:8px;font-size:.7rem;margin-bottom:5px}
+.db-ol-n{font-weight:600;color:var(--text-1)}
+.db-ol-v{color:var(--text-2);white-space:nowrap;font-variant-numeric:tabular-nums}
+.db-ol-bar{display:flex;gap:2px;height:10px;min-width:6px}
+.db-ol-bar i{display:block;min-width:3px}
+.db-ol-bar i:last-child{border-radius:0 4px 4px 0}
+.db-ol-d{display:flex;flex-wrap:wrap;gap:12px;font-size:.64rem;color:var(--text-2);margin-top:5px}
+.db-ol-d i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px}
+.db-ol-d b{color:var(--text-1);font-variant-numeric:tabular-nums}
+.db-warn-tag{display:inline-flex;align-items:center;gap:3px;padding:1px 7px;border-radius:10px;background:rgba(245,158,11,.14);color:#b45309;font-size:.6rem;font-weight:700;vertical-align:1px}
+.db-warn-tag .material-symbols-rounded{font-size:12px}
+[data-theme="dark"] .db-warn-tag{color:#FFAA40}
+.db-warn-card{border-color:rgba(245,158,11,.45)}
+.db-alert{width:100%;display:flex;align-items:center;gap:10px;text-align:left;padding:10px 12px;margin-bottom:14px;border-radius:12px;border:1.5px solid rgba(245,158,11,.5);background:rgba(245,158,11,.1);color:#92400e;font-size:.72rem;line-height:1.35;font-family:inherit;cursor:pointer}
+.db-alert .material-symbols-rounded{font-size:22px;color:#d97706}
+[data-theme="dark"] .db-alert{color:#FFD08A}
+[data-theme="dark"] .db-alert .material-symbols-rounded{color:#FFAA40}
 #db-tip{position:fixed;z-index:9999;display:none;max-width:230px;padding:6px 9px;border-radius:7px;background:var(--text-1);color:var(--bg);font-size:.68rem;line-height:1.4;pointer-events:none;box-shadow:0 4px 14px var(--shadow-md)}
 /* ══ COTISATION ═════════════════════════════════════════════ */
 .ccard{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px 18px;text-align:center;transition:background .3s}
@@ -2902,18 +2922,19 @@ function buildDashboard(pg,ol,rf,base){
   // Rapports de formation des OL (formations réalisées)
   var cO={ol:_dbCol(ol,['organisation'],2),type:_dbCol(ol,['type'],3),date:_dbCol(ol,['date','formation'],4),code:_dbCol(ol,['code'],5),theme:_dbCol(ol,['theme'],6),
     fem:_dbCol(ol,['femmes'],11),hom:_dbCol(ol,['hommes'],12)};
-  var seen={},real=[];
+  var seen={},real=[],olAll=[];
   ol.rows.forEach(function(r){
     var f={ol:_dbS(r[cO.ol]),type:_dbS(r[cO.type]),date:_dbDate(r[cO.date]),code:_dbCode(_dbS(r[cO.code])),theme:_dbS(r[cO.theme]),fem:_dbNum(r[cO.fem]),hom:_dbNum(r[cO.hom])};
+    olAll.push(f);
     if(f.code){if(seen[f.code])return;seen[f.code]=1;}
     real.push(f);
   });
 
   // Rapports des formateurs
   var cF={nif:_dbCol(rf,['nif'],2),nom:_dbCol(rf,['nom'],3),date:_dbCol(rf,['date','formation'],6),code:_dbCol(rf,['code'],9),theme:_dbCol(rf,['theme'],10),
-    h:_dbCol(rf,['heure','valide'],17),visa:_dbCol(rf,['visa'],18)};
+    h:_dbCol(rf,['heure','valide'],17),visa:_dbCol(rf,['visa'],18),niv:_dbCol(rf,['niveau'],11)};
   var rep=rf.rows.map(function(r){return{nif:_dbS(r[cF.nif]),nom:_dbS(r[cF.nom]),date:_dbDate(r[cF.date]),code:_dbCode(_dbS(r[cF.code])),theme:_dbS(r[cF.theme]),
-    h:_dbNum(r[cF.h]),ok:_dbS(r[cF.visa]).toUpperCase()==='OK'};}).filter(function(x){return x.nif||x.nom;});
+    h:_dbNum(r[cF.h]),ok:_dbS(r[cF.visa]).toUpperCase()==='OK',niv:_dbS(r[cF.niv]).toUpperCase()};}).filter(function(x){return x.nif||x.nom;});
 
   // Base des formateurs
   var bk=base.length?Object.keys(base[0]):[];
@@ -2958,13 +2979,25 @@ function buildDashboard(pg,ol,rf,base){
     '<div class="db-note">Année '+year+' · touchez un mois pour le détail. Max : '+mMax+' formations.</div></div>';
 
   // ── 3. Par organisation locale
+  var _tk=function(t){var n=_dbN(t);return n.indexOf('potentiel')>=0?'pot':n.indexOf('membre')>=0?'mem':'aut';};
   var byOl=_dbGroup(real,function(f){return _dbOlKey(f.ol);},function(f){return f.ol.replace(/^jci\s+/i,'');})
-    .map(function(g){var p=g.items.reduce(function(a,f){return a+f.fem+f.hom;},0);return{label:g.label,v:g.items.length,extra:p+' part.'};})
+    .map(function(g){
+      var o={label:g.label,v:g.items.length,pot:0,mem:0,aut:0,part:g.items.reduce(function(a,f){return a+f.fem+f.hom;},0)};
+      g.items.forEach(function(f){o[_tk(f.type)]++;});return o;})
     .sort(function(a,b){return b.v-a.v;});
+  var olMax=Math.max.apply(null,byOl.map(function(o){return o.v;}).concat([1]));
+  var hasAut=byOl.some(function(o){return o.aut;});
+  var olBars=byOl.length?byOl.map(function(o){
+    var seg=function(n,cls,lbl){return n?'<i class="'+cls+'" style="flex:'+n+'" data-tip="'+_dbE(o.label)+' · '+lbl+' : '+n+'"></i>':'';};
+    return '<div class="db-ol"><div class="db-ol-top"><span class="db-ol-n">'+_dbE(o.label)+'</span><span class="db-ol-v">'+o.v+' formation'+(o.v>1?'s':'')+' · '+o.part+' part.</span></div>'+
+      '<div class="db-ol-bar" style="width:'+(o.v/olMax*100).toFixed(1)+'%">'+seg(o.pot,'db-r','Potentiel')+seg(o.mem,'db-p','Membre')+seg(o.aut,'db-a','Autre')+'</div>'+
+      '<div class="db-ol-d"><span><i class="db-r"></i>Potentiel <b>'+o.pot+'</b></span><span><i class="db-p"></i>Membre <b>'+o.mem+'</b></span>'+(o.aut?'<span><i class="db-a"></i>Autre <b>'+o.aut+'</b></span>':'')+'</div></div>';
+  }).join(''):'<div class="db-empty">Aucune donnée.</div>';
   var realOl={};real.forEach(function(f){realOl[_dbOlKey(f.ol)]=1;});
   var relance=_dbGroup(progDue,function(f){return _dbOlKey(f.ol);},function(f){return f.ol.replace(/^jci\s+/i,'');})
     .filter(function(g){return!realOl[_dbOlKey(g.items[0].ol)];});
-  var s3='<div class="db-card"><div class="db-sub">Formations réalisées et participants</div>'+_dbHBars(byOl,'formation(s)')+'</div>'+
+  var s3='<div class="db-card"><div class="db-sub">Formations réalisées par OL : potentiel et membre</div>'+
+    '<div class="db-lg"><span><i class="db-r"></i>Potentiel</span><span><i class="db-p"></i>Membre</span>'+(hasAut?'<span><i class="db-a"></i>Autre</span>':'')+'</div>'+olBars+'</div>'+
     '<div class="db-card"><div class="db-sub">OL sans formation réalisée (à relancer)</div>'+
     (relance.length?'<div class="db-chips">'+relance.map(function(g){return '<span class="db-chip">'+_dbE(g.label)+' · '+g.items.length+' prévue(s)</span>';}).join('')+'</div>':'<div class="db-empty">Toutes les OL ayant des formations prévues en ont réalisé au moins une.</div>')+'</div>';
 
@@ -2975,6 +3008,31 @@ function buildDashboard(pg,ol,rf,base){
     .map(function(g){return{label:g.label,v:g.items.length};}).sort(function(a,b){return b.v-a.v;}).slice(0,8);
   var s4='<div class="db-card"><div class="db-sub">Par type de formation</div>'+_dbHBars(byType,'formation(s)')+'</div>'+
     '<div class="db-card"><div class="db-sub">Les 8 thèmes les plus dispensés</div>'+_dbHBars(byTheme,'formation(s)')+'</div>';
+
+  // ── Codes de formation utilisés plusieurs fois
+  var dupes=[],dupeCode={};
+  _dbGroup(olAll.filter(function(f){return f.code;}),function(f){return f.code;},function(f){return f.code;}).forEach(function(g){
+    if(g.items.length<2)return;
+    dupeCode[g.label]=1;
+    dupes.push({code:g.label,src:'OL',why:'Déclaré dans '+g.items.length+' rapports d\'OL',
+      uses:g.items.map(function(f){return _dbFmtD(f.date)+' · '+(f.ol||'OL ?')+' · '+(f.theme||'—');})});
+  });
+  _dbGroup(rep.filter(function(x){return x.code;}),function(x){return x.code;},function(x){return x.code;}).forEach(function(g){
+    var why=[],byNif={},prS={},asS={};
+    g.items.forEach(function(x){var k=x.nif||_dbN(x.nom);byNif[k]=(byNif[k]||0)+1;if(x.niv.indexOf('PRINCIPAL')>=0)prS[k]=1;else if(x.niv.indexOf('ASSISTANT')>=0)asS[k]=1;});
+    var pr=Object.keys(prS).length,as=Object.keys(asS).length;
+    if(Object.keys(byNif).some(function(k){return byNif[k]>1;}))why.push('même formateur deux fois');
+    if(pr>1)why.push(pr+' formateurs principaux');
+    if(as>1)why.push(as+' formateurs assistants');
+    if(!why.length)return;
+    dupeCode[g.label]=1;
+    dupes.push({code:g.label,src:'Formateurs',why:'Rapports formateurs : '+why.join(', '),
+      uses:g.items.map(function(x){return _dbFmtD(x.date)+' · '+(x.nom||x.nif)+(x.niv?' ('+x.niv.toLowerCase()+')':'');})});
+  });
+  dupes.sort(function(a,b){return a.code.localeCompare(b.code);});
+  var sDup='<div class="db-card db-warn-card"><div class="db-sub"><span class="db-warn-tag"><span class="material-symbols-rounded">warning</span>Signal</span> Codes de formation utilisés plusieurs fois ('+dupes.length+')</div>'+
+    _dbList(dupes,function(d){return '<div class="db-li-t">'+_dbE(d.code)+' — '+_dbE(d.why)+'</div>'+d.uses.map(function(u){return '<div class="db-li-s">• '+_dbE(u)+'</div>';}).join('');},5)+
+    '<div class="db-note">Un code ne doit servir qu\'à une seule formation : un seul rapport d\'OL, et au plus un formateur principal et un assistant. Les codes « FPO42 » et « FP042 » sont considérés comme identiques.</div></div>';
 
   // ── 5. Formateurs
   var byGrade=_dbGroup(fmts,function(r){return _dbN(r[kGrade]);},function(r){return(r[kGrade]||'').toUpperCase();})
@@ -2990,12 +3048,12 @@ function buildDashboard(pg,ol,rf,base){
     '</tbody></table>':'<div class="db-empty">Aucun rapport.</div>')+
     '<div class="db-note">Heures validées par la DINF uniquement.</div></div>'+
     '<div class="db-card"><div class="db-sub">Rapports en attente de visa DINF ('+pend.length+')</div>'+
-    _dbList(pend,function(x){return '<div class="db-li-t">'+_dbE(x.nom)+'</div><div class="db-li-s">'+_dbFmtD(x.date)+' · '+_dbE(x.code||'—')+' · '+_dbE(x.theme)+'</div>';},5)+'</div>';
+    _dbList(pend,function(x){return '<div class="db-li-t">'+_dbE(x.nom)+(dupeCode[x.code]?' <span class="db-warn-tag"><span class="material-symbols-rounded">warning</span>Code en double</span>':'')+'</div><div class="db-li-s">'+_dbFmtD(x.date)+' · '+_dbE(x.code||'—')+' · '+_dbE(x.theme)+'</div>';},5)+'</div>';
 
   // ── 6. Suivi opérationnel
   var soon=prog.filter(function(f){return f.date&&f.date>=today&&f.date<=in7;}).sort(function(a,b){return a.date-b.date;});
   var missing=progDue.filter(function(f){return f.code&&!reported[f.code];}).sort(function(a,b){return b.date-a.date;});
-  var s6='<div class="db-card"><div class="db-sub">Formations des 7 prochains jours ('+soon.length+')</div>'+
+  var s6=sDup+'<div class="db-card"><div class="db-sub">Formations des 7 prochains jours ('+soon.length+')</div>'+
     _dbList(soon,function(f){return '<div class="db-li-t">'+_dbFmtD(f.date)+(f.heure?' · '+_dbE(f.heure):'')+' — '+_dbE(f.theme)+'</div><div class="db-li-s">'+_dbE(f.ol)+' · '+_dbE(f.code)+(f.lieu?' · '+_dbE(f.lieu):'')+(f.fmt?' · '+_dbE(f.fmt):'')+'</div>';},8)+'</div>'+
     '<div class="db-card"><div class="db-sub">Formations passées sans rapport de l\'OL ('+missing.length+')</div>'+
     _dbList(missing,function(f){return '<div class="db-li-t">'+_dbFmtD(f.date)+' — '+_dbE(f.theme)+'</div><div class="db-li-s">'+_dbE(f.ol)+' · '+_dbE(f.code)+(f.fmt?' · '+_dbE(f.fmt):'')+'</div>';},5)+
@@ -3006,6 +3064,7 @@ function buildDashboard(pg,ol,rf,base){
   return '<div class="db-bar"><span>Mis à jour à '+('0'+now.getHours()).slice(-2)+':'+('0'+now.getMinutes()).slice(-2)+'</span>'+
     '<span class="db-bar-btns"><button class="db-btn" onclick="loadDashboard()"><span class="material-symbols-rounded">refresh</span>Actualiser</button>'+
     '<button class="db-btn" onclick="dbLock()"><span class="material-symbols-rounded">lock</span>Verrouiller</button></span></div>'+
+    (dupes.length?'<button type="button" class="db-alert" onclick="document.querySelector(\'.db-warn-card\').scrollIntoView({behavior:\'smooth\',block:\'center\'})"><span class="material-symbols-rounded">warning</span><span><b>'+dupes.length+' code'+(dupes.length>1?'s':'')+' de formation utilisé'+(dupes.length>1?'s':'')+' plusieurs fois</b><br/>Touchez pour voir le détail</span></button>':'')+
     sec('insights','Chiffres clés',s1)+
     sec('bar_chart','Activité par mois',s2)+
     sec('location_city','Par organisation locale',s3)+
