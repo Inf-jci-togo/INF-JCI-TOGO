@@ -369,6 +369,7 @@ nav::-webkit-scrollbar{display:none}
 .hf-table td{padding:7px 6px;border-bottom:1px solid var(--border);color:var(--text-1);vertical-align:top;white-space:nowrap}
 .hf-table .hf-c{text-align:center}
 .hf-table td.hf-theme{white-space:normal;min-width:190px}
+.hf-table td.hf-orga{white-space:normal;min-width:110px}
 .hf-table tr:last-child td{border-bottom:none}
 .hf-table tr:nth-child(even) td{background:rgba(0,37,80,.03)}
 .hf-badge-ok{display:inline-block;padding:2px 8px;background:rgba(16,185,129,.12);color:#059669;border-radius:6px;font-size:.68rem;font-weight:700}
@@ -2589,7 +2590,7 @@ function buildHeureFiche(nif,fmt,bKeys,formations){
   var codeKey=rk.find(function(k){return k.includes('code');});
   var themeKey=rk.find(function(k){return k.includes('theme');});
   var niveauKey=rk.find(function(k){return k.includes('niveau');});
-  var partKey=rk.find(function(k){return k.includes('participants')||k.includes('nombre_de_p');});
+  var orgaKey=rk.find(function(k){return k.includes('organisateur');});
   var heureKey=rk.find(function(k){return k.includes('heure_valide')||k.includes('nombre_dheure');});
   var visaKey=rk.find(function(k){return k.includes('visa');});
 
@@ -2607,7 +2608,7 @@ function buildHeureFiche(nif,fmt,bKeys,formations){
     var badge=visa==='OK'?'<span class="hf-badge-ok">Validé</span>':'<span class="hf-badge-pend">En attente</span>';
     return '<tr><td class="hf-c">'+(i+1)+'</td><td>'+(r._colG||r[dateKey]||'')+'</td><td>'+(r[codeKey]||'-')+'</td>'+
       '<td class="hf-theme">'+(r[themeKey]||'-')+'</td><td>'+(r[typeKey]||'-')+'</td>'+
-      '<td>'+(r[niveauKey]||'-')+'</td><td class="hf-c">'+(r[partKey]||'-')+'</td>'+
+      '<td>'+(r[niveauKey]||'-')+'</td><td class="hf-orga">'+(r[orgaKey]||'-')+'</td>'+
       '<td class="hf-c">'+(r[heureKey]||'-')+'h</td><td>'+badge+'</td></tr>';
   }).join('');
 
@@ -2627,7 +2628,7 @@ function buildHeureFiche(nif,fmt,bKeys,formations){
     '</div>'+
     '<div class="hf-table-wrap">'+
       '<table class="hf-table">'+
-        '<thead><tr><th class="hf-c">#</th><th>Date</th><th>Code</th><th>Thème</th><th>Type</th><th>Niveau</th><th class="hf-c">Part.</th><th class="hf-c">Heures</th><th>Statut</th></tr></thead>'+
+        '<thead><tr><th class="hf-c">#</th><th>Date</th><th>Code</th><th>Thème</th><th>Type</th><th>Niveau</th><th>Organisateur</th><th class="hf-c">Heures</th><th>Statut</th></tr></thead>'+
         '<tbody>'+tbody+'</tbody>'+
       '</table>'+
     '</div>'+
@@ -2662,6 +2663,7 @@ function printHeureFiche(){
   var codeKey=rk.find(function(k){return k.includes('code');});
   var heureKey=rk.find(function(k){return k.includes('heure_valide')||k.includes('nombre_dheure');});
   var visaKey=rk.find(function(k){return k.includes('visa');});
+  var orgaKey=rk.find(function(k){return k.includes('organisateur');});
   var totalHeures=formations.reduce(function(acc,r){
     var ok=(r[visaKey]||'').trim().toUpperCase()==='OK';
     var h=parseFloat((r[heureKey]||'').replace(',','.'));
@@ -2675,7 +2677,9 @@ function printHeureFiche(){
     var visa=(r[visaKey]||'').trim().toUpperCase();
     return '<tr>'+
       '<td class="tc">'+(i+1)+'</td>'+
+      '<td class="tc nw">'+(r._colG||'-')+'</td>'+
       '<td class="tl">'+(r[themeKey]||'-')+'</td>'+
+      '<td class="tl">'+(r[orgaKey]||'-')+'</td>'+
       '<td class="tc">'+(r[codeKey]||'-')+'</td>'+
       '<td class="tc">'+(r[heureKey]||'-')+'</td>'+
       '<td class="tc '+(visa==='OK'?'ok':'pend')+'">'+(visa==='OK'?'OK':visa||'—')+'</td>'+
@@ -2716,7 +2720,7 @@ function printHeureFiche(){
         '.ftbl th{background:#1565c0;color:#fff;padding:6px 7px;border:1px solid #1565c0;font-size:9.5px;font-weight:700}'+
         '.ftbl td{border:1px solid #b0bec5;padding:5px 7px;vertical-align:middle}'+
         '.ftbl tr:nth-child(even) td{background:#f8fafc}'+
-        '.tc{text-align:center}.tl{text-align:left}'+
+        '.tc{text-align:center}.tl{text-align:left}.nw{white-space:nowrap}'+
         '.ok{color:#059669;font-weight:700}.pend{color:#d97706;font-weight:700}'+
         '.ftr{padding:14px 18px 12px;border-top:1.5px solid #b0bec5;display:flex;justify-content:flex-end;break-inside:avoid}'+
         '.sig{text-align:center;min-width:170px}'+
@@ -2770,7 +2774,9 @@ function printHeureFiche(){
         '<table class="ftbl">'+
           '<thead><tr>'+
             '<th style="width:42px">N\u00b0 d\'ordre</th>'+
+            '<th style="width:66px">Date</th>'+
             '<th>Formations</th>'+
+            '<th style="width:105px">Organisateur</th>'+
             '<th style="width:68px">Codes</th>'+
             '<th style="width:58px">Heures</th>'+
             '<th style="width:75px">Visa Dinf</th>'+
